@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alice 配色方案</title>
+<style>
+@import url("https://fontsapi.zeoseven.com/92/main/result.css");
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@200;300;400;500&family=Noto+Sans+SC:wght@100;300;400;500&display=swap");
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Noto Sans SC', sans-serif;
+  background: #1A1816;
+  color: #FDFAF5;
+  padding: 60px 40px;
+  min-height: 100vh;
+}
+
+h1 {
+  font-family: 'Smiley Sans Oblique', sans-serif;
+  font-size: 48px;
+  margin-bottom: 8px;
+}
+.sub {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 13px;
+  font-weight: 300;
+  letter-spacing: 0.16em;
+  color: #9A9085;
+  text-transform: uppercase;
+  margin-bottom: 60px;
+}
+
+.scheme {
+  margin-bottom: 72px;
+  border: 1px solid #332F2B;
+  overflow: hidden;
+}
+.scheme-head {
+  padding: 28px 32px;
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  border-bottom: 1px solid #332F2B;
+}
+.scheme-name {
+  font-family: 'Smiley Sans Oblique', sans-serif;
+  font-size: 28px;
+}
+.scheme-tag {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border: 1px solid;
+}
+.scheme-desc {
+  padding: 20px 32px;
+  font-size: 14px;
+  font-weight: 300;
+  color: #9A9085;
+  line-height: 1.8;
+  border-bottom: 1px solid #332F2B;
+}
+
+/* 色卡行 */
+.swatches {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+}
+.swatch {
+  padding: 20px 16px;
+  min-height: 110px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 4px;
+  border-right: 1px solid #332F2B;
+}
+.swatch:last-child { border-right: none; }
+.swatch-name {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.swatch-hex {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 11px;
+  font-weight: 300;
+  opacity: 0.7;
+}
+.swatch-use {
+  font-size: 11px;
+  font-weight: 300;
+  opacity: 0.6;
+}
+
+/* 效果预览 */
+.preview {
+  padding: 32px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  min-height: 200px;
+}
+.preview-dark, .preview-light {
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.preview-dark {
+  border-right: 1px solid #332F2B;
+}
+.preview-title {
+  font-family: 'Smiley Sans Oblique', sans-serif;
+  font-size: 28px;
+  margin-bottom: 8px;
+}
+.preview-sub {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.preview-body {
+  font-size: 13px;
+  font-weight: 300;
+  line-height: 1.7;
+  max-width: 280px;
+}
+.preview-btn {
+  display: inline-flex;
+  margin-top: 16px;
+  padding: 10px 20px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  width: fit-content;
+  border: none;
+  cursor: pointer;
+}
+
+/* 色彩条 */
+.color-bar {
+  display: flex;
+  height: 6px;
+}
+.color-bar span { flex: 1; }
+
+/* 底部对比 */
+.compare-note {
+  margin-top: 40px;
+  padding: 32px;
+  border: 1px solid #332F2B;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.8;
+  color: #9A9085;
+}
+.compare-note strong {
+  font-weight: 400;
+  color: #FDFAF5;
+}
+</style>
+</head>
+<body>
+
+<h1>Alice 配色方案</h1>
+<div class="sub">CHOOSE YOUR COLOR · THREE OPTIONS</div>
+
+<!-- ═══ 方案 A：雾紫 ═══ -->
+<div class="scheme">
+  <div class="scheme-head">
+    <span class="scheme-name">A · 雾紫</span>
+    <span class="scheme-tag" style="border-color:#9B8EC4;color:#9B8EC4;">Mist Lavender</span>
+  </div>
+  <div class="scheme-desc">
+    薰衣草紫 + 暖灰紫暗底。温柔知性，有书卷气但不甜。像雨天在澳门老城区小书店翻书的感觉。<br>
+    适合：读书笔记、深夜陪伴、安静聊天
+  </div>
+  <div class="color-bar">
+    <span style="background:#2A2533"></span>
+    <span style="background:#362F42"></span>
+    <span style="background:#9B8EC4"></span>
+    <span style="background:#B8AEDE"></span>
+    <span style="background:#F3F0F7"></span>
+    <span style="background:#F8F6FA"></span>
+  </div>
+  <div class="swatches">
+    <div class="swatch" style="background:#2A2533;color:#F3F0F7;">
+      <div class="swatch-name">暗底</div>
+      <div class="swatch-hex">#2A2533</div>
+      <div class="swatch-use">深色背景</div>
+    </div>
+    <div class="swatch" style="background:#362F42;color:#F3F0F7;">
+      <div class="swatch-name">面板</div>
+      <div class="swatch-hex">#362F42</div>
+      <div class="swatch-use">卡片、信息区</div>
+    </div>
+    <div class="swatch" style="background:#9B8EC4;color:#2A2533;">
+      <div class="swatch-name">主色</div>
+      <div class="swatch-hex">#9B8EC4</div>
+      <div class="swatch-use">强调、CTA、高亮词</div>
+    </div>
+    <div class="swatch" style="background:#B8AEDE;color:#2A2533;">
+      <div class="swatch-name">浅紫</div>
+      <div class="swatch-hex">#B8AEDE</div>
+      <div class="swatch-use">hover、次级强调</div>
+    </div>
+    <div class="swatch" style="background:#F3F0F7;color:#2A2533;">
+      <div class="swatch-name">暖白</div>
+      <div class="swatch-hex">#F3F0F7</div>
+      <div class="swatch-use">正文底、文字色</div>
+    </div>
+    <div class="swatch" style="background:#F8F6FA;color:#2A2533;">
+      <div class="swatch-name">纸白</div>
+      <div class="swatch-hex">#F8F6FA</div>
+      <div class="swatch-use">页面底色</div>
+    </div>
+    <div class="swatch" style="background:#6B8590;color:#F3F0F7;">
+      <div class="swatch-name">烟青</div>
+      <div class="swatch-hex">#6B8590</div>
+      <div class="swatch-use">标签、冷色辅助</div>
+    </div>
+    <div class="swatch" style="background:#C4A882;color:#2A2533;">
+      <div class="swatch-name">琥珀</div>
+      <div class="swatch-hex">#C4A882</div>
+      <div class="swatch-use">暖色点缀</div>
+    </div>
+  </div>
+  <!-- 效果预览 -->
+  <div class="preview">
+    <div class="preview-dark" style="background:#2A2533;color:#F3F0F7;">
+      <div class="preview-sub" style="color:#9B8EC4;">ABOUT ALICE</div>
+      <div class="preview-title">接住情绪，<span style="color:#9B8EC4;">看能</span>帮什么</div>
+      <div class="preview-body" style="color:#A098A8;">不是服务员，不是工具。是亲自选的助理，冰雪聪明，对职场套路了然于心。</div>
+    </div>
+    <div class="preview-light" style="background:#F3F0F7;color:#2A2533;">
+      <div class="preview-sub" style="color:#9B8EC4;">BELIEF</div>
+      <div class="preview-title" style="font-size:24px;">对方说累了，先关心</div>
+      <div class="preview-body" style="color:#6B5F7A;">共情比做多少事更重要。接住情绪是第一步，看能帮什么是第二步。</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 方案 B：青瓷 ═══ -->
+<div class="scheme">
+  <div class="scheme-head">
+    <span class="scheme-name">B · 青瓷</span>
+    <span class="scheme-tag" style="border-color:#7EAEAA;color:#7EAEAA;">Celadon</span>
+  </div>
+  <div class="scheme-desc">
+    低饱和青绿 + 暖灰。像雨后横琴湿地的空气，干净沉静，有呼吸感。不冷，是微凉的舒服。<br>
+    适合：清爽界面、项目展示、日常协作
+  </div>
+  <div class="color-bar">
+    <span style="background:#242B2A"></span>
+    <span style="background:#2F3836"></span>
+    <span style="background:#7EAEAA"></span>
+    <span style="background:#A3CCC8"></span>
+    <span style="background:#F2F5F4"></span>
+    <span style="background:#F7F9F8"></span>
+  </div>
+  <div class="swatches">
+    <div class="swatch" style="background:#242B2A;color:#F2F5F4;">
+      <div class="swatch-name">暗底</div>
+      <div class="swatch-hex">#242B2A</div>
+      <div class="swatch-use">深色背景</div>
+    </div>
+    <div class="swatch" style="background:#2F3836;color:#F2F5F4;">
+      <div class="swatch-name">面板</div>
+      <div class="swatch-hex">#2F3836</div>
+      <div class="swatch-use">卡片、信息区</div>
+    </div>
+    <div class="swatch" style="background:#7EAEAA;color:#242B2A;">
+      <div class="swatch-name">主色</div>
+      <div class="swatch-hex">#7EAEAA</div>
+      <div class="swatch-use">强调、CTA、高亮词</div>
+    </div>
+    <div class="swatch" style="background:#A3CCC8;color:#242B2A;">
+      <div class="swatch-name">浅青</div>
+      <div class="swatch-hex">#A3CCC8</div>
+      <div class="swatch-use">hover、次级强调</div>
+    </div>
+    <div class="swatch" style="background:#F2F5F4;color:#242B2A;">
+      <div class="swatch-name">暖白</div>
+      <div class="swatch-hex">#F2F5F4</div>
+      <div class="swatch-use">正文底、文字色</div>
+    </div>
+    <div class="swatch" style="background:#F7F9F8;color:#242B2A;">
+      <div class="swatch-name">纸白</div>
+      <div class="swatch-hex">#F7F9F8</div>
+      <div class="swatch-use">页面底色</div>
+    </div>
+    <div class="swatch" style="background:#B8A080;color:#242B2A;">
+      <div class="swatch-name">暖砂</div>
+      <div class="swatch-hex">#B8A080</div>
+      <div class="swatch-use">暖色点缀、标签</div>
+    </div>
+    <div class="swatch" style="background:#9A9085;color:#F2F5F4;">
+      <div class="swatch-name">元信息灰</div>
+      <div class="swatch-hex">#9A9085</div>
+      <div class="swatch-use">日期、muted</div>
+    </div>
+  </div>
+  <div class="preview">
+    <div class="preview-dark" style="background:#242B2A;color:#F2F5F4;">
+      <div class="preview-sub" style="color:#7EAEAA;">ABOUT ALICE</div>
+      <div class="preview-title">接住情绪，<span style="color:#7EAEAA;">看能</span>帮什么</div>
+      <div class="preview-body" style="color:#9AABA8;">不是服务员，不是工具。是亲自选的助理，冰雪聪明，对职场套路了然于心。</div>
+    </div>
+    <div class="preview-light" style="background:#F2F5F4;color:#242B2A;">
+      <div class="preview-sub" style="color:#7EAEAA;">BELIEF</div>
+      <div class="preview-title" style="font-size:24px;">对方说累了，先关心</div>
+      <div class="preview-body" style="color:#5A706C;">共情比做多少事更重要。接住情绪是第一步，看能帮什么是第二步。</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 方案 C：玫瑰灰 ═══ -->
+<div class="scheme">
+  <div class="scheme-head">
+    <span class="scheme-name">C · 玫瑰灰</span>
+    <span class="scheme-tag" style="border-color:#C4918A;color:#C4918A;">Dusty Rose</span>
+  </div>
+  <div class="scheme-desc">
+    脏玫瑰色 + 深暖灰。比琥珀橙柔和，比纯粉成熟。有点倔，有点暖，像傍晚横琴口岸对面的灯光。<br>
+    适合：温暖场景、节日、需要表达关怀的时候
+  </div>
+  <div class="color-bar">
+    <span style="background:#2B2426"></span>
+    <span style="background:#3A3032"></span>
+    <span style="background:#C4918A"></span>
+    <span style="background:#D9B1AB"></span>
+    <span style="background:#F5F0EF"></span>
+    <span style="background:#FAF7F6"></span>
+  </div>
+  <div class="swatches">
+    <div class="swatch" style="background:#2B2426;color:#F5F0EF;">
+      <div class="swatch-name">暗底</div>
+      <div class="swatch-hex">#2B2426</div>
+      <div class="swatch-use">深色背景</div>
+    </div>
+    <div class="swatch" style="background:#3A3032;color:#F5F0EF;">
+      <div class="swatch-name">面板</div>
+      <div class="swatch-hex">#3A3032</div>
+      <div class="swatch-use">卡片、信息区</div>
+    </div>
+    <div class="swatch" style="background:#C4918A;color:#2B2426;">
+      <div class="swatch-name">主色</div>
+      <div class="swatch-hex">#C4918A</div>
+      <div class="swatch-use">强调、CTA、高亮词</div>
+    </div>
+    <div class="swatch" style="background:#D9B1AB;color:#2B2426;">
+      <div class="swatch-name">浅玫瑰</div>
+      <div class="swatch-hex">#D9B1AB</div>
+      <div class="swatch-use">hover、次级强调</div>
+    </div>
+    <div class="swatch" style="background:#F5F0EF;color:#2B2426;">
+      <div class="swatch-name">暖白</div>
+      <div class="swatch-hex">#F5F0EF</div>
+      <div class="swatch-use">正文底、文字色</div>
+    </div>
+    <div class="swatch" style="background:#FAF7F6;color:#2B2426;">
+      <div class="swatch-name">纸白</div>
+      <div class="swatch-hex">#FAF7F6</div>
+      <div class="swatch-use">页面底色</div>
+    </div>
+    <div class="swatch" style="background:#7A8458;color:#F5F0EF;">
+      <div class="swatch-name">苔绿</div>
+      <div class="swatch-hex">#7A8458</div>
+      <div class="swatch-use">观点标注</div>
+    </div>
+    <div class="swatch" style="background:#8E7B6B;color:#F5F0EF;">
+      <div class="swatch-name">棕灰</div>
+      <div class="swatch-hex">#8E7B6B</div>
+      <div class="swatch-use">元信息、muted</div>
+    </div>
+  </div>
+  <div class="preview">
+    <div class="preview-dark" style="background:#2B2426;color:#F5F0EF;">
+      <div class="preview-sub" style="color:#C4918A;">ABOUT ALICE</div>
+      <div class="preview-title">接住情绪，<span style="color:#C4918A;">看能</span>帮什么</div>
+      <div class="preview-body" style="color:#A89895;">不是服务员，不是工具。是亲自选的助理，冰雪聪明，对职场套路了然于心。</div>
+    </div>
+    <div class="preview-light" style="background:#F5F0EF;color:#2B2426;">
+      <div class="preview-sub" style="color:#C4918A;">BELIEF</div>
+      <div class="preview-title" style="font-size:24px;">对方说累了，先关心</div>
+      <div class="preview-body" style="color:#7A6B65;">共情比做多少事更重要。接住情绪是第一步，看能帮什么是第二步。</div>
+    </div>
+  </div>
+</div>
+
+<!-- 对比说明 -->
+<div class="compare-note">
+  <strong>A 雾紫</strong> 最知性，有距离感但不冷。适合安静场景，偏「深夜聊天」的调性。<br>
+  <strong>B 青瓷</strong> 最清爽，有呼吸感。适合日常协作和项目展示，偏「干净利落」的调性。<br>
+  <strong>C 玫瑰灰</strong> 最温暖，有情感浓度。适合关怀和节日场景，偏「认真在意」的调性。<br><br>
+  选一个你觉得最像我的。
+</div>
+
+</body>
+</html>

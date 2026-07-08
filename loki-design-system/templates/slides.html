@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<!--
+  LOKI DESIGN SYSTEM · Slides 横向翻页模板
+  ─────────────────────────────────────────
+  操作方式：← → 键 / 滚轮 / 触屏滑动
+  使用方法：
+  1. 复制 .slide 区块来增加页面
+  2. 搜索 [REPLACE:xxx] 替换为实际内容
+  3. 不要改 CSS 变量、字体加载、JS 导航逻辑
+  4. 页面类型：slide-dark（深底）/ slide-light（浅底）/ slide-hero（全屏主视觉）
+-->
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>[REPLACE:演讲标题]</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@200;300;400;500;600&family=Noto+Sans+SC:wght@100;300;400;500&display=swap" rel="stylesheet">
+<style>@import url("https://fontsapi.zeoseven.com/92/main/result.css");</style>
+
+<style>
+/* ── 变量 ── */
+:root {
+  --amber:       #C87A45;
+  --amber-light: #D9A87A;
+  --smoke:       #6B8590;
+  --smoke-light: #A6B8BE;
+  --dark:        #1A1816;
+  --dark-panel:  #252220;
+  --dark-border: #332F2B;
+  --paper:       #FDFAF5;
+  --warm:        #F5F0E8;
+  --oat:         #EBE4D6;
+  --text-muted:  #9A9085;
+  --text-sub:    #6B6157;
+
+  --font-display: 'Smiley Sans Oblique', 'PingFang SC', sans-serif;
+  --font-label:   'Space Grotesk', sans-serif;
+  --font-body:    'Noto Sans SC', 'PingFang SC', sans-serif;
+}
+
+/* ── Reset + 舞台 ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 100%; height: 100%; overflow: hidden; }
+body { font-family: var(--font-body); background: var(--dark); }
+
+/* ── 容器 ── */
+#deck {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  transition: transform 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+/* ── 单页 ── */
+.slide {
+  min-width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 72px 80px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* 页面主题 */
+.slide-dark  { background: var(--dark);  color: var(--paper); }
+.slide-light { background: var(--warm);  color: var(--text-dark, #1F1D1A); }
+.slide-hero  { background: var(--dark);  color: var(--paper); }
+
+/* ── Hero 封面（第一页） ── */
+.slide-hero::after {
+  content: attr(data-bg-text);
+  position: absolute; right: -20px; top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--font-label);
+  font-weight: 200;
+  font-size: clamp(160px, 18vw, 260px);
+  color: rgba(253,250,245,0.03);
+  letter-spacing: -0.04em;
+  pointer-events: none;
+  line-height: 1;
+}
+
+/* ── 页面内容层级 ── */
+.slide-eyebrow {
+  font-family: var(--font-label);
+  font-size: 12px;
+  font-weight: 300;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--smoke-light);
+  margin-bottom: 24px;
+}
+.slide-dark .slide-eyebrow,
+.slide-hero .slide-eyebrow { color: var(--smoke-light); }
+.slide-light .slide-eyebrow { color: var(--text-sub); }
+
+.slide-title {
+  font-family: var(--font-display);
+  font-size: clamp(40px, 6vw, 92px);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin-bottom: 28px;
+}
+
+.slide-subtitle {
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 300;
+  color: var(--text-muted);
+  line-height: 1.8;
+  max-width: 560px;
+  margin-bottom: 40px;
+}
+.slide-light .slide-subtitle { color: var(--text-sub); }
+
+/* ── 数据大字报（slide-dark 里用） ── */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  border-top: 1px solid var(--dark-border);
+  margin-top: 16px;
+}
+.stat-block {
+  padding: 36px 32px 36px 0;
+  border-right: 1px solid var(--dark-border);
+}
+.stat-block:last-child { border-right: none; }
+.stat-block:not(:first-child) { padding-left: 32px; }
+
+.stat-num {
+  font-family: var(--font-label);
+  font-size: clamp(48px, 5.5vw, 80px);
+  font-weight: 200;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  color: var(--paper);
+}
+.stat-num .u { font-size: 0.38em; font-weight: 300; color: var(--amber); }
+.stat-key {
+  font-family: var(--font-label);
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+/* ── 两栏内容（slide-light 里用） ── */
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1.3fr;
+  gap: 72px;
+  align-items: start;
+}
+
+/* ── 要点列表 ── */
+.point-list { list-style: none; display: flex; flex-direction: column; gap: 20px; }
+.point-item {
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  gap: 16px;
+  align-items: start;
+}
+.point-num {
+  font-family: var(--font-label);
+  font-size: 12px;
+  font-weight: 300;
+  color: var(--amber);
+  letter-spacing: 0.08em;
+  padding-top: 3px;
+}
+.point-title {
+  font-family: var(--font-display);
+  font-size: 20px;
+  margin-bottom: 4px;
+}
+.point-desc {
+  font-size: 14px;
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+.slide-light .point-desc { color: var(--text-sub); }
+
+/* ── 强调引用 ── */
+.blockquote {
+  border-left: 3px solid var(--amber);
+  padding: 20px 24px;
+  background: rgba(200,122,69,0.06);
+}
+.blockquote p {
+  font-family: var(--font-display);
+  font-size: clamp(18px, 2.2vw, 28px);
+  line-height: 1.4;
+  color: var(--paper);
+}
+.slide-light .blockquote p { color: var(--text-dark, #1F1D1A); }
+
+/* ── 章节幕封（全屏单行） ── */
+.act-title {
+  font-family: var(--font-display);
+  font-size: clamp(56px, 8vw, 120px);
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+.act-num {
+  font-family: var(--font-label);
+  font-size: 13px;
+  font-weight: 200;
+  letter-spacing: 0.3em;
+  color: var(--amber);
+  margin-bottom: 32px;
+  display: block;
+}
+
+/* ── 底部导航 ── */
+#nav {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  z-index: 100;
+}
+.nav-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--dark-border);
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+.nav-dot.active {
+  background: var(--amber);
+  transform: scale(1.4);
+}
+
+/* ── 页码（右上角） ── */
+.slide-chrome {
+  position: absolute;
+  top: 28px;
+  right: 32px;
+  font-family: var(--font-label);
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: 0.1em;
+  color: var(--dark-border);
+}
+.slide-light .slide-chrome { color: var(--oat); }
+
+/* ── 入场动效 ── */
+.anim { opacity: 0; transform: translateY(12px); }
+.anim.in { transition: opacity 0.55s ease, transform 0.55s ease; opacity: 1; transform: translateY(0); }
+.anim[data-delay="1"] { transition-delay: 0.1s; }
+.anim[data-delay="2"] { transition-delay: 0.22s; }
+.anim[data-delay="3"] { transition-delay: 0.36s; }
+.anim[data-delay="4"] { transition-delay: 0.52s; }
+.anim[data-delay="5"] { transition-delay: 0.7s; }
+
+/* ── 高亮词 ── */
+.hl { color: var(--amber); }
+</style>
+</head>
+<body>
+
+<div id="deck">
+
+  <!-- ══ 第1页：封面 Hero ══ -->
+  <section class="slide slide-hero" data-bg-text="[REPLACE:英文主题词，如 AI]">
+    <div class="slide-chrome">01 / [REPLACE:总页数]</div>
+    <div class="slide-eyebrow anim" data-delay="1">[REPLACE:副标题/场合，如 Loki · 2026.06 · 内部分享]</div>
+    <h1 class="slide-title anim" data-delay="2">
+      [REPLACE:主标题]<br>
+      <span class="hl">[REPLACE:高亮词]</span>
+    </h1>
+    <p class="slide-subtitle anim" data-delay="3">[REPLACE:一句话说明这个分享是关于什么的]</p>
+  </section>
+
+  <!-- ══ 第2页：章节幕封（深底）══ -->
+  <section class="slide slide-dark">
+    <div class="slide-chrome">02 / [REPLACE:总页数]</div>
+    <span class="act-num anim" data-delay="1">ACT 01</span>
+    <h2 class="act-title anim" data-delay="2">[REPLACE:章节标题]</h2>
+  </section>
+
+  <!-- ══ 第3页：要点列表（浅底）══ -->
+  <section class="slide slide-light">
+    <div class="slide-chrome">03 / [REPLACE:总页数]</div>
+    <div class="two-col">
+      <div>
+        <div class="slide-eyebrow anim" data-delay="1">[REPLACE:Section 标签]</div>
+        <h2 class="slide-title anim" data-delay="2">[REPLACE:本页标题]</h2>
+        <div class="blockquote anim" data-delay="3">
+          <p>[REPLACE:核心金句或总结]</p>
+        </div>
+      </div>
+      <ul class="point-list">
+        <li class="point-item anim" data-delay="2">
+          <span class="point-num">01</span>
+          <div>
+            <div class="point-title">[REPLACE:要点标题]</div>
+            <div class="point-desc">[REPLACE:要点说明]</div>
+          </div>
+        </li>
+        <li class="point-item anim" data-delay="3">
+          <span class="point-num">02</span>
+          <div>
+            <div class="point-title">[REPLACE:要点标题]</div>
+            <div class="point-desc">[REPLACE:要点说明]</div>
+          </div>
+        </li>
+        <li class="point-item anim" data-delay="4">
+          <span class="point-num">03</span>
+          <div>
+            <div class="point-title">[REPLACE:要点标题]</div>
+            <div class="point-desc">[REPLACE:要点说明]</div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ══ 第4页：数据大字报（深底）══ -->
+  <section class="slide slide-dark">
+    <div class="slide-chrome">04 / [REPLACE:总页数]</div>
+    <div class="slide-eyebrow anim" data-delay="1">[REPLACE:数据区标题/来源]</div>
+    <div class="stats-row anim" data-delay="2">
+      <div class="stat-block">
+        <div class="stat-key">[REPLACE:指标名]</div>
+        <div class="stat-num">[REPLACE:数字]<span class="u">[REPLACE:单位]</span></div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-key">[REPLACE:指标名]</div>
+        <div class="stat-num">[REPLACE:数字]<span class="u">[REPLACE:单位]</span></div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-key">[REPLACE:指标名]</div>
+        <div class="stat-num">[REPLACE:数字]<span class="u">[REPLACE:单位]</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 第5页：结尾（深底）══ -->
+  <section class="slide slide-hero">
+    <div class="slide-chrome">[REPLACE:总页数] / [REPLACE:总页数]</div>
+    <div class="slide-eyebrow anim" data-delay="1">Thank you</div>
+    <h1 class="slide-title anim" data-delay="2">
+      [REPLACE:结尾金句或行动号召]
+    </h1>
+    <p class="slide-subtitle anim" data-delay="3">[REPLACE:联系方式/公众号/GitHub]</p>
+  </section>
+
+  <!-- 在这里添加更多 .slide，复制上面的区块 -->
+
+</div><!-- /#deck -->
+
+<!-- ── 底部导航点 ── -->
+<div id="nav"></div>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+const nav = document.getElementById('nav');
+let current = 0;
+let animating = false;
+
+// 生成导航点
+slides.forEach((_, i) => {
+  const dot = document.createElement('div');
+  dot.className = 'nav-dot' + (i === 0 ? ' active' : '');
+  dot.addEventListener('click', () => goTo(i));
+  nav.appendChild(dot);
+});
+
+function goTo(n) {
+  if (animating || n === current) return;
+  animating = true;
+  current = Math.max(0, Math.min(n, slides.length - 1));
+  document.getElementById('deck').style.transform = `translateX(-${current * 100}vw)`;
+  document.querySelectorAll('.nav-dot').forEach((d, i) => {
+    d.classList.toggle('active', i === current);
+  });
+  // 触发当前页动效
+  slides[current].querySelectorAll('.anim').forEach(el => {
+    el.classList.remove('in');
+    void el.offsetWidth; // reflow
+    el.classList.add('in');
+  });
+  setTimeout(() => animating = false, 520);
+}
+
+// 键盘
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') goTo(current + 1);
+  if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   goTo(current - 1);
+});
+
+// 触屏
+let touchX = 0;
+document.addEventListener('touchstart', e => touchX = e.touches[0].clientX, { passive: true });
+document.addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - touchX;
+  if (Math.abs(dx) > 50) goTo(dx < 0 ? current + 1 : current - 1);
+}, { passive: true });
+
+// 滚轮
+let wheelLock = false;
+document.addEventListener('wheel', e => {
+  if (wheelLock) return;
+  wheelLock = true;
+  goTo(e.deltaY > 0 ? current + 1 : current - 1);
+  setTimeout(() => wheelLock = false, 700);
+}, { passive: true });
+
+// 初始动效
+window.addEventListener('load', () => {
+  slides[0].querySelectorAll('.anim').forEach(el => el.classList.add('in'));
+});
+</script>
+</body>
+</html>

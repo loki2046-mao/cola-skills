@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Loki 小红书 · 最终版 · 完整版式+配色系统</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@200;300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700;900&family=Noto+Serif+SC:wght@200;300;400;700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>@import url("https://fontsapi.zeoseven.com/92/main/result.css");</style>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+  background:#050505;
+  font-family:"Noto Sans SC",sans-serif;
+  display:flex;flex-direction:column;align-items:center;
+  gap:48px;padding:40px 20px 80px;
+}
+
+.noise{
+  position:absolute;inset:0;pointer-events:none;opacity:0.04;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/></filter><rect width='200' height='200' filter='url(%23n)' opacity='0.8'/></svg>");
+  z-index:1;
+}
+
+.page-header{width:1080px;text-align:center;padding:40px 0;}
+.page-header h1{font-family:"Noto Sans SC",sans-serif;font-weight:900;font-size:44px;color:#FAFAF8;margin-bottom:12px;letter-spacing:-0.03em;}
+.page-header h1 .hl{color:#FF5E1A;}
+.page-header p{font-family:"JetBrains Mono",monospace;font-size:13px;letter-spacing:0.18em;color:#5A5A55;text-transform:uppercase;}
+
+/* 主题分隔 */
+.theme-section{display:flex;flex-direction:column;gap:20px;align-items:center;}
+.theme-header{width:1120px;display:flex;align-items:center;gap:14px;}
+.theme-header .theme-num{font-family:"Space Grotesk",sans-serif;font-size:13px;font-weight:700;letter-spacing:0.1em;padding:3px 10px;}
+.theme-header .theme-name{font-family:"Noto Sans SC",sans-serif;font-weight:900;font-size:24px;letter-spacing:-0.02em;}
+.theme-header .theme-desc{font-family:"Noto Serif SC",serif;font-size:13px;font-weight:300;font-style:italic;}
+.theme-header .theme-line{flex:1;height:1px;}
+.theme-header .theme-colors{display:flex;gap:6px;}
+.theme-header .color-dot{width:16px;height:16px;border-radius:2px;}
+
+.cards-grid{display:flex;gap:24px;flex-wrap:wrap;justify-content:center;}
+.card-wrap{display:flex;flex-direction:column;gap:6px;}
+.card-label{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;text-align:center;}
+
+.card{width:540px;height:720px;position:relative;overflow:hidden;font-family:"Noto Sans SC",sans-serif;}
+
+.brand-mark{position:absolute;bottom:12px;right:12px;display:flex;align-items:center;gap:4px;z-index:5;}
+.brand-mark .brand-text{font-family:"Space Grotesk",sans-serif;font-size:9px;font-weight:500;letter-spacing:0.04em;}
+.brand-mark svg{width:12px;height:12px;}
+.brand-mark.on-dark .brand-text,.brand-mark.on-dark svg{color:rgba(250,250,248,0.3);}
+.brand-mark.on-light .brand-text,.brand-mark.on-light svg{color:rgba(10,10,10,0.25);}
+
+.progress-bar{position:absolute;top:0;left:0;right:0;height:3px;z-index:6;}
+.progress-bar .bar{height:100%;}
+
+/* ================================================================
+   通用卡型样式（通过.theme-xxx的CSS变量切换配色）
+   ================================================================ */
+
+/* --- 封面：居中大字 --- */
+.cover{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:36px 30px;}
+.cover .noise{opacity:0.05;}
+.cover .glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:480px;height:480px;pointer-events:none;}
+.cover .cv-eyebrow{font-family:"JetBrains Mono",monospace;font-size:11px;font-weight:500;letter-spacing:0.22em;text-transform:uppercase;margin-bottom:24px;position:relative;z-index:2;}
+.cover .cv-title{font-family:"Noto Sans SC",sans-serif;font-weight:900;font-size:58px;line-height:1.12;letter-spacing:-0.02em;position:relative;z-index:2;margin-bottom:18px;}
+.cover .cv-title .hl{}
+.cover .cv-sub{font-family:"Noto Serif SC",serif;font-size:14px;font-weight:300;line-height:1.6;font-style:italic;max-width:340px;position:relative;z-index:2;margin-bottom:auto;}
+.cover .cv-meta{display:flex;gap:20px;padding-top:20px;border-top:1px solid;width:100%;justify-content:center;position:relative;z-index:2;}
+.cover .cv-meta-item{display:flex;flex-direction:column;align-items:center;gap:1px;}
+.cover .cv-meta-num{font-family:"Space Grotesk",sans-serif;font-size:20px;font-weight:700;line-height:1;}
+.cover .cv-meta-label{font-size:9px;font-weight:400;}
+
+/* --- 章节过渡：居中大序号 --- */
+.chapter{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:36px 30px;}
+.chapter .noise{opacity:0.07;}
+.chapter .ch-num{font-family:"Space Grotesk",sans-serif;font-size:100px;font-weight:200;line-height:0.8;margin-bottom:10px;position:relative;z-index:2;opacity:0.15;}
+.chapter .ch-eyebrow{font-family:"JetBrains Mono",monospace;font-size:11px;font-weight:500;letter-spacing:0.22em;text-transform:uppercase;margin-bottom:14px;position:relative;z-index:2;opacity:0.5;}
+.chapter .ch-title{font-family:"Noto Sans SC",sans-serif;font-weight:900;font-size:44px;line-height:1.1;letter-spacing:-0.02em;position:relative;z-index:2;}
+
+/* --- 要点列表：居中标题+左列表 --- */
+.keylist{display:flex;flex-direction:column;padding:28px 26px;}
+.keylist .noise{opacity:0.05;}
+.keylist .kl-header{text-align:center;margin-bottom:20px;position:relative;z-index:2;}
+.keylist .kl-eyebrow{font-family:"JetBrains Mono",monospace;font-size:10px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:8px;}
+.keylist .kl-title{font-family:"Noto Sans SC",sans-serif;font-weight:900;font-size:26px;line-height:1.15;letter-spacing:-0.02em;}
+.keylist .kl-title .hl{}
+.keylist .kl-items{flex:1;display:flex;flex-direction:column;gap:12px;position:relative;z-index:2;}
+.keylist .kl-item{display:flex;gap:14px;align-items:flex-start;padding:12px 14px;border-left:3px solid;}
+.keylist .kl-item-num{font-family:"Space Grotesk",sans-serif;font-size:24px;font-weight:700;line-height:1;flex-shrink:0;min-width:32px;}
+.keylist .kl-item-content{flex:1;}
+.keylist .kl-item-title{font-family:"Noto Sans SC",sans-serif;font-weight:700;font-size:16px;line-height:1.25;margin-bottom:3px;}
+.keylist .kl-item-desc{font-size:12px;font-weight:400;line-height:1.5;}
+
+/* --- 金句：居中大字 --- */
+.quote{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:44px 32px;}
+.quote .noise{opacity:0.06;}
+.quote .qt-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:380px;height:380px;pointer-events:none;}
+.quote .qt-mark{font-family:"Noto Serif SC",serif;font-size:70px;font-weight:900;line-height:0.5;margin-bottom:6px;position:relative;z-index:2;opacity:0.2;}
+.quote .qt-text{font-family:"Noto Sans SC",sans-serif;font-weight:900;font-size:36px;line-height:1.22;letter-spacing:-0.02em;position:relative;z-index:2;margin-bottom:24px;}
+.quote .qt-text .hl{}
+.quote .qt-cite{display:flex;align-items:center;gap:8px;position:relative;z-index:2;}
+.quote .qt-cite-line{width:28px;height:2px;}
+.quote .qt-cite-text{font-family:"Space Grotesk",sans-serif;font-size:11px;font-weight:500;letter-spacing:0.05em;}
+
+/* --- 卡片拼接：3横条色块 --- */
+.cardstack{display:flex;flex-direction:column;}
+.cardstack .cs-header{padding:18px 22px 14px;text-align:center;}
+.cardstack .cs-eyebrow{font-family:"JetBrains Mono",monospace;font-size:10px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:5px;}
+.cardstack .cs-title{font-family:"Noto Sans SC",sans-serif;font-weight:900;font-size:20px;line-height:1.2;letter-spacing:-0.02em;}
+.cardstack .cs-title .hl{}
+.cardstack .cs-block{flex:1;padding:14px 20px;display:flex;flex-direction:column;gap:6px;}
+.cardstack .cs-block-header{display:flex;align-items:center;gap:8px;margin-bottom:3px;}
+.cardstack .cs-block-num{font-family:"Space Grotesk",sans-serif;font-size:16px;font-weight:700;line-height:1;}
+.cardstack .cs-block-title{font-family:"Noto Sans SC",sans-serif;font-weight:700;font-size:14px;}
+.cardstack .cs-block-text{font-size:12px;font-weight:400;line-height:1.7;}
+.cardstack .cs-block-text .hl{font-weight:700;}
+.cardstack .cs-block-text .quote{font-family:"Noto Serif SC",serif;font-style:italic;font-weight:300;}
+
+/* --- 杂志导读：双栏+总结框 --- */
+.magazine{display:flex;flex-direction:column;padding:24px 26px;}
+.magazine .mg-header{text-align:center;margin-bottom:14px;padding-bottom:12px;border-bottom:2px solid;}
+.magazine .mg-eyebrow{font-family:"JetBrains Mono",monospace;font-size:10px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:6px;}
+.magazine .mg-title{font-family:"Noto Sans SC",sans-serif;font-weight:900;font-size:22px;line-height:1.2;letter-spacing:-0.02em;}
+.magazine .mg-title .hl{}
+.magazine .mg-body{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:12px 0;}
+.magazine .mg-col{display:flex;flex-direction:column;gap:8px;}
+.magazine .mg-subhead{font-family:"Noto Sans SC",sans-serif;font-weight:700;font-size:13px;padding-bottom:3px;border-bottom:1px solid;}
+.magazine .mg-para{font-size:12px;font-weight:400;line-height:1.75;}
+.magazine .mg-para .hl{font-weight:700;}
+.magazine .mg-para .quote{font-family:"Noto Serif SC",serif;font-style:italic;font-weight:300;}
+.magazine .mg-summary{padding:12px 16px;}
+.magazine .mg-summary-label{font-family:"JetBrains Mono",monospace;font-size:9px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;margin-bottom:5px;}
+.magazine .mg-summary-text{font-size:12px;font-weight:400;line-height:1.5;}
+.magazine .mg-summary-text .hl{font-weight:700;}
+
+/* --- 步骤：竖向时间线 --- */
+.steps{display:flex;flex-direction:column;padding:28px 26px;}
+.steps .noise{opacity:0.05;}
+.steps .st-header{text-align:center;margin-bottom:20px;position:relative;z-index:2;}
+.steps .st-eyebrow{font-family:"JetBrains Mono",monospace;font-size:10px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:8px;}
+.steps .st-title{font-family:"Noto Sans SC",sans-serif;font-weight:900;font-size:26px;line-height:1.15;letter-spacing:-0.02em;}
+.steps .st-title .hl{}
+.steps .st-body{flex:1;display:flex;flex-direction:column;gap:0;position:relative;z-index:2;align-items:center;}
+.steps .st-step{display:flex;gap:14px;align-items:flex-start;padding:8px 0;width:100%;max-width:400px;}
+.steps .st-step-left{display:flex;flex-direction:column;align-items:center;flex-shrink:0;gap:3px;}
+.steps .st-step-num{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:"Space Grotesk",sans-serif;font-size:14px;font-weight:700;flex-shrink:0;}
+.steps .st-step:not(:first-child) .st-step-num{border:1px solid;}
+.steps .st-step-conn{width:2px;flex:1;min-height:14px;}
+.steps .st-step:last-child .st-step-conn{display:none;}
+.steps .st-step-content{flex:1;padding-top:3px;}
+.steps .st-step-title{font-family:"Noto Sans SC",sans-serif;font-weight:700;font-size:16px;line-height:1.25;margin-bottom:3px;}
+.steps .st-step-desc{font-size:12px;font-weight:400;line-height:1.5;}
+
+/* --- 网格选择：2×2 --- */
+.gridpick{display:flex;flex-direction:column;padding:28px 24px;}
+.gridpick .noise{opacity:0.05;}
+.gridpick .gp-header{text-align:center;margin-bottom:18px;position:relative;z-index:2;}
+.gridpick .gp-eyebrow{font-family:"JetBrains Mono",monospace;font-size:10px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:8px;}
+.gridpick .gp-title{font-family:"Noto Sans SC",sans-serif;font-weight:900;font-size:26px;line-height:1.15;letter-spacing:-0.02em;}
+.gridpick .gp-title .hl{}
+.gridpick .gp-grid{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:8px;position:relative;z-index:2;}
+.gridpick .gp-card{padding:14px 12px;display:flex;flex-direction:column;gap:5px;}
+.gridpick .gp-card.featured{}
+.gridpick .gp-card-num{font-family:"Space Grotesk",sans-serif;font-size:22px;font-weight:200;line-height:1;}
+.gridpick .gp-card-title{font-family:"Noto Sans SC",sans-serif;font-weight:700;font-size:15px;line-height:1.2;}
+.gridpick .gp-card-desc{font-size:11px;font-weight:400;line-height:1.45;flex:1;}
+.gridpick .gp-card-tag{font-family:"Space Grotesk",sans-serif;font-size:9px;font-weight:500;border:1px solid;padding:2px 6px;width:fit-content;}
+
+/* --- 引用插入：长文+pull quote --- */
+.pullquote{display:flex;flex-direction:column;padding:26px 26px;}
+.pullquote .noise{opacity:0.05;}
+.pullquote .pq-header{text-align:center;margin-bottom:14px;position:relative;z-index:2;}
+.pullquote .pq-eyebrow{font-family:"JetBrains Mono",monospace;font-size:10px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:6px;}
+.pullquote .pq-title{font-family:"Noto Sans SC",sans-serif;font-weight:900;font-size:22px;line-height:1.2;letter-spacing:-0.02em;}
+.pullquote .pq-title .hl{}
+.pullquote .pq-body{flex:1;display:flex;flex-direction:column;gap:10px;position:relative;z-index:2;}
+.pullquote .pq-para{font-size:12.5px;font-weight:400;line-height:1.8;}
+.pullquote .pq-para .hl{font-weight:700;}
+.pullquote .pq-para .mute{}
+.pullquote .pq-pullquote{padding:12px 14px;margin:2px 0;border-left:3px solid;}
+.pullquote .pq-pullquote-text{font-family:"Noto Serif SC",serif;font-size:14px;font-weight:400;font-style:italic;line-height:1.5;margin-bottom:4px;}
+.pullquote .pq-pullquote-cite{font-family:"JetBrains Mono",monospace;font-size:9px;letter-spacing:0.1em;}
+.pullquote .pq-footer{display:flex;justify-content:space-between;padding-top:8px;border-top:1px solid;position:relative;z-index:2;}
+.pullquote .pq-page{font-family:"JetBrains Mono",monospace;font-size:9px;}
+
+/* --- 结尾：居中CTA --- */
+.endcard{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:44px 32px;}
+.endcard .noise{opacity:0.06;}
+.endcard .ec-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:440px;height:440px;pointer-events:none;}
+.endcard .ec-eyebrow{font-family:"JetBrains Mono",monospace;font-size:11px;font-weight:500;letter-spacing:0.22em;text-transform:uppercase;margin-bottom:22px;position:relative;z-index:2;}
+.endcard .ec-cta{font-family:"Noto Sans SC",sans-serif;font-weight:900;font-size:44px;line-height:1.1;letter-spacing:-0.03em;margin-bottom:16px;position:relative;z-index:2;}
+.endcard .ec-cta .hl{}
+.endcard .ec-sub{font-family:"Noto Serif SC",serif;font-size:14px;font-weight:300;line-height:1.6;font-style:italic;margin-bottom:28px;max-width:340px;position:relative;z-index:2;}
+.endcard .ec-contacts{display:flex;flex-direction:column;gap:7px;position:relative;z-index:2;}
+.endcard .ec-contact{font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:0.06em;}
+.endcard .ec-contact .hl{font-weight:700;}
+
+/* --- 图文密集：上图+大段下文 --- */
+.imgdense{display:flex;flex-direction:column;}
+.imgdense .id-img{height:190px;position:relative;display:flex;align-items:center;justify-content:center;border-bottom:3px solid;flex-shrink:0;}
+.imgdense .id-img::after{content:"📷 图片位";font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:0.1em;}
+.imgdense .id-imgtag{position:absolute;top:10px;left:10px;font-family:"Space Grotesk",sans-serif;font-size:9px;font-weight:700;padding:3px 8px;letter-spacing:0.08em;text-transform:uppercase;}
+.imgdense .id-content{flex:1;padding:14px 22px;display:flex;flex-direction:column;}
+.imgdense .id-header{margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid;}
+.imgdense .id-eyebrow{font-family:"JetBrains Mono",monospace;font-size:10px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;margin-bottom:3px;}
+.imgdense .id-title{font-family:"Noto Sans SC",sans-serif;font-weight:900;font-size:18px;line-height:1.2;letter-spacing:-0.02em;}
+.imgdense .id-title .hl{}
+.imgdense .id-body{flex:1;display:flex;flex-direction:column;gap:8px;}
+.imgdense .id-para{font-size:12px;font-weight:400;line-height:1.75;}
+.imgdense .id-para .hl{font-weight:700;}
+.imgdense .id-callout{padding:10px 12px;display:flex;align-items:center;gap:6px;}
+.imgdense .id-callout-icon{font-family:"Space Grotesk",sans-serif;font-size:14px;font-weight:700;}
+.imgdense .id-callout-text{font-size:11px;font-weight:400;line-height:1.4;}
+.imgdense .id-footer{display:flex;justify-content:space-between;padding-top:6px;border-top:1px solid;}
+.imgdense .id-source{font-family:"JetBrains Mono",monospace;font-size:9px;}
+
+/* ================================================================
+   配色主题 — CSS变量定义
+   ================================================================ */
+
+/* 主题1: 墨黑信号 (原有) */
+.theme-ink{
+  --bg:#0A0A0A;--bg2:#141414;--accent:#FF5E1A;--accent2:#E84A0F;
+  --text:#FAFAF8;--text-sub:#8A8A85;--text-mute:#5A5A55;--text-ghost:#3A3A38;
+  --border:rgba(255,255,255,0.08);--glow:rgba(255,94,26,0.18);--neon:#00D9FF;
+  --on-accent:#0A0A0A;
+}
+/* 主题2: 氧气青绿 (原有) */
+.theme-mint{
+  --bg:#F0F7F4;--bg2:#E0EFE8;--accent:#00A878;--accent2:#008A5B;
+  --text:#0A1F1A;--text-sub:#4A6B62;--text-mute:#7A9B92;--text-ghost:#A0C0B8;
+  --border:rgba(0,168,120,0.12);--glow:rgba(0,168,120,0.12);--neon:#00D9FF;
+  --on-accent:#F0F7F4;
+}
+/* 主题3: 暖米咖啡 (原有) */
+.theme-cream{
+  --bg:#F5EFE6;--bg2:#EDE5D8;--accent:#C44536;--accent2:#A03020;
+  --text:#2A1F1A;--text-sub:#6B5A50;--text-mute:#9A8A80;--text-ghost:#C0B0A4;
+  --border:rgba(196,69,54,0.1);--glow:rgba(196,69,54,0.08);--neon:#E8A040;
+  --on-accent:#F5EFE6;
+}
+/* 主题4: 电光蓝黄 (原有) */
+.theme-electric{
+  --bg:#0A1A3A;--bg2:#142850;--accent:#FFD60A;--accent2:#E8C200;
+  --text:#FAFAF8;--text-sub:#8AA0D0;--text-mute:#5A70A0;--text-ghost:#3A5080;
+  --border:rgba(255,214,10,0.12);--glow:rgba(255,214,10,0.12);--neon:#00D9FF;
+  --on-accent:#0A1A3A;
+}
+/* 主题5: 糖果粉紫 (原有) */
+.theme-candy{
+  --bg:#FFF0F5;--bg2:#FFE0EC;--accent:#FF3D7F;--accent2:#E0206A;
+  --text:#2A0A1A;--text-sub:#7A4A6B;--text-mute:#AA7A9B;--text-ghost:#D0A0C0;
+  --border:rgba(255,61,127,0.12);--glow:rgba(255,61,127,0.1);--neon:#9D4EDD;
+  --on-accent:#FFF0F5;
+}
+
+/* === 新增主题 === */
+
+/* 主题6: 深海青金 — 复古胶片感 */
+.theme-teal{
+  --bg:#0F2027;--bg2:#1A3A42;--accent:#E8A040;--accent2:#C88830;
+  --text:#E8F0F0;--text-sub:#7A9A9A;--text-mute:#5A7A7A;--text-ghost:#3A5A5A;
+  --border:rgba(232,160,64,0.1);--glow:rgba(232,160,64,0.1);--neon:#00CED1;
+  --on-accent:#0F2027;
+}
+/* 主题7: 鼠尾草灰绿 — 莫兰迪花园 */
+.theme-sage{
+  --bg:#E8EDE6;--bg2:#DDE5DB;--accent:#7A8B6F;--accent2:#6A7B5F;
+  --text:#1A2A1A;--text-sub:#4A5B4A;--text-mute:#7A8B7A;--text-ghost:#A0B0A0;
+  --border:rgba(122,139,111,0.12);--glow:rgba(122,139,111,0.08);--neon:#C44536;
+  --on-accent:#E8EDE6;
+}
+/* 主题8: 焦糖深蓝 — 秋日黄昏/电影感 */
+.theme-caramel{
+  --bg:#1A1420;--bg2:#2A2030;--accent:#D4885A;--accent2:#B87040;
+  --text:#F0EAE0;--text-sub:#9A8A80;--text-mute:#6A5A50;--text-ghost:#4A3A40;
+  --border:rgba(212,136,90,0.1);--glow:rgba(212,136,90,0.1);--neon:#7DA0C4;
+  --on-accent:#1A1420;
+}
+/* 主题9: 极简黑白 — 瑞士设计 */
+.theme-mono{
+  --bg:#FAFAF8;--bg2:#F0F0EE;--accent:#0A0A0A;--accent2:#2A2A2A;
+  --text:#0A0A0A;--text-sub:#6A6A6A;--text-mute:#9A9A9A;--text-ghost:#C0C0C0;
+  --border:rgba(0,0,0,0.08);--glow:rgba(0,0,0,0.03);--neon:#FF5E1A;
+  --on-accent:#FAFAF8;
+}
+
+/* ================================================================
+   通用主题应用规则
+   ================================================================ */
+[class^="theme-"] .card{background:var(--bg);color:var(--text);}
+[class^="theme-"] .cover .glow{background:radial-gradient(circle,var(--glow) 0%,transparent 65%);}
+[class^="theme-"] .cover .cv-eyebrow{color:var(--accent);}
+[class^="theme-"] .cover .cv-title{color:var(--text);}
+[class^="theme-"] .cover .cv-title .hl{color:var(--accent);}
+[class^="theme-"] .cover .cv-sub{color:var(--text-sub);}
+[class^="theme-"] .cover .cv-meta{border-color:var(--border);}
+[class^="theme-"] .cover .cv-meta-num{color:var(--accent);}
+[class^="theme-"] .cover .cv-meta-label{color:var(--text-mute);}
+
+[class^="theme-"] .chapter .ch-num{color:var(--accent);}
+[class^="theme-"] .chapter .ch-eyebrow{color:var(--accent);}
+[class^="theme-"] .chapter .ch-title{color:var(--text);}
+
+[class^="theme-"] .keylist .kl-eyebrow{color:var(--accent);}
+[class^="theme-"] .keylist .kl-title{color:var(--text);}
+[class^="theme-"] .keylist .kl-title .hl{color:var(--accent);}
+[class^="theme-"] .keylist .kl-item{background:var(--bg2);border-color:var(--accent);}
+[class^="theme-"] .keylist .kl-item-num{color:var(--accent);}
+[class^="theme-"] .keylist .kl-item-title{color:var(--text);}
+[class^="theme-"] .keylist .kl-item-desc{color:var(--text-sub);}
+
+[class^="theme-"] .quote .qt-glow{background:radial-gradient(circle,var(--glow) 0%,transparent 70%);}
+[class^="theme-"] .quote .qt-mark{color:var(--accent);}
+[class^="theme-"] .quote .qt-text{color:var(--text);}
+[class^="theme-"] .quote .qt-text .hl{color:var(--accent);}
+[class^="theme-"] .quote .qt-cite-line{background:var(--accent);}
+[class^="theme-"] .quote .qt-cite-text{color:var(--text-sub);}
+
+[class^="theme-"] .cardstack .cs-header{background:var(--bg2);}
+[class^="theme-"] .cardstack .cs-eyebrow{color:var(--accent);}
+[class^="theme-"] .cardstack .cs-title{color:var(--text);}
+[class^="theme-"] .cardstack .cs-title .hl{color:var(--accent);}
+[class^="theme-"] .cardstack .cs-block.b1{background:var(--bg);}
+[class^="theme-"] .cardstack .cs-block.b2{background:var(--bg2);}
+[class^="theme-"] .cardstack .cs-block.b3{background:var(--bg);}
+[class^="theme-"] .cardstack .cs-block-num{color:var(--accent);}
+[class^="theme-"] .cardstack .cs-block-title{color:var(--text);}
+[class^="theme-"] .cardstack .cs-block-text{color:var(--text);}
+[class^="theme-"] .cardstack .cs-block-text .hl{color:var(--accent);}
+[class^="theme-"] .cardstack .cs-block-text .quote{color:var(--text-sub);}
+
+[class^="theme-"] .magazine .mg-header{border-color:var(--text);}
+[class^="theme-"] .magazine .mg-eyebrow{color:var(--accent);}
+[class^="theme-"] .magazine .mg-title{color:var(--text);}
+[class^="theme-"] .magazine .mg-title .hl{color:var(--accent);}
+[class^="theme-"] .magazine .mg-subhead{color:var(--text);border-color:var(--border);}
+[class^="theme-"] .magazine .mg-para{color:var(--text);}
+[class^="theme-"] .magazine .mg-para .hl{color:var(--accent);}
+[class^="theme-"] .magazine .mg-para .quote{color:var(--text-sub);}
+[class^="theme-"] .magazine .mg-summary{background:var(--bg2);border-left:3px solid var(--accent);}
+[class^="theme-"] .magazine .mg-summary-label{color:var(--accent);}
+[class^="theme-"] .magazine .mg-summary-text{color:var(--text);}
+[class^="theme-"] .magazine .mg-summary-text .hl{color:var(--accent);}
+
+[class^="theme-"] .steps .st-eyebrow{color:var(--accent);}
+[class^="theme-"] .steps .st-title{color:var(--text);}
+[class^="theme-"] .steps .st-title .hl{color:var(--accent);}
+[class^="theme-"] .steps .st-step:first-child .st-step-num{background:var(--accent);color:var(--on-accent);}
+[class^="theme-"] .steps .st-step:not(:first-child) .st-step-num{background:var(--bg2);color:var(--accent);border-color:var(--accent);}
+[class^="theme-"] .steps .st-step-conn{background:var(--text-ghost);}
+[class^="theme-"] .steps .st-step-title{color:var(--text);}
+[class^="theme-"] .steps .st-step-desc{color:var(--text-sub);}
+
+[class^="theme-"] .gridpick .gp-eyebrow{color:var(--accent);}
+[class^="theme-"] .gridpick .gp-title{color:var(--text);}
+[class^="theme-"] .gridpick .gp-title .hl{color:var(--accent);}
+[class^="theme-"] .gridpick .gp-card{background:var(--bg2);}
+[class^="theme-"] .gridpick .gp-card.featured{background:var(--accent);}
+[class^="theme-"] .gridpick .gp-card-num{color:var(--text-ghost);}
+[class^="theme-"] .gridpick .gp-card.featured .gp-card-num{color:var(--on-accent);opacity:0.4;}
+[class^="theme-"] .gridpick .gp-card-title{color:var(--text);}
+[class^="theme-"] .gridpick .gp-card.featured .gp-card-title{color:var(--on-accent);}
+[class^="theme-"] .gridpick .gp-card-desc{color:var(--text-sub);}
+[class^="theme-"] .gridpick .gp-card.featured .gp-card-desc{color:var(--on-accent);opacity:0.7;}
+[class^="theme-"] .gridpick .gp-card-tag{color:var(--accent);border-color:var(--accent);}
+[class^="theme-"] .gridpick .gp-card.featured .gp-card-tag{color:var(--on-accent);border-color:var(--on-accent);}
+
+[class^="theme-"] .pullquote .pq-eyebrow{color:var(--accent);}
+[class^="theme-"] .pullquote .pq-title{color:var(--text);}
+[class^="theme-"] .pullquote .pq-title .hl{color:var(--accent);}
+[class^="theme-"] .pullquote .pq-para{color:var(--text);}
+[class^="theme-"] .pullquote .pq-para .hl{color:var(--accent);}
+[class^="theme-"] .pullquote .pq-para .mute{color:var(--text-sub);}
+[class^="theme-"] .pullquote .pq-pullquote{background:var(--bg2);border-color:var(--accent);}
+[class^="theme-"] .pullquote .pq-pullquote-text{color:var(--text);}
+[class^="theme-"] .pullquote .pq-pullquote-cite{color:var(--text-mute);}
+[class^="theme-"] .pullquote .pq-footer{border-color:var(--border);}
+[class^="theme-"] .pullquote .pq-page{color:var(--text-ghost);}
+
+[class^="theme-"] .endcard .ec-glow{background:radial-gradient(circle,var(--glow) 0%,transparent 70%);}
+[class^="theme-"] .endcard .ec-eyebrow{color:var(--accent);}
+[class^="theme-"] .endcard .ec-cta{color:var(--text);}
+[class^="theme-"] .endcard .ec-cta .hl{color:var(--accent);}
+[class^="theme-"] .endcard .ec-sub{color:var(--text-sub);}
+[class^="theme-"] .endcard .ec-contact{color:var(--text-sub);}
+[class^="theme-"] .endcard .ec-contact .hl{color:var(--accent);}
+
+[class^="theme-"] .imgdense .id-img{background:var(--bg2);border-color:var(--accent);}
+[class^="theme-"] .imgdense .id-img::after{color:var(--text-ghost);}
+[class^="theme-"] .imgdense .id-imgtag{background:var(--accent);color:var(--on-accent);}
+[class^="theme-"] .imgdense .id-header{border-color:var(--border);}
+[class^="theme-"] .imgdense .id-eyebrow{color:var(--accent);}
+[class^="theme-"] .imgdense .id-title{color:var(--text);}
+[class^="theme-"] .imgdense .id-title .hl{color:var(--accent);}
+[class^="theme-"] .imgdense .id-para{color:var(--text);}
+[class^="theme-"] .imgdense .id-para .hl{color:var(--accent);}
+[class^="theme-"] .imgdense .id-callout{background:var(--bg2);}
+[class^="theme-"] .imgdense .id-callout-icon{color:var(--accent);}
+[class^="theme-"] .imgdense .id-callout-text{color:var(--text);}
+[class^="theme-"] .imgdense .id-footer{border-color:var(--border);}
+[class^="theme-"] .imgdense .id-source{color:var(--text-mute);}
+
+[class^="theme-"] .progress-bar .bar{background:var(--accent);}
+
+[class^="theme-"] .brand-mark.on-dark .brand-text,
+[class^="theme-"] .brand-mark.on-dark svg{color:rgba(250,250,248,0.3);}
+[class^="theme-"] .brand-mark.on-light .brand-text,
+[class^="theme-"] .brand-mark.on-light svg{color:rgba(10,10,10,0.25);}
+
+[class^="theme-"] .card-label{color:var(--text-mute);}
+[class^="theme-"] .theme-header .theme-num{background:var(--accent);color:var(--on-accent);}
+[class^="theme-"] .theme-header .theme-name{color:var(--text);}
+[class^="theme-"] .theme-header .theme-desc{color:var(--text-sub);}
+[class^="theme-"] .theme-header .theme-line{background:var(--border);}
+
+/* 深底主题用on-dark品牌标，浅底用on-light */
+.theme-ink .brand-mark,.theme-electric .brand-mark,.theme-teal .brand-mark,.theme-caramel .brand-mark{ }
+.theme-mint .brand-mark,.theme-cream .brand-mark,.theme-candy .brand-mark,.theme-sage .brand-mark,.theme-mono .brand-mark{ }
+
+/* ================================================================
+   IP 形象组件 — 可在任何卡片中插入
+   ================================================================ */
+.ip-mascot{
+  position:absolute;
+  z-index:3;
+  pointer-events:none;
+  object-fit:contain;
+}
+/* 封面右侧 */
+.ip-cover{
+  right:20px;
+  bottom:20px;
+  width:180px;
+  height:180px;
+}
+/* 结尾页左侧 */
+.ip-end-left{
+  left:20px;
+  bottom:20px;
+  width:160px;
+  height:160px;
+}
+/* 图文混排页图片位 */
+.ip-imgtext{
+  position:absolute;
+  top:10px;left:50%;
+  transform:translateX(-50%);
+  height:140px;
+  width:auto;
+  z-index:2;
+}
+/* 装饰位（右下角小尺寸） */
+.ip-corner{
+  right:16px;
+  bottom:16px;
+  width:100px;
+  height:100px;
+  opacity:0.5;
+}
+
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>Loki 小红书 · <span class="hl">FINAL</span> 完整版式+配色系统</h1>
+  <p>9种配色 × 10种版式 · V5+V6合并 · 大文字量+居中重心</p>
+</div>
+
+<!-- 熊猫SVG模板 -->
+<svg style="display:none"><symbol id="panda" viewBox="0 0 32 32" fill="none"><path d="M6 14C6 9 10 6 16 6C22 6 26 9 26 14L26 19C26 24 22 27 16 27C10 27 6 24 6 19Z" stroke="currentColor" stroke-width="1.8" fill="none"/><circle cx="8" cy="9" r="2.4" stroke="currentColor" stroke-width="1.8" fill="none"/><circle cx="24" cy="9" r="2.4" stroke="currentColor" stroke-width="1.8" fill="none"/><circle cx="16" cy="19" r="1.1" fill="currentColor"/></symbol></svg>
+
+<!-- ================================================================
+     主题1: 墨黑信号 — 展示4种代表性版式
+     ================================================================ -->
+<div class="theme-ink">
+  <div class="theme-header">
+    <span class="theme-num">01</span>
+    <span class="theme-name">墨黑信号</span>
+    <span class="theme-desc">— 正式 / 科技测评 / 公开分享</span>
+    <div class="theme-line"></div>
+    <div class="theme-colors">
+      <div class="color-dot" style="background:#0A0A0A"></div>
+      <div class="color-dot" style="background:#FF5E1A"></div>
+      <div class="color-dot" style="background:#FAFAF8"></div>
+    </div>
+  </div>
+  <div class="cards-grid">
+    <!-- 封面 -->
+    <div class="card-wrap">
+      <div class="card-label">封面 COVER</div>
+      <div class="card cover">
+        <div class="noise"></div>
+        <div class="progress-bar"><div class="bar" style="width:10%"></div></div>
+        <div class="glow"></div>
+        <div class="cv-eyebrow">AI TOOLS · REVIEW</div>
+        <h2 class="cv-title">5个AI<br>让我<span class="hl">效率</span>翻倍</h2>
+        <p class="cv-sub">一个文科生的亲测报告。<br>不水字数，只测真正有用的。</p>
+        <div class="cv-meta">
+          <div class="cv-meta-item"><span class="cv-meta-num">87</span><span class="cv-meta-label">实测工具</span></div>
+          <div class="cv-meta-item"><span class="cv-meta-num">5k+</span><span class="cv-meta-label">读者</span></div>
+          <div class="cv-meta-item"><span class="cv-meta-num">2yr</span><span class="cv-meta-label">持续更新</span></div>
+        </div>
+        <div class="brand-mark on-dark"><svg><use href="#panda"/></svg><span class="brand-text">赛博小熊猫Loki</span></div>
+        <img class="ip-mascot ip-cover" src="ip-library/loki-original-3d.png" alt="Loki">
+      </div>
+    </div>
+    <!-- 杂志导读 -->
+    <div class="card-wrap">
+      <div class="card-label">杂志导读 MAGAZINE</div>
+      <div class="card magazine">
+        <div class="progress-bar"><div class="bar" style="width:40%"></div></div>
+        <div class="mg-header">
+          <div class="mg-eyebrow">DEEP DIVE · 深度</div>
+          <h2 class="mg-title">为什么<span class="hl">文科生</span><br>更适合用AI</h2>
+        </div>
+        <div class="mg-body">
+          <div class="mg-col">
+            <h3 class="mg-subhead">偏见</h3>
+            <p class="mg-para">很多人以为AI是技术人的工具，其实<span class="hl">反过来</span>。文科生训练的就是提问能力——把模糊感觉变成具体问题。</p>
+            <p class="mg-para">AI不缺答案，缺的是好问题。你问得越精准，AI给得越有用。</p>
+          </div>
+          <div class="mg-col">
+            <h3 class="mg-subhead">真相</h3>
+            <p class="mg-para">理科生优化参数，文科生优化表达。在AI时代，后者反而更<span class="hl">稀缺</span>。</p>
+            <p class="mg-para"><span class="quote">"工具的瓶颈不在技术，在你的问题意识。"</span></p>
+          </div>
+        </div>
+        <div class="mg-summary">
+          <div class="mg-summary-label">LOKI'S TAKE</div>
+          <p class="mg-summary-text">AI时代，<span class="hl">提问能力</span>比编程能力更值钱。</p>
+        </div>
+        <div class="brand-mark on-dark"><svg><use href="#panda"/></svg><span class="brand-text">赛博小熊猫Loki</span></div>
+      </div>
+    </div>
+    <!-- 金句 -->
+    <div class="card-wrap">
+      <div class="card-label">金句 QUOTE</div>
+      <div class="card quote">
+        <div class="noise"></div>
+        <div class="progress-bar"><div class="bar" style="width:50%"></div></div>
+        <div class="qt-glow"></div>
+        <div class="qt-mark">"</div>
+        <div class="qt-text">AI的瓶颈<br>不是<span class="hl">技术</span>，<br>是你的<br><span class="hl">问题意识</span></div>
+        <div class="qt-cite">
+          <div class="qt-cite-line"></div>
+          <span class="qt-cite-text">赛博小熊猫Loki · 2026</span>
+        </div>
+        <div class="brand-mark on-dark"><svg><use href="#panda"/></svg><span class="brand-text">赛博小熊猫Loki</span></div>
+      </div>
+    </div>
+    <!-- 卡片拼接 -->
+    <div class="card-wrap">
+      <div class="card-label">卡片拼接 STACK</div>
+      <div class="card cardstack">
+        <div class="progress-bar"><div class="bar" style="width:60%"></div></div>
+        <div class="cs-header">
+          <div class="cs-eyebrow">3 KEY POINTS</div>
+          <h2 class="cs-title">用好AI的<span class="hl">3个前提</span></h2>
+        </div>
+        <div class="cs-block b1">
+          <div class="cs-block-header"><span class="cs-block-num">01</span><span class="cs-block-title">想清楚要解决什么</span></div>
+          <p class="cs-block-text">正确的打开方式：<span class="hl">我遇到X问题，读者是Y，需要Z</span>。越具体越好。模糊提问只会得到模糊回答。</p>
+        </div>
+        <div class="cs-block b2">
+          <div class="cs-block-header"><span class="cs-block-num">02</span><span class="cs-block-title">给上下文别让AI猜</span></div>
+          <p class="cs-block-text">你是谁、读者是谁、风格参考。<span class="quote">"垃圾进，垃圾出"</span>在AI时代依然成立。给得多，给得准，它才能给你惊喜。</p>
+        </div>
+        <div class="cs-block b3">
+          <div class="cs-block-header"><span class="cs-block-num">03</span><span class="cs-block-title">改稿比初稿重要</span></div>
+          <p class="cs-block-text">AI初稿永远是及格线。真正价值在于<span class="hl">迭代</span>——告诉它哪里不对、为什么改。3轮下来，它越来越懂你。</p>
+        </div>
+        <div class="brand-mark on-dark"><svg><use href="#panda"/></svg><span class="brand-text">赛博小熊猫Loki</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================
+     主题6: 深海青金 (新)
+     ================================================================ -->
+<div class="theme-teal">
+  <div class="theme-header">
+    <span class="theme-num">06</span>
+    <span class="theme-name">深海青金</span>
+    <span class="theme-desc">— 深度 / 摄影 / 旅行 / 叙事</span>
+    <div class="theme-line"></div>
+    <div class="theme-colors">
+      <div class="color-dot" style="background:#0F2027"></div>
+      <div class="color-dot" style="background:#E8A040"></div>
+      <div class="color-dot" style="background:#00CED1"></div>
+    </div>
+  </div>
+  <div class="cards-grid">
+    <div class="card-wrap">
+      <div class="card-label">封面 COVER</div>
+      <div class="card cover">
+        <div class="noise"></div>
+        <div class="progress-bar"><div class="bar" style="width:10%"></div></div>
+        <div class="glow"></div>
+        <div class="cv-eyebrow">PHOTO · JOURNEY</div>
+        <h2 class="cv-title">一个人<br>去<span class="hl">京都</span><br>拍了7天</h2>
+        <p class="cv-sub">不带镜头去"打卡"。<br>只拍让我停下来的画面。</p>
+        <div class="cv-meta">
+          <div class="cv-meta-item"><span class="cv-meta-num">7</span><span class="cv-meta-label">天</span></div>
+          <div class="cv-meta-item"><span class="cv-meta-num">340</span><span class="cv-meta-label">张照片</span></div>
+          <div class="cv-meta-item"><span class="cv-meta-num">12</span><span class="cv-meta-label">张精选</span></div>
+        </div>
+        <div class="brand-mark on-dark"><svg><use href="#panda"/></svg><span class="brand-text">赛博小熊猫Loki</span></div>
+      </div>
+    </div>
+    <div class="card-wrap">
+      <div class="card-label">引用插入 PULL QUOTE</div>
+      <div class="card pullquote">
+        <div class="noise"></div>
+        <div class="progress-bar"><div class="bar" style="width:50%"></div></div>
+        <div class="pq-header">
+          <div class="pq-eyebrow">JOURNAL · 游记</div>
+          <h2 class="pq-title">旅行的意义<br>不在<span class="hl">打卡</span></h2>
+        </div>
+        <div class="pq-body">
+          <p class="pq-para">很多人旅行是去"完成"一个清单。但真正留在记忆里的，从来不是你"去过了"的地方，而是你<span class="hl">停下来</span>的那一刻。</p>
+          <div class="pq-pullquote">
+            <p class="pq-pullquote-text">"最好的照片，是你忘记按下快门的那一刻。"</p>
+            <span class="pq-pullquote-cite">— LOKI'S TAKE</span>
+          </div>
+          <p class="pq-para">在京都的第三天，我把相机收进了包里。不是因为不想拍，而是我发现自己在<span class="hl">用镜头代替眼睛</span>。</p>
+          <p class="pq-para"><span class="mute">后来我发现，走完一条小路再回头拍的那张，永远比边走边拍的好。</span></p>
+        </div>
+        <div class="pq-footer">
+          <span class="pq-page">05 / 08</span>
+          <span class="pq-page">KYOTO JOURNAL</span>
+        </div>
+        <div class="brand-mark on-dark"><svg><use href="#panda"/></svg><span class="brand-text">赛博小熊猫Loki</span></div>
+      </div>
+    </div>
+    <div class="card-wrap">
+      <div class="card-label">金句 QUOTE</div>
+      <div class="card quote">
+        <div class="noise"></div>
+        <div class="progress-bar"><div class="bar" style="width:60%"></div></div>
+        <div class="qt-glow"></div>
+        <div class="qt-mark">"</div>
+        <div class="qt-text">最好的<br><span class="hl">照片</span>，<br>是你<br>忘记<span class="hl">按快门</span><br>的那一刻</div>
+        <div class="qt-cite">
+          <div class="qt-cite-line"></div>
+          <span class="qt-cite-text">京都 · 2026</span>
+        </div>
+        <div class="brand-mark on-dark"><svg><use href="#panda"/></svg><span class="brand-text">赛博小熊猫Loki</span></div>
+      </div>
+    </div>
+    <div class="card-wrap">
+      <div class="card-label">图文密集 IMAGE DENSE</div>
+      <div class="card imgdense">
+        <div class="progress-bar"><div class="bar" style="width:30%"></div></div>
+        <div class="id-img"><span class="id-imgtag">PHOTO</span></div>
+        <div class="id-content">
+          <div class="id-header">
+            <div class="id-eyebrow">PHOTO NOTES · 摄影笔记</div>
+            <h3 class="id-title">京都<span class="hl">清晨</span>的鸭川</h3>
+          </div>
+          <div class="id-body">
+            <p class="id-para">早上6点的鸭川没有人。水面的光是一整片的<span class="hl">金色</span>，鸭子在游，老人在散步。这比清水寺人挤人好100倍。</p>
+            <p class="id-para">旅行最大的秘密：<span class="hl">早起</span>。你比游客多出3个小时，这3个小时是属于你的京都。</p>
+            <div class="id-callout">
+              <span class="id-callout-icon">→</span>
+              <span class="id-callout-text">建议：6:00-8:00拍照黄金时间</span>
+            </div>
+          </div>
+          <div class="id-footer">
+            <span class="id-source">京都鸭川 · 2026.04</span>
+            <span class="id-source">03/08</span>
+          </div>
+        </div>
+        <div class="brand-mark on-dark"><svg><use href="#panda"/></svg><span class="brand-text">赛博小熊猫Loki</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================
+     主题7: 鼠尾草灰绿 (新)
+     ================================================================ -->
+<div class="theme-sage">
+  <div class="theme-header">
+    <span class="theme-num">07</span>
+    <span class="theme-name">鼠尾草灰绿</span>
+    <span class="theme-desc">— 生活 / 家居 / 心理 / 慢节奏</span>
+    <div class="theme-line"></div>
+    <div class="theme-colors">
+      <div class="color-dot" style="background:#E8EDE6"></div>
+      <div class="color-dot" style="background:#7A8B6F"></div>
+      <div class="color-dot" style="background:#C44536"></div>
+    </div>
+  </div>
+  <div class="cards-grid">
+    <div class="card-wrap">
+      <div class="card-label">封面 COVER</div>
+      <div class="card cover">
+        <div class="noise"></div>
+        <div class="progress-bar"><div class="bar" style="width:10%"></div></div>
+        <div class="glow"></div>
+        <div class="cv-eyebrow">LIFE · SLOW</div>
+        <h2 class="cv-title">30岁后<br>我学会了<br><span class="hl">慢下来</span></h2>
+        <p class="cv-sub">不是躺平，是选择什么值得快、什么应该慢。</p>
+        <div class="cv-meta">
+          <div class="cv-meta-item"><span class="cv-meta-num">3</span><span class="cv-meta-label">个改变</span></div>
+          <div class="cv-meta-item"><span class="cv-meta-num">30</span><span class="cv-meta-label">岁</span></div>
+          <div class="cv-meta-item"><span class="cv-meta-num">0</span><span class="cv-meta-label">焦虑</span></div>
+        </div>
+        <div class="brand-mark on-light"><svg><use href="#panda"/></svg><span class="brand-text">赛博小熊猫Loki</span></div>
+      </div>
+    </div>
+    <div class="card-wrap">
+      <div class="card-label">杂志导读 MAGAZINE</div>
+      <div class="card magazine">
+        <div class="progress-bar"><div class="bar" style="width:40%"></div></div>
+        <div class="mg-header">
+          <div class="mg-eyebrow">LIFE · 生活</div>
+          <h2 class="mg-title"><span class="hl">慢</span>不是懒<br>是选择</h2>
+        </div>
+        <div class="mg-body">
+          <div class="mg-col">
+            <h3 class="mg-subhead">快的代价</h3>
+            <p class="mg-para">快是一种瘾。你越快，越怕慢下来。因为慢下来你会发现——<span class="hl">很多事情不做也没关系</span>。</p>
+            <p class="mg-para">我们追求效率，但效率的终点不是幸福，是空虚。</p>
+          </div>
+          <div class="mg-col">
+            <h3 class="mg-subhead">慢的力量</h3>
+            <p class="mg-para">慢下来以后，我才发现自己一直在错过。错过吃饭的味道，错过朋友的语气，错过<span class="hl">自己的感受</span>。</p>
+            <p class="mg-para"><span class="quote">"你走得越快，看到的越少。"</span></p>
+          </div>
+        </div>
+        <div class="mg-summary">
+          <div class="mg-summary-label">LOKI'S TAKE</div>
+          <p class="mg-summary-text">慢不是放弃，是<span class="hl">选择</span>什么值得你的时间。</p>
+        </div>
+        <div class="brand-mark on-light"><svg><use href="#panda"/></svg><span class="brand-text">赛博小熊猫Loki</span></div>
+      </div>
+    </div>
+    <div class="card-wrap">
+      <div class="card-label">要点列表 LIST</div>
+      <div class="card keylist">
+        <div class="noise"></div>
+        <div class="progress-bar"><div class="bar" style="width:50%"></div></div>
+        <div class="kl-header">
+          <div class="kl-eyebrow">3 CHANGES · 三个改变</div>
+          <h2 class="kl-title">我做了<span class="hl">3个改变</span></h2>
+        </div>
+        <div class="kl-items">
+          <div class="kl-item">
+            <span class="kl-item-num">01</span>
+            <div class="kl-item-content">
+              <h4 class="kl-item-title">手机不放床头</h4>
+              <p class="kl-item-desc">买了闹钟。醒来第一件事不是刷手机，而是发呆5分钟。</p>
+            </div>
+          </div>
+          <div class="kl-item">
+            <span class="kl-item-num">02</span>
+            <div class="kl-item-content">
+              <h4 class="kl-item-title">每周一天不工作</h4>
+              <p class="kl-item-desc">不是休息日，是"什么都不做日"。开始很焦虑，后来很上瘾。</p>
+            </div>
+          </div>
+          <div class="kl-item">
+            <span class="kl-item-num">03</span>
+            <div class="kl-item-content">
+              <h4 class="kl-item-title">吃饭不看视频</h4>
+              <p class="kl-item-desc">就吃饭。你发现食物其实是有味道的，你只是从来没尝过。</p>
+            </div>
+          </div>
+        </div>
+        <div class="brand-mark on-light"><svg><use href="#panda"/></svg><span class="brand-text">赛博小熊猫Loki</span></div>
+      </div>
+    </div>
+    <div class="card-wrap">
+      <div class="card-label">结尾 END</div>
+      <div class="card endcard">
+        <div class="noise"></div>
+        <div class="progress-bar"><div class="bar" style="width:100%"></div></div>
+        <div class="ec-glow"></div>
+        <div class="ec-eyebrow">END · 关注引导</div>
+        <h2 class="ec-cta"><span class="hl">慢下来</span><br>看看生活</h2>
+        <p class="ec-sub">一个文科生的生活实验。<br>不焦虑，不躺平，选择慢。</p>
+        <div class="ec-contacts">
+          <p class="ec-contact">公众号 · <span class="hl">赛博小熊猫Loki</span></p>
+          <p class="ec-contact">网站 · <span class="hl">hiloki.ai</span></p>
+        </div>
+        <div class="brand-mark on-light"><svg><use href="#panda"/></svg><span class="brand-text">赛博小熊猫Loki</span></div>
+        <img class="ip-mascot ip-end-left" src="ip-library/loki-cool-phone.png" alt="Loki">
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================
+     主题8: 焦糖深蓝 (新)
+     ================================================================ -->
+<div class="theme-caramel">
+  <div class="theme-header">
+    <span class="theme-num">08</span>
+    <span class="theme-name">焦糖深蓝</span>
+    <span class="theme-desc">— 深度 / 文化 / 影评 / 叙事</span>
+    <div class="theme-line"></div>
+    <div class="theme-colors">
+      <div class="color-dot" style="background:#1A1420"></div>
+      <div class="color-dot" style="background:#D4885A"></div>
+      <div class="color-dot" style="background:#7DA0C4"></div>
+    </div>
+  </div>
+  <div class="cards-grid">
+    <div class="card-wrap">
+      <div class="card-label">封面 COVER</div>
+      <div class="card cover">
+        <div class="noise"></div>
+        <div class="progress-bar"><div class="bar" style="width:10%"></div></div>
+        <div class="glow"></div>
+        <div class="cv-eyebrow">CULTURE · ESSAY</div>
+        <h2 class="cv-title">看完<br>100部<br><span class="hl">老电影</span></h2>
+        <p class="cv-sub">1970-2000。<br>胶片时代教我的事。</p>
+        <div class="cv-meta">
+          <div class="cv-meta-item"><span class="cv-meta-num">100</span><span class="cv-meta-label">部</span></div>
+          <div class="cv-meta-item"><span class="cv-meta-num">30</span><span class="cv-meta-label">年跨度</span></div>
+          <div class="cv-meta-item"><span class="cv-meta-num">5</span><span class="cv-meta-label">个体会</span></div>
+        </div>
+        <div class="brand-mark on-dark"><svg><use href="#panda"/></svg><span class="brand-text">赛博小熊猫Loki</span></div>
+      </div>
+    </div>
+    <div class="card-wrap">
+      <div class="card-label">引用插入 PULL QUOTE</div>
+      <div class="card pullquote">
+        <div class="noise"></div>
+        <div class="progress-bar"><div class="bar" style="width:40%"></div></div>
+        <div class="pq-header">
+          <div class="pq-eyebrow">FILM · 影评</div>
+          <h2 class="pq-title">老电影的<br><span class="hl">颗粒感</span></h2>
+        </div>
+        <div class="pq-body">
+          <p class="pq-para">看老电影最大的感受：画面是<span class="hl">脏的</span>。有颗粒，有划痕，有光晕。但正是这些"不完美"让它有质感。</p>
+          <div class="pq-pullquote">
+            <p class="pq-pullquote-text">"数字影像太干净了。干净到没有体温。老电影的美在于它的瑕疵。"</p>
+            <span class="pq-pullquote-cite">— LOKI'S TAKE</span>
+          </div>
+          <p class="pq-para">现在的电影太清晰了。每一帧都像广告。但你看王家卫、看侯孝贤，画面里有一种<span class="hl">呼吸感</span>。</p>
+          <p class="pq-para"><span class="mute">那种呼吸感来自胶片的不确定性。你不知道拍出来是什么样，所以每一帧都是惊喜。</span></p>
+        </div>
+        <div class="pq-footer">
+          <span class="pq-page">04 / 06</span>
+          <span class="pq-page">FILM JOURNAL</span>
+        </div>
+        <div class="brand-mark on-dark"><svg><use href="#panda"/></svg><span class="brand-text">赛博小熊猫Loki</span></div>
+      </div>
+    </div>
+    <div class="card-wrap">
+      <div class="card-label">卡片拼接 STACK</div>
+      <div class="card cardstack">
+        <div class="progress-bar"><div class="bar" style="width:60%"></div></div>
+        <div class="cs-header">
+          <div class="cs-eyebrow">5 TAKEAWAYS</div>
+          <h2 class="cs-title">老电影教我的<br><span class="hl">5件事</span></h2>
+        </div>
+        <div class="cs-block b1">
+          <div class="cs-block-header"><span class="cs-block-num">01</span><span class="cs-block-title">留白比填满有力</span></div>
+          <p class="cs-block-text">老电影经常让你"等"。等一个镜头结束，等一个眼神。<span class="hl">这种等待本身就是叙事</span>。现在的电影怕你无聊，拼命给信息。</p>
+        </div>
+        <div class="cs-block b2">
+          <div class="cs-block-header"><span class="cs-block-num">02</span><span class="cs-block-title">配角比主角精彩</span></div>
+          <p class="cs-block-text">老电影的配角有<span class="hl">自己的生活</span>。不是工具人，是有故事的人。现在的配角像NPC，只为推动剧情存在。<span class="quote">"每个人都是自己人生的主角。"</span></p>
+        </div>
+        <div class="cs-block b3">
+          <div class="cs-block-header"><span class="cs-block-num">03</span><span class="cs-block-title">不解释是最高级的信任</span></div>
+          <p class="cs-block-text">老电影不信你傻，它不解释。看不懂是你的事。这种<span class="hl">对观众的信任</span>，现在几乎没有了。</p>
+        </div>
+        <div class="brand-mark on-dark"><svg><use href="#panda"/></svg><span class="brand-text">赛博小熊猫Loki</span></div>
+      </div>
+    </div>
+    <div class="card-wrap">
+      <div class="card-label">金句 QUOTE</div>
+      <div class="card quote">
+        <div class="noise"></div>
+        <div class="progress-bar"><div class="bar" style="width:80%"></div></div>
+        <div class="qt-glow"></div>
+        <div class="qt-mark">"</div>
+        <div class="qt-text">老电影<br>的美<br>在它的<br><span class="hl">瑕疵</span></div>
+        <div class="qt-cite">
+          <div class="qt-cite-line"></div>
+          <span class="qt-cite-text">赛博小熊猫Loki · 2026</span>
+        </div>
+        <div class="brand-mark on-dark"><svg><use href="#panda"/></svg><span class="brand-text">赛博小熊猫Loki</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================
+     主题9: 极简黑白 (新)
+     ================================================================ -->
+<div class="theme-mono">
+  <div class="theme-header">
+    <span class="theme-num">09</span>
+    <span class="theme-name">极简黑白</span>
+    <span class="theme-desc">— 专业 / 知识 / 设计 / 极简主义</span>
+    <div class="theme-line"></div>
+    <div class="theme-colors">
+      <div class="color-dot" style="background:#FAFAF8"></div>
+      <div class="color-dot" style="background:#0A0A0A"></div>
+      <div class="color-dot" style="background:#FF5E1A"></div>
+    </div>
+  </div>
+  <div class="cards-grid">
+    <div class="card-wrap">
+      <div class="card-label">封面 COVER</div>
+      <div class="card cover">
+        <div class="noise"></div>
+        <div class="progress-bar"><div class="bar" style="width:10%"></div></div>
+        <div class="glow"></div>
+        <div class="cv-eyebrow">DESIGN · PRINCIPLE</div>
+        <h2 class="cv-title">好的设计<br>是<span class="hl">做减法</span></h2>
+        <p class="cv-sub">删掉一切不必要的。<br>剩下的自然有力量。</p>
+        <div class="cv-meta">
+          <div class="cv-meta-item"><span class="cv-meta-num">10</span><span class="cv-meta-label">条原则</span></div>
+          <div class="cv-meta-item"><span class="cv-meta-num">0</span><span class="cv-meta-label">多余装饰</span></div>
+          <div class="cv-meta-item"><span class="cv-meta-num">1</span><span class="cv-meta-label">个核心</span></div>
+        </div>
+        <div class="brand-mark on-light"><svg><use href="#panda"/></svg><span class="brand-text">赛博小熊猫Loki</span></div>
+      </div>
+    </div>
+    <div class="card-wrap">
+      <div class="card-label">杂志导读 MAGAZINE</div>
+      <div class="card magazine">
+        <div class="progress-bar"><div class="bar" style="width:40%"></div></div>
+        <div class="mg-header">
+          <div class="mg-eyebrow">DESIGN · 设计</div>
+          <h2 class="mg-title">为什么<br><span class="hl">极简</span>很难</h2>
+        </div>
+        <div class="mg-body">
+          <div class="mg-col">
+            <h3 class="mg-subhead">加法容易</h3>
+            <p class="mg-para">加东西不需要勇气。你觉得"少了点什么"，就加一个元素。加完发现更丑了，再加一个遮一下。</p>
+            <p class="mg-para">大多数"设计"其实是<span class="hl">遮丑</span>。</p>
+          </div>
+          <div class="mg-col">
+            <h3 class="mg-subhead">减法需要判断</h3>
+            <p class="mg-para">减东西需要你判断什么重要、什么不重要。这比加东西<span class="hl">难100倍</span>。</p>
+            <p class="mg-para"><span class="quote">"完美不是无可增加，而是无可删减。"</span></p>
+          </div>
+        </div>
+        <div class="mg-summary">
+          <div class="mg-summary-label">LOKI'S TAKE</div>
+          <p class="mg-summary-text">极简不是空，是<span class="hl">精准</span>。每一元素都不可替代。</p>
+        </div>
+        <div class="brand-mark on-light"><svg><use href="#panda"/></svg><span class="brand-text">赛博小熊猫Loki</span></div>
+      </div>
+    </div>
+    <div class="card-wrap">
+      <div class="card-label">网格选择 GRID</div>
+      <div class="card gridpick">
+        <div class="noise"></div>
+        <div class="progress-bar"><div class="bar" style="width:70%"></div></div>
+        <div class="gp-header">
+          <div class="gp-eyebrow">PICK ONE</div>
+          <h2 class="gp-title">4个<span class="hl">设计原则</span></h2>
+        </div>
+        <div class="gp-grid">
+          <div class="gp-card">
+            <span class="gp-card-num">01</span>
+            <h4 class="gp-card-title">对齐</h4>
+            <p class="gp-card-desc">每个元素都有参考线</p>
+            <span class="gp-card-tag">ALIGN</span>
+          </div>
+          <div class="gp-card featured">
+            <span class="gp-card-num">02</span>
+            <h4 class="gp-card-title">对比</h4>
+            <p class="gp-card-desc">没有对比就没有层次</p>
+            <span class="gp-card-tag">CONTRAST</span>
+          </div>
+          <div class="gp-card">
+            <span class="gp-card-num">03</span>
+            <h4 class="gp-card-title">重复</h4>
+            <p class="gp-card-desc">一致性产生信任</p>
+            <span class="gp-card-tag">REPEAT</span>
+          </div>
+          <div class="gp-card">
+            <span class="gp-card-num">04</span>
+            <h4 class="gp-card-title">亲密</h4>
+            <p class="gp-card-desc">相关的东西靠近</p>
+            <span class="gp-card-tag">PROXIMITY</span>
+          </div>
+        </div>
+        <div class="brand-mark on-light"><svg><use href="#panda"/></svg><span class="brand-text">赛博小熊猫Loki</span></div>
+      </div>
+    </div>
+    <div class="card-wrap">
+      <div class="card-label">结尾 END</div>
+      <div class="card endcard">
+        <div class="noise"></div>
+        <div class="progress-bar"><div class="bar" style="width:100%"></div></div>
+        <div class="ec-glow"></div>
+        <div class="ec-eyebrow">END · 关注引导</div>
+        <h2 class="ec-cta"><span class="hl">做减法</span><br>留下力量</h2>
+        <p class="ec-sub">一个文科生的设计笔记。<br>少即是多。</p>
+        <div class="ec-contacts">
+          <p class="ec-contact">公众号 · <span class="hl">赛博小熊猫Loki</span></p>
+          <p class="ec-contact">网站 · <span class="hl">hiloki.ai</span></p>
+        </div>
+        <div class="brand-mark on-light"><svg><use href="#panda"/></svg><span class="brand-text">赛博小熊猫Loki</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

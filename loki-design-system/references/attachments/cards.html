@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>Claude Fable 5 · Mythos 5 · 小红书图文卡片</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@100;300;400;500;700&display=swap" rel="stylesheet">
+<style>
+@import url("https://fontsapi.zeoseven.com/92/main/result.css");
+
+:root {
+  --warm-rice: #F5F0E8;
+  --oat: #EBE4D6;
+  --dark-bg: #1A1816;
+  --dark-2: #221F1C;
+  --paper: #FDFAF5;
+  --amber: #C87A45;
+  --amber-lt: #D9A87A;
+  --amber-dk: #A05E30;
+  --neon-cyan: #00D9FF;
+  --fire-org: #FF8C00;
+  --text-main: #1F1D1A;
+  --text-sub: #6B6157;
+  --text-mute: #9A9085;
+  --text-dim: #C4BBB0;
+  --text-lt: #FDFAF5;
+  --line: #EBE4D6;
+  --line-dark: #2E2A26;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: #111;
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 60px;
+  font-family: 'Noto Sans SC', sans-serif;
+}
+
+.card {
+  width: 1080px;
+  height: 1440px;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.card-label {
+  color: #555;
+  font-family: monospace;
+  font-size: 13px;
+  margin-bottom: 8px;
+  align-self: flex-start;
+}
+
+/* ── 品牌标识 ── */
+.brand {
+  position: absolute;
+  bottom: 52px;
+  right: 60px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 22px;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  z-index: 20;
+}
+.brand-lt { color: rgba(235,228,214,0.4); }
+.brand-dk { color: var(--amber); }
+
+/* ── 进度点 ── */
+.dots {
+  position: absolute;
+  top: 52px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  z-index: 20;
+}
+.dot { width: 8px; height: 8px; border-radius: 50%; }
+.dot-on { background: var(--amber); }
+.dot-off { background: rgba(155,144,133,0.4); }
+
+/* ── 通用标签 ── */
+.eyebrow {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 22px;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-mute);
+}
+.eyebrow-lt { color: rgba(235,228,214,0.3); }
+
+/* ══════════════════════════════════
+   卡片 1 · 封面（深底）
+══════════════════════════════════ */
+#c1 { background: var(--dark-bg); }
+
+#c1 .glow-top {
+  position: absolute;
+  width: 900px; height: 700px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(0,217,255,0.06) 0%, transparent 65%);
+  top: -200px; right: -200px;
+  z-index: 1;
+}
+#c1 .glow-bot {
+  position: absolute;
+  width: 700px; height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(200,122,69,0.08) 0%, transparent 65%);
+  bottom: -100px; left: -100px;
+  z-index: 1;
+}
+#c1 .grid {
+  position: absolute; inset: 0; z-index: 1;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+  background-size: 80px 80px;
+}
+#c1 .content {
+  position: absolute; inset: 0; z-index: 5;
+  padding: 0 96px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0;
+}
+#c1 .kicker {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 22px;
+  font-weight: 400;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--amber-lt);
+  margin-bottom: 48px;
+}
+#c1 .date-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(200,122,69,0.15);
+  border: 1px solid rgba(200,122,69,0.3);
+  border-radius: 4px;
+  padding: 8px 20px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 22px;
+  color: var(--amber-lt);
+  letter-spacing: 0.1em;
+  margin-bottom: 40px;
+  align-self: flex-start;
+}
+#c1 h1 {
+  font-family: '得意黑', 'Noto Sans SC', sans-serif;
+  font-size: 96px;
+  font-weight: 900;
+  line-height: 1.1;
+  color: var(--text-lt);
+  letter-spacing: -0.02em;
+  margin-bottom: 40px;
+}
+#c1 h1 .hi {
+  color: var(--amber);
+}
+#c1 h1 .cy {
+  color: var(--neon-cyan);
+}
+#c1 .sub {
+  font-size: 34px;
+  font-weight: 300;
+  color: rgba(235,228,214,0.5);
+  line-height: 1.65;
+  max-width: 760px;
+  letter-spacing: 0.01em;
+}
+#c1 .bottom-bar {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--neon-cyan), var(--amber), transparent);
+  z-index: 6;
+}
+
+/* ══════════════════════════════════
+   卡片 2 · Fable 5 是什么（浅底）
+══════════════════════════════════ */
+#c2 { background: var(--warm-rice); }
+#c2 .content {
+  position: absolute; inset: 0;
+  padding: 100px 88px;
+  display: flex;
+  flex-direction: column;
+  gap: 44px;
+}
+#c2 .title-block { display: flex; flex-direction: column; gap: 18px; }
+#c2 h2 {
+  font-family: '得意黑', 'Noto Sans SC', sans-serif;
+  font-size: 66px;
+  font-weight: 900;
+  line-height: 1.15;
+  color: var(--text-main);
+  letter-spacing: -0.01em;
+}
+#c2 h2 em { color: var(--amber); font-style: normal; }
+#c2 .desc {
+  font-size: 32px;
+  font-weight: 300;
+  color: var(--text-sub);
+  line-height: 1.65;
+  letter-spacing: 0.01em;
+}
+#c2 .divider { width: 100%; height: 1px; background: var(--oat); }
+#c2 .points { display: flex; flex-direction: column; gap: 28px; }
+#c2 .point {
+  display: flex; gap: 24px; align-items: flex-start;
+}
+#c2 .point-icon {
+  width: 48px; height: 48px;
+  border-radius: 8px;
+  background: rgba(200,122,69,0.12);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+#c2 .point-body { display: flex; flex-direction: column; gap: 6px; }
+#c2 .point-title {
+  font-size: 30px;
+  font-weight: 600;
+  color: var(--text-main);
+  letter-spacing: 0.01em;
+}
+#c2 .point-desc {
+  font-size: 27px;
+  font-weight: 300;
+  color: var(--text-sub);
+  line-height: 1.5;
+}
+
+/* ══════════════════════════════════
+   卡片 3 · 三大核心能力（深底）
+══════════════════════════════════ */
+#c3 { background: var(--dark-bg); }
+#c3 .stripe {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--amber) 0%, transparent 60%);
+  z-index: 2;
+}
+#c3 .content {
+  position: absolute; inset: 0; z-index: 5;
+  padding: 100px 88px;
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+#c3 .top { display: flex; flex-direction: column; gap: 18px; }
+#c3 h2 {
+  font-family: '得意黑', 'Noto Sans SC', sans-serif;
+  font-size: 64px;
+  font-weight: 900;
+  line-height: 1.2;
+  color: var(--text-lt);
+  letter-spacing: -0.01em;
+}
+#c3 h2 em { color: var(--amber); font-style: normal; }
+#c3 .abilities { display: flex; flex-direction: column; gap: 24px; flex: 1; }
+#c3 .ability {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 12px;
+  padding: 36px 40px;
+  display: flex; flex-direction: column; gap: 12px;
+  flex: 1;
+}
+#c3 .ability-head {
+  display: flex; align-items: center; gap: 16px;
+}
+#c3 .ability-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--amber);
+  flex-shrink: 0;
+}
+#c3 .ability-name {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--amber-lt);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+#c3 .ability-desc {
+  font-size: 29px;
+  font-weight: 300;
+  color: rgba(235,228,214,0.65);
+  line-height: 1.55;
+}
+#c3 .ability-desc strong { color: var(--text-lt); font-weight: 500; }
+
+/* ══════════════════════════════════
+   卡片 4 · 价格 & 获取（浅底）
+══════════════════════════════════ */
+#c4 { background: var(--warm-rice); }
+#c4 .content {
+  position: absolute; inset: 0;
+  padding: 100px 88px;
+  display: flex; flex-direction: column; gap: 48px;
+}
+#c4 h2 {
+  font-family: '得意黑', 'Noto Sans SC', sans-serif;
+  font-size: 64px;
+  font-weight: 900;
+  color: var(--text-main);
+  line-height: 1.15;
+}
+#c4 h2 em { color: var(--amber); font-style: normal; }
+#c4 .price-card {
+  background: white;
+  border-radius: 12px;
+  border: 1px solid var(--oat);
+  padding: 48px 52px;
+  display: flex; flex-direction: column; gap: 24px;
+}
+#c4 .price-row {
+  display: flex; justify-content: space-between; align-items: center;
+}
+#c4 .price-label {
+  font-size: 28px;
+  font-weight: 400;
+  color: var(--text-sub);
+}
+#c4 .price-val {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 36px;
+  font-weight: 600;
+  color: var(--text-main);
+}
+#c4 .price-val em {
+  color: var(--amber);
+  font-style: normal;
+}
+#c4 .price-divider { height: 1px; background: var(--oat); }
+#c4 .price-note {
+  font-size: 25px;
+  font-weight: 300;
+  color: var(--text-mute);
+  line-height: 1.5;
+}
+#c4 .access-list { display: flex; flex-direction: column; gap: 20px; }
+#c4 .access-item {
+  display: flex; gap: 18px; align-items: flex-start;
+}
+#c4 .access-num {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 26px;
+  font-weight: 600;
+  color: var(--amber);
+  flex-shrink: 0;
+  width: 28px;
+  margin-top: 4px;
+}
+#c4 .access-text {
+  font-size: 28px;
+  font-weight: 300;
+  color: var(--text-sub);
+  line-height: 1.5;
+}
+#c4 .access-text strong { font-weight: 600; color: var(--text-main); }
+#c4 .api-badge {
+  display: inline-block;
+  background: rgba(200,122,69,0.1);
+  border: 1px solid rgba(200,122,69,0.25);
+  border-radius: 4px;
+  padding: 2px 12px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 22px;
+  color: var(--amber-dk);
+  letter-spacing: 0.05em;
+}
+
+/* ══════════════════════════════════
+   卡片 5 · Fable vs Mythos（深底）
+══════════════════════════════════ */
+#c5 { background: var(--dark-2); }
+#c5 .content {
+  position: absolute; inset: 0; z-index: 5;
+  padding: 100px 88px;
+  display: flex; flex-direction: column; gap: 44px;
+}
+#c5 .top { display: flex; flex-direction: column; gap: 18px; }
+#c5 h2 {
+  font-family: '得意黑', 'Noto Sans SC', sans-serif;
+  font-size: 60px;
+  font-weight: 900;
+  line-height: 1.2;
+  color: var(--text-lt);
+}
+#c5 h2 em { color: var(--neon-cyan); font-style: normal; }
+#c5 .compare { display: flex; flex-direction: column; gap: 20px; flex: 1; }
+#c5 .compare-card {
+  border-radius: 12px;
+  padding: 40px 44px;
+  display: flex; flex-direction: column; gap: 16px;
+  flex: 1;
+}
+#c5 .compare-card.fable {
+  background: rgba(200,122,69,0.08);
+  border: 1px solid rgba(200,122,69,0.2);
+}
+#c5 .compare-card.mythos {
+  background: rgba(0,217,255,0.05);
+  border: 1px solid rgba(0,217,255,0.15);
+}
+#c5 .compare-name {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+#c5 .compare-name.fable-color { color: var(--amber-lt); }
+#c5 .compare-name.mythos-color { color: var(--neon-cyan); }
+#c5 .compare-title {
+  font-family: '得意黑', 'Noto Sans SC', sans-serif;
+  font-size: 42px;
+  font-weight: 900;
+  color: var(--text-lt);
+  line-height: 1.2;
+}
+#c5 .compare-desc {
+  font-size: 27px;
+  font-weight: 300;
+  color: rgba(235,228,214,0.6);
+  line-height: 1.55;
+}
+#c5 .compare-desc strong { color: var(--text-lt); font-weight: 400; }
+#c5 .equal-line {
+  display: flex; align-items: center; gap: 20px;
+  padding: 0 12px;
+}
+#c5 .equal-dash { flex: 1; height: 1px; background: rgba(235,228,214,0.1); }
+#c5 .equal-text {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 22px;
+  color: rgba(235,228,214,0.25);
+  letter-spacing: 0.12em;
+  white-space: nowrap;
+}
+
+/* ══════════════════════════════════
+   卡片 6 · 安全护栏机制（浅底）
+══════════════════════════════════ */
+#c6 { background: var(--warm-rice); }
+#c6 .content {
+  position: absolute; inset: 0;
+  padding: 100px 88px;
+  display: flex; flex-direction: column; gap: 44px;
+}
+#c6 h2 {
+  font-family: '得意黑', 'Noto Sans SC', sans-serif;
+  font-size: 60px;
+  font-weight: 900;
+  line-height: 1.2;
+  color: var(--text-main);
+}
+#c6 h2 em { color: var(--amber); font-style: normal; }
+#c6 .flow { display: flex; flex-direction: column; gap: 16px; }
+#c6 .flow-item {
+  display: flex; gap: 20px; align-items: flex-start;
+}
+#c6 .flow-step {
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 24px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+#c6 .flow-step.active {
+  background: var(--amber);
+  color: white;
+}
+#c6 .flow-step.route {
+  background: rgba(200,122,69,0.12);
+  color: var(--amber);
+  border: 2px solid rgba(200,122,69,0.3);
+}
+#c6 .flow-arrow {
+  margin-left: 14px;
+  font-size: 28px;
+  color: var(--text-dim);
+  line-height: 1.8;
+}
+#c6 .flow-body {
+  display: flex; flex-direction: column; gap: 6px;
+  padding-top: 10px;
+}
+#c6 .flow-title {
+  font-size: 30px;
+  font-weight: 600;
+  color: var(--text-main);
+}
+#c6 .flow-desc {
+  font-size: 26px;
+  font-weight: 300;
+  color: var(--text-sub);
+  line-height: 1.5;
+}
+#c6 .note-box {
+  background: rgba(200,122,69,0.08);
+  border-left: 3px solid var(--amber);
+  border-radius: 0 8px 8px 0;
+  padding: 28px 32px;
+}
+#c6 .note-text {
+  font-size: 27px;
+  font-weight: 400;
+  color: var(--text-sub);
+  line-height: 1.55;
+}
+#c6 .note-text strong { color: var(--text-main); font-weight: 600; }
+
+/* ══════════════════════════════════
+   卡片 7 · 尾卡（深底）
+══════════════════════════════════ */
+#c7 { background: var(--dark-bg); }
+#c7 .bg-num {
+  position: absolute;
+  font-family: '得意黑', sans-serif;
+  font-size: 400px;
+  font-weight: 900;
+  color: rgba(200,122,69,0.04);
+  bottom: -60px; right: -40px;
+  z-index: 1;
+  letter-spacing: -0.05em;
+  line-height: 1;
+}
+#c7 .content {
+  position: absolute; inset: 0; z-index: 5;
+  padding: 100px 88px;
+  display: flex; flex-direction: column;
+  justify-content: center;
+  gap: 52px;
+}
+#c7 .label {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 22px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(235,228,214,0.25);
+}
+#c7 .summary {
+  font-family: '得意黑', 'Noto Sans SC', sans-serif;
+  font-size: 60px;
+  font-weight: 900;
+  line-height: 1.3;
+  color: var(--text-lt);
+}
+#c7 .summary em { color: var(--amber); font-style: normal; }
+#c7 .divider { width: 64px; height: 2px; background: var(--amber); }
+#c7 .opinion {
+  font-size: 32px;
+  font-weight: 300;
+  color: rgba(235,228,214,0.6);
+  line-height: 1.7;
+  letter-spacing: 0.01em;
+}
+#c7 .opinion strong { color: var(--text-lt); font-weight: 400; }
+#c7 .cta {
+  font-size: 28px;
+  font-weight: 300;
+  color: rgba(235,228,214,0.35);
+  letter-spacing: 0.02em;
+}
+#c7 .bottom-bar {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--amber) 0%, var(--neon-cyan) 50%, transparent 100%);
+  z-index: 6;
+}
+</style>
+</head>
+<body>
+
+<!-- 卡片 1 · 封面 -->
+<div class="card-label">卡片 1 / 7 · 封面</div>
+<div class="card" id="c1">
+  <div class="glow-top"></div>
+  <div class="glow-bot"></div>
+  <div class="grid"></div>
+  <div class="content">
+    <div class="kicker">ANTHROPIC · JUN 9, 2026</div>
+    <div class="date-tag">🔥 新发布</div>
+    <h1>Claude<br><span class="hi">Fable 5</span><br>&amp; <span class="cy">Mythos 5</span></h1>
+    <p class="sub">第五代模型来了，可以跑好几天的长任务，代码、知识工作和安全研究，各有侧重。</p>
+  </div>
+  <div class="bottom-bar"></div>
+  <div class="dots">
+    <div class="dot dot-on"></div><div class="dot dot-off"></div><div class="dot dot-off"></div>
+    <div class="dot dot-off"></div><div class="dot dot-off"></div><div class="dot dot-off"></div><div class="dot dot-off"></div>
+  </div>
+  <div class="brand brand-lt">赛博小熊猫Loki</div>
+</div>
+
+<!-- 卡片 2 · Fable 5 是什么 -->
+<div class="card-label">卡片 2 / 7 · Fable 5 是什么</div>
+<div class="card" id="c2">
+  <div class="content">
+    <div class="title-block">
+      <span class="eyebrow">CLAUDE FABLE 5</span>
+      <h2>面向<em>最难的</em>知识工作<br>和代码任务</h2>
+      <p class="desc">Anthropic 官网的定位是：可以处理「好几天」时长的复杂异步任务——以前的模型坚持不住的那种。</p>
+    </div>
+    <div class="divider"></div>
+    <div class="points">
+      <div class="point">
+        <div class="point-icon">🧠</div>
+        <div class="point-body">
+          <span class="point-title">会自己检查自己的工作</span>
+          <span class="point-desc">不只是输出，会写测试、对照目标验证结果</span>
+        </div>
+      </div>
+      <div class="point">
+        <div class="point-icon">🤖</div>
+        <div class="point-body">
+          <span class="point-title">Agent 模式下可以跑好几天</span>
+          <span class="point-desc">在 Claude Code 或 Managed Agents 里，规划阶段、调度子 agent、自我核查</span>
+        </div>
+      </div>
+      <div class="point">
+        <div class="point-icon">👁</div>
+        <div class="point-body">
+          <span class="point-title">视觉能力有提升</span>
+          <span class="point-desc">理解 PDF 里嵌套的图表、能用 vision 对照设计稿检查代码输出</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="dots">
+    <div class="dot dot-off"></div><div class="dot dot-on"></div><div class="dot dot-off"></div>
+    <div class="dot dot-off"></div><div class="dot dot-off"></div><div class="dot dot-off"></div><div class="dot dot-off"></div>
+  </div>
+  <div class="brand brand-dk">赛博小熊猫Loki</div>
+</div>
+
+<!-- 卡片 3 · 三大核心能力 -->
+<div class="card-label">卡片 3 / 7 · 三大核心能力</div>
+<div class="card" id="c3">
+  <div class="stripe"></div>
+  <div class="content">
+    <div class="top">
+      <span class="eyebrow eyebrow-lt">CORE CAPABILITIES</span>
+      <h2>三个<em>最强</em>的地方</h2>
+    </div>
+    <div class="abilities">
+      <div class="ability">
+        <div class="ability-head">
+          <div class="ability-dot"></div>
+          <span class="ability-name">长任务 · Agents</span>
+        </div>
+        <p class="ability-desc">在 agent 框架里可以<strong>持续工作好几天</strong>，自动分阶段规划，调度子 agent，出错会自己修。</p>
+      </div>
+      <div class="ability">
+        <div class="ability-head">
+          <div class="ability-dot"></div>
+          <span class="ability-name">代码 · Coding</span>
+        </div>
+        <p class="ability-desc">大迁移、复杂实现、多天自主 session——目前<strong>最强的代码模型</strong>，能自己写测试验证。</p>
+      </div>
+      <div class="ability">
+        <div class="ability-head">
+          <div class="ability-dot"></div>
+          <span class="ability-name">企业工作流</span>
+        </div>
+        <p class="ability-desc">从深度研究、分析到可交付成果，<strong>全程基本不需要盯</strong>，团队只需要 review 结果。</p>
+      </div>
+    </div>
+  </div>
+  <div class="dots">
+    <div class="dot dot-off"></div><div class="dot dot-off"></div><div class="dot dot-on"></div>
+    <div class="dot dot-off"></div><div class="dot dot-off"></div><div class="dot dot-off"></div><div class="dot dot-off"></div>
+  </div>
+  <div class="brand brand-lt">赛博小熊猫Loki</div>
+</div>
+
+<!-- 卡片 4 · 价格 & 获取 -->
+<div class="card-label">卡片 4 / 7 · 价格 & 获取方式</div>
+<div class="card" id="c4">
+  <div class="content">
+    <div style="display:flex;flex-direction:column;gap:18px;">
+      <span class="eyebrow">PRICING & ACCESS</span>
+      <h2>多少钱？<br>怎么<em>用</em>？</h2>
+    </div>
+    <div class="price-card">
+      <div class="price-row">
+        <span class="price-label">输入 token</span>
+        <span class="price-val"><em>$10</em> / M tokens</span>
+      </div>
+      <div class="price-divider"></div>
+      <div class="price-row">
+        <span class="price-label">输出 token</span>
+        <span class="price-val"><em>$50</em> / M tokens</span>
+      </div>
+      <div class="price-divider"></div>
+      <p class="price-note">Prompt caching 打折 90%（输入）<br>美国专属推理 1.1x 倍价格</p>
+    </div>
+    <div class="access-list">
+      <div class="access-item">
+        <span class="access-num">01</span>
+        <span class="access-text">API 调用：<strong>claude-fable-5</strong></span>
+      </div>
+      <div class="access-item">
+        <span class="access-num">02</span>
+        <span class="access-text">支持 <strong>AWS / Google Cloud / Microsoft Foundry</strong></span>
+      </div>
+      <div class="access-item">
+        <span class="access-num">03</span>
+        <span class="access-text">企业计划：consumption-based，适合<strong>大规模知识工作和代码项目</strong></span>
+      </div>
+    </div>
+  </div>
+  <div class="dots">
+    <div class="dot dot-off"></div><div class="dot dot-off"></div><div class="dot dot-off"></div>
+    <div class="dot dot-on"></div><div class="dot dot-off"></div><div class="dot dot-off"></div><div class="dot dot-off"></div>
+  </div>
+  <div class="brand brand-dk">赛博小熊猫Loki</div>
+</div>
+
+<!-- 卡片 5 · Fable vs Mythos -->
+<div class="card-label">卡片 5 / 7 · Fable 5 vs Mythos 5</div>
+<div class="card" id="c5">
+  <div class="content">
+    <div class="top">
+      <span class="eyebrow eyebrow-lt">TWO MODELS, ONE FOUNDATION</span>
+      <h2>Fable 和 Mythos<br>是<em>同一个</em>底层模型</h2>
+    </div>
+    <div class="compare">
+      <div class="compare-card fable">
+        <span class="compare-name fable-color">Claude Fable 5</span>
+        <div class="compare-title">面向大众 · 公开可用</div>
+        <p class="compare-desc">所有人都能用，但加了安全护栏——<strong>网络安全和生物相关的问题会自动降级到 Opus 4.8</strong> 处理，不会照原样回答。</p>
+      </div>
+      <div class="equal-line">
+        <div class="equal-dash"></div>
+        <span class="equal-text">同底层 · 不同护栏</span>
+        <div class="equal-dash"></div>
+      </div>
+      <div class="compare-card mythos">
+        <span class="compare-name mythos-color">Claude Mythos 5</span>
+        <div class="compare-title">受限开放 · 仅合作伙伴</div>
+        <p class="compare-desc">目前只对<strong>少数经过审核的合作机构</strong>开放，专门用于网络安全漏洞研究和生物研究。</p>
+      </div>
+    </div>
+  </div>
+  <div class="dots">
+    <div class="dot dot-off"></div><div class="dot dot-off"></div><div class="dot dot-off"></div>
+    <div class="dot dot-off"></div><div class="dot dot-on"></div><div class="dot dot-off"></div><div class="dot dot-off"></div>
+  </div>
+  <div class="brand brand-lt">赛博小熊猫Loki</div>
+</div>
+
+<!-- 卡片 6 · 安全护栏机制 -->
+<div class="card-label">卡片 6 / 7 · 为什么要加护栏</div>
+<div class="card" id="c6">
+  <div class="content">
+    <div style="display:flex;flex-direction:column;gap:18px;">
+      <span class="eyebrow">SAFETY BY DESIGN</span>
+      <h2>能力太强了，<br>所以要加<em>护栏</em></h2>
+    </div>
+    <div class="flow">
+      <div class="flow-item">
+        <div class="flow-step active">①</div>
+        <div class="flow-body">
+          <span class="flow-title">你发出一个问题</span>
+          <span class="flow-desc">Fable 5 先判断这个问题是否涉及网络安全或生物研究</span>
+        </div>
+      </div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-item">
+        <div class="flow-step route">②</div>
+        <div class="flow-body">
+          <span class="flow-title">触发护栏 → 自动降级</span>
+          <span class="flow-desc">高风险问题自动路由到 Opus 4.8 处理，不按 Fable 价格收费</span>
+        </div>
+      </div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-item">
+        <div class="flow-step active">③</div>
+        <div class="flow-body">
+          <span class="flow-title">正常问题 → Fable 5 全力回答</span>
+          <span class="flow-desc">其他领域不受限制，发挥完整的第五代能力</span>
+        </div>
+      </div>
+    </div>
+    <div class="note-box">
+      <p class="note-text">Anthropic 的逻辑是：<strong>Fable 5 在网安和生物方向的能力强到可能被用来制造攻击或武器</strong>，所以公开版主动限制了这部分。真正需要这些能力的研究机构，通过 Mythos 5 的授权渠道申请。</p>
+    </div>
+  </div>
+  <div class="dots">
+    <div class="dot dot-off"></div><div class="dot dot-off"></div><div class="dot dot-off"></div>
+    <div class="dot dot-off"></div><div class="dot dot-off"></div><div class="dot dot-on"></div><div class="dot dot-off"></div>
+  </div>
+  <div class="brand brand-dk">赛博小熊猫Loki</div>
+</div>
+
+<!-- 卡片 7 · 尾卡 -->
+<div class="card-label">卡片 7 / 7 · 总结尾卡</div>
+<div class="card" id="c7">
+  <div class="bg-num">5</div>
+  <div class="content">
+    <span class="label">MY TAKE · 赛博小熊猫Loki</span>
+    <div class="summary">从「对话」<br>到「跑<em>项目</em>」</div>
+    <div class="divider"></div>
+    <p class="opinion">Fable 5 最有意思的不是跑分提了多少，是<strong>「跑好几天」这件事本身</strong>。<br><br>以前 Claude 是个聊天助手，你问它答。现在它可以接一个项目，自己规划、自己干、干完给你看结果。<br><br>这个方向变了，其他都是细节。</p>
+    <p class="cta">你最想拿 Fable 5 跑什么项目？评论区告诉我 👀</p>
+  </div>
+  <div class="bottom-bar"></div>
+  <div class="dots">
+    <div class="dot dot-off"></div><div class="dot dot-off"></div><div class="dot dot-off"></div>
+    <div class="dot dot-off"></div><div class="dot dot-off"></div><div class="dot dot-off"></div><div class="dot dot-on"></div>
+  </div>
+  <div class="brand brand-lt">赛博小熊猫Loki</div>
+</div>
+
+</body>
+</html>

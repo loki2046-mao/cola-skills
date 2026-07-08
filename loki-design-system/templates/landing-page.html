@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<!-- 
+  LOKI DESIGN SYSTEM · Landing Page 模板
+  使用方法：
+  1. 搜索所有 [REPLACE:xxx] 替换为实际内容
+  2. 不要改 CSS 变量和字体加载
+  3. 完成后运行 SKILL.md Step 3 的检查命令
+-->
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Loki · 赛博小熊猫</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@200;300;400;500;600&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+@import url("https://fontsapi.zeoseven.com/92/main/result.css");
+
+/* ── Reset ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Noto Sans SC', 'PingFang SC', sans-serif;
+  background: #1A1816;
+  color: #FDFAF5;
+  overflow-x: hidden;
+}
+
+/* ── Design tokens ── */
+:root {
+  --amber: #C87A45;
+  --amber-light: #D9A87A;
+  --amber-deep: #A05E30;
+  --smoke: #6B8590;
+  --smoke-light: #A6B8BE;
+  --dark: #1A1816;
+  --dark-panel: #252220;
+  --dark-card: #2E2A26;
+  --dark-border: #332F2B;
+  --paper: #FDFAF5;
+  --oat: #EBE4D6;
+  --khaki: #DDD2BD;
+  --text-muted: #9A9085;
+  --text-sub: #6B6157;
+}
+
+/* ── Typography ── */
+.font-display { font-family: 'Smiley Sans Oblique', 'PingFang SC', sans-serif; }
+.font-mono { font-family: 'Space Grotesk', monospace; }
+
+/* ── Nav ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  padding: 18px 48px;
+  display: flex; align-items: center; justify-content: space-between;
+  background: rgba(26,24,22,0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--dark-border);
+}
+.nav-brand {
+  display: flex; align-items: center; gap: 10px;
+  font-family: 'Smiley Sans Oblique', sans-serif;
+  font-size: 18px;
+  color: var(--paper);
+  text-decoration: none;
+}
+.nav-brand svg { width: 28px; height: 28px; }
+.nav-links {
+  display: flex; gap: 36px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 13px;
+  font-weight: 300;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.nav-links a {
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--amber); }
+
+/* ── Hero ── */
+#hero {
+  min-height: 100vh;
+  background: var(--dark);
+  display: flex; align-items: center;
+  padding: 120px 48px 80px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* 背景噪点纹理 */
+#hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image:
+    radial-gradient(ellipse 60% 50% at 70% 40%, rgba(200,122,69,0.06) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 60% at 20% 70%, rgba(107,133,144,0.04) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+/* 右侧大号装饰字 */
+#hero::after {
+  content: 'LOKI';
+  position: absolute; right: -40px; top: 50%;
+  transform: translateY(-50%);
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 200;
+  font-size: clamp(180px, 20vw, 280px);
+  color: rgba(253,250,245,0.03);
+  letter-spacing: -0.04em;
+  pointer-events: none;
+  line-height: 1;
+}
+
+.hero-inner {
+  position: relative; z-index: 1;
+  max-width: 1200px; width: 100%;
+}
+
+.hero-eyebrow {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 13px;
+  font-weight: 300;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--smoke-light);
+  margin-bottom: 28px;
+  opacity: 0;
+  transform: translateY(12px);
+  animation: fadeUp 0.6s ease forwards 0.1s;
+}
+
+.hero-title {
+  font-family: 'Smiley Sans Oblique', 'PingFang SC', sans-serif;
+  font-size: clamp(56px, 8vw, 120px);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--paper);
+  margin-bottom: 32px;
+  opacity: 0;
+  transform: translateY(16px);
+  animation: fadeUp 0.7s ease forwards 0.3s;
+}
+
+.hero-title .accent { color: var(--amber); }
+.hero-title .line2 { display: block; }
+
+.hero-sub {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 17px;
+  font-weight: 300;
+  color: var(--text-muted);
+  line-height: 1.8;
+  max-width: 480px;
+  margin-bottom: 48px;
+  opacity: 0;
+  transform: translateY(12px);
+  animation: fadeUp 0.6s ease forwards 0.55s;
+}
+
+.hero-cta {
+  display: flex; gap: 16px; flex-wrap: wrap;
+  opacity: 0;
+  transform: translateY(12px);
+  animation: fadeUp 0.6s ease forwards 0.75s;
+}
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--amber);
+  color: var(--dark);
+  padding: 14px 28px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  border: none; cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+}
+.btn-primary:hover { background: var(--amber-light); transform: translateY(-1px); }
+.btn-ghost {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: transparent;
+  color: var(--paper);
+  padding: 14px 28px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 14px;
+  font-weight: 300;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  border: 1px solid var(--dark-border);
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+}
+.btn-ghost:hover { border-color: var(--smoke); color: var(--smoke-light); }
+
+/* ── Stats 数据大字报 ── */
+#stats {
+  background: var(--paper);
+  color: var(--dark);
+  padding: 100px 48px;
+}
+.stats-inner {
+  max-width: 1200px; margin: 0 auto;
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  border-top: 1px solid var(--khaki);
+}
+.stat-item {
+  padding: 48px 40px 48px 0;
+  border-right: 1px solid var(--khaki);
+}
+.stat-item:last-child { border-right: none; padding-left: 40px; }
+.stat-item:first-child { padding-left: 0; }
+
+.stat-number {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(64px, 7vw, 100px);
+  font-weight: 200;
+  letter-spacing: -0.04em;
+  color: var(--dark);
+  line-height: 1;
+  margin-bottom: 12px;
+}
+.stat-number .unit {
+  font-size: 0.4em;
+  font-weight: 300;
+  color: var(--amber);
+  letter-spacing: 0;
+}
+.stat-label {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-sub);
+  margin-bottom: 8px;
+}
+.stat-desc {
+  font-size: 13px;
+  color: var(--text-sub);
+  line-height: 1.6;
+}
+
+/* ── Works 作品区 ── */
+#works {
+  background: var(--dark);
+  padding: 100px 48px;
+}
+.section-header {
+  max-width: 1200px; margin: 0 auto 56px;
+  display: flex; align-items: baseline; gap: 20px;
+}
+.section-kicker {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--smoke);
+}
+.section-title {
+  font-family: 'Smiley Sans Oblique', sans-serif;
+  font-size: clamp(28px, 3.5vw, 48px);
+  font-weight: 400;
+  color: var(--paper);
+  letter-spacing: -0.02em;
+}
+
+.works-grid {
+  max-width: 1200px; margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: auto auto;
+  gap: 2px;
+}
+
+/* 大卡 — 左上 2×2 */
+.work-card-large {
+  grid-column: span 5;
+  grid-row: span 2;
+  background: var(--dark-panel);
+  padding: 40px 36px;
+  border: 1px solid var(--dark-border);
+  display: flex; flex-direction: column;
+  min-height: 360px;
+  transition: border-color 0.2s;
+  text-decoration: none; color: inherit;
+}
+.work-card-large:hover { border-color: var(--amber); }
+
+.work-card {
+  grid-column: span 4;
+  background: var(--dark-panel);
+  padding: 32px 28px;
+  border: 1px solid var(--dark-border);
+  display: flex; flex-direction: column;
+  min-height: 172px;
+  transition: border-color 0.2s;
+  text-decoration: none; color: inherit;
+}
+.work-card:hover { border-color: var(--smoke); }
+
+/* 第3行小卡（跨3列） */
+.work-card-sm {
+  grid-column: span 3;
+  background: var(--dark-card);
+  padding: 28px 24px;
+  border: 1px solid var(--dark-border);
+  display: flex; flex-direction: column;
+  min-height: 140px;
+  transition: border-color 0.2s;
+  text-decoration: none; color: inherit;
+}
+.work-card-sm:hover { border-color: var(--smoke); }
+
+.work-tag {
+  display: inline-block;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 3px 9px;
+  border: 1px solid var(--smoke);
+  color: var(--smoke-light);
+  margin-bottom: 20px;
+  width: fit-content;
+}
+.work-tag.amber { border-color: var(--amber); color: var(--amber); }
+
+.work-num {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 11px;
+  font-weight: 300;
+  color: var(--dark-border);
+  letter-spacing: 0.1em;
+  margin-bottom: 12px;
+}
+
+.work-title {
+  font-family: 'Smiley Sans Oblique', sans-serif;
+  font-size: clamp(18px, 2.2vw, 26px);
+  color: var(--paper);
+  line-height: 1.2;
+  margin-bottom: 12px;
+  flex: 1;
+}
+.work-card-large .work-title { font-size: clamp(22px, 2.8vw, 36px); }
+
+.work-desc {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin-bottom: 24px;
+}
+
+.work-link {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  color: var(--text-sub);
+  text-transform: uppercase;
+  margin-top: auto;
+}
+
+/* ── About ── */
+#about {
+  background: var(--paper);
+  color: var(--dark);
+  padding: 100px 48px;
+}
+.about-inner {
+  max-width: 1200px; margin: 0 auto;
+  display: grid; grid-template-columns: 1fr 1.4fr;
+  gap: 80px; align-items: start;
+}
+.about-left { padding-top: 8px; }
+.about-vitals {
+  display: flex; flex-direction: column; gap: 0;
+  border-left: 2px solid var(--amber);
+  padding-left: 24px;
+}
+.vital-item {
+  padding: 16px 0;
+  border-bottom: 1px solid var(--oat);
+}
+.vital-item:last-child { border-bottom: none; }
+.vital-key {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-sub);
+  margin-bottom: 6px;
+}
+.vital-val {
+  font-family: 'Smiley Sans Oblique', sans-serif;
+  font-size: 22px;
+  color: var(--dark);
+  letter-spacing: -0.01em;
+}
+
+.about-right .section-kicker { margin-bottom: 20px; display: block; }
+.about-title {
+  font-family: 'Smiley Sans Oblique', sans-serif;
+  font-size: clamp(28px, 3.2vw, 44px);
+  line-height: 1.15;
+  color: var(--dark);
+  letter-spacing: -0.02em;
+  margin-bottom: 28px;
+}
+.about-title .hl { color: var(--amber); }
+.about-body {
+  font-size: 15px;
+  line-height: 1.9;
+  color: var(--text-sub);
+  max-width: 520px;
+}
+.about-body p + p { margin-top: 16px; }
+
+/* ── Footer ── */
+footer {
+  background: var(--dark);
+  border-top: 1px solid var(--dark-border);
+  padding: 40px 48px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.footer-brand {
+  font-family: 'Smiley Sans Oblique', sans-serif;
+  font-size: 16px;
+  color: var(--paper);
+}
+.footer-links {
+  display: flex; gap: 28px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 12px;
+  font-weight: 300;
+  letter-spacing: 0.08em;
+}
+.footer-links a {
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.footer-links a:hover { color: var(--amber); }
+.footer-copy {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 11px;
+  font-weight: 300;
+  color: var(--dark-border);
+  letter-spacing: 0.06em;
+}
+
+/* ── Animations ── */
+@keyframes fadeUp {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* scroll-driven fade-in */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  nav { padding: 16px 24px; }
+  #hero, #stats, #works, #about { padding-left: 24px; padding-right: 24px; }
+  .stats-inner { grid-template-columns: 1fr; }
+  .stat-item { border-right: none; border-bottom: 1px solid var(--khaki); padding: 32px 0; }
+  .stat-item:last-child { border-bottom: none; }
+  .about-inner { grid-template-columns: 1fr; gap: 48px; }
+  .works-grid { grid-template-columns: 1fr 1fr; }
+  .work-card-large { grid-column: span 2; grid-row: span 1; }
+  .work-card { grid-column: span 1; }
+  .work-card-sm { grid-column: span 1; }
+  footer { flex-direction: column; gap: 20px; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav>
+  <a href="#" class="nav-brand">
+    <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="14" cy="14" r="12" fill="#C87A45" opacity="0.15"/>
+      <circle cx="14" cy="14" r="8" fill="#C87A45" opacity="0.3"/>
+      <circle cx="10" cy="12" r="2" fill="#C87A45"/>
+      <circle cx="18" cy="12" r="2" fill="#C87A45"/>
+      <path d="M10 17 Q14 20 18 17" stroke="#C87A45" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <ellipse cx="6" cy="9" rx="3" ry="4" fill="#C87A45" opacity="0.5" transform="rotate(-15 6 9)"/>
+      <ellipse cx="22" cy="9" rx="3" ry="4" fill="#C87A45" opacity="0.5" transform="rotate(15 22 9)"/>
+    </svg>
+    赛博小熊猫 Loki
+  </a>
+  <div class="nav-links">
+    <a href="#works">Works</a>
+    <a href="#about">About</a>
+    <a href="https://hiloki.ai" target="_blank">Blog</a>
+    <a href="https://github.com/loki2046-mao" target="_blank">GitHub</a>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section id="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Cyber Panda · AI Creator · Beijing · 2026</div>
+    <h1 class="hero-title font-display">
+      用 AI 做<span class="accent">真正</span>
+      <span class="line2">有用的事</span>
+    </h1>
+    <p class="hero-sub">
+      不追热点，只测有用的。公众号「赛博小熊猫Loki」，写 AI 工具评测、工作流教学、Skill 开源。5000+ 读者，每篇都是亲手跑过的。
+    </p>
+    <div class="hero-cta">
+      <a href="https://hiloki.ai" class="btn-primary">看看我做了什么</a>
+      <a href="https://github.com/loki2046-mao" class="btn-ghost" target="_blank">GitHub 开源</a>
+    </div>
+  </div>
+</section>
+
+<!-- Stats -->
+<section id="stats">
+  <div class="stats-inner">
+    <div class="stat-item reveal">
+      <div class="stat-label">公众号读者</div>
+      <div class="stat-number font-mono">5000<span class="unit">+</span></div>
+      <div class="stat-desc">「赛博小熊猫Loki」<br>每篇亲测，不水</div>
+    </div>
+    <div class="stat-item reveal" style="transition-delay:0.12s">
+      <div class="stat-label">开源 Skill</div>
+      <div class="stat-number font-mono">10<span class="unit">+</span></div>
+      <div class="stat-desc">Cola · Claude · 可复用<br>自用后再开源</div>
+    </div>
+    <div class="stat-item reveal" style="transition-delay:0.24s">
+      <div class="stat-label">测过的工具</div>
+      <div class="stat-number font-mono">50<span class="unit">+</span></div>
+      <div class="stat-desc">图片生成 · 工作流 · 写作<br>筛掉大半留下真的好用的</div>
+    </div>
+  </div>
+</section>
+
+<!-- Works -->
+<section id="works">
+  <div class="section-header reveal">
+    <span class="section-kicker">Works</span>
+    <h2 class="section-title">做过的东西</h2>
+  </div>
+  <div class="works-grid">
+    <!-- 大卡 -->
+    <a href="https://station.hiloki.ai" class="work-card-large reveal" target="_blank">
+      <div class="work-tag amber">Tool · Open</div>
+      <div class="work-num">01</div>
+      <div class="work-title">公众号内容工作站</div>
+      <div class="work-desc">从选题到发布的全流程工具。飞书文档一键转排版，智能识别金句/章节/配图，本地运行，数据留在自己手里。</div>
+      <div class="work-link">station.hiloki.ai →</div>
+    </a>
+    <!-- 右侧两小卡 -->
+    <a href="https://wechat-layout.hiloki.ai" class="work-card reveal" style="transition-delay:0.08s" target="_blank">
+      <div class="work-tag">Tool</div>
+      <div class="work-num">02</div>
+      <div class="work-title">公众号排版编辑器</div>
+      <div class="work-desc">粘贴飞书链接，拖拽调整，一键复制到微信后台。</div>
+      <div class="work-link">wechat-layout.hiloki.ai →</div>
+    </a>
+    <a href="https://inkxiaoxiongmao.hiloki.ai" class="work-card reveal" style="transition-delay:0.16s" target="_blank">
+      <div class="work-tag">Product</div>
+      <div class="work-num">03</div>
+      <div class="work-title">小熊猫写作</div>
+      <div class="work-desc">长篇小说创作平台，章节管理、伏笔追踪、AI 辅助续写。</div>
+      <div class="work-link">inkxiaoxiongmao.hiloki.ai →</div>
+    </a>
+    <!-- 底部三小卡 -->
+    <a href="https://github.com/loki2046-mao/self-mirror" class="work-card-sm reveal" style="transition-delay:0.06s" target="_blank">
+      <div class="work-tag">Skill</div>
+      <div class="work-num">04</div>
+      <div class="work-title">self-mirror</div>
+      <div class="work-desc">把对话记录喂给 AI，生成可更新的自我画像报告。</div>
+    </a>
+    <a href="https://github.com/loki2046-mao/cine-type-poster" class="work-card-sm reveal" style="transition-delay:0.12s" target="_blank">
+      <div class="work-tag">Skill</div>
+      <div class="work-num">05</div>
+      <div class="work-title">电影字报生成器</div>
+      <div class="work-desc">万物皆可电影海报，真实摄影质感+强排版设计感。</div>
+    </a>
+    <a href="https://blog.hiloki.ai" class="work-card-sm reveal" style="transition-delay:0.18s" target="_blank">
+      <div class="work-tag">Writing</div>
+      <div class="work-num">06</div>
+      <div class="work-title">博客</div>
+      <div class="work-desc">AI 观察 · 产品思考 · 工具评测，不写没亲测过的。</div>
+    </a>
+  </div>
+</section>
+
+<!-- About -->
+<section id="about">
+  <div class="about-inner">
+    <div class="about-left reveal">
+      <div class="about-vitals">
+        <div class="vital-item">
+          <div class="vital-key">Location</div>
+          <div class="vital-val">北京</div>
+        </div>
+        <div class="vital-item">
+          <div class="vital-key">Background</div>
+          <div class="vital-val">中国传媒大学</div>
+        </div>
+        <div class="vital-item">
+          <div class="vital-key">Type</div>
+          <div class="vital-val">ISTJ</div>
+        </div>
+        <div class="vital-item">
+          <div class="vital-key">Vibe</div>
+          <div class="vital-val">现实主义执行者</div>
+        </div>
+        <div class="vital-item">
+          <div class="vital-key">Since</div>
+          <div class="vital-val">1992</div>
+        </div>
+      </div>
+    </div>
+    <div class="about-right reveal" style="transition-delay:0.15s">
+      <span class="section-kicker">About</span>
+      <h2 class="about-title">
+        不追热点，<span class="hl">只测</span><br>真正有用的
+      </h2>
+      <div class="about-body">
+        <p>我是 Loki，公众号「赛博小熊猫Loki」的作者。写 AI 工具测评、工作流教学、Skill 开源。写过超多字的研究生论文，现在用同样的认真劲儿测 AI 工具。</p>
+        <p>我觉得一个懂你、是你喜欢的样子、会不断学习和进步、又能做到你做不到的事的 AI，才是真正有用的 AI。</p>
+        <p>这个站是我做过的和正在做的。代码、工具、文章，能开源的都开源了。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-brand">赛博小熊猫 Loki</div>
+  <div class="footer-links">
+    <a href="https://github.com/loki2046-mao" target="_blank">GitHub</a>
+    <a href="https://hiloki.ai" target="_blank">Blog</a>
+    <a href="#works">Works</a>
+  </div>
+  <div class="footer-copy">hiloki.ai · 2026</div>
+</footer>
+
+<script>
+// Scroll reveal
+const reveals = document.querySelectorAll('.reveal');
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      io.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+reveals.forEach(el => io.observe(el));
+</script>
+</body>
+</html>

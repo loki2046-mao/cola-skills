@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+  <!-- 脸 -->
+  <path d="M6 14C6 9 10 6 16 6C22 6 26 9 26 14L26 19C26 24 22 27 16 27C10 27 6 24 6 19Z"
+    stroke="#C87A45" stroke-width="1.8" fill="none"/>
+  <!-- 左耳 -->
+  <circle cx="8" cy="9" r="2.4" stroke="#C87A45" stroke-width="1.8" fill="none"/>
+  <!-- 右耳 -->
+  <circle cx="24" cy="9" r="2.4" stroke="#C87A45" stroke-width="1.8" fill="none"/>
+  <!-- 左眼袋 -->
+  <path d="M10 15Q12 17 13.5 15" stroke="#C87A45" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+  <!-- 右眼袋 -->
+  <path d="M22 15Q20 17 18.5 15" stroke="#C87A45" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+  <!-- 鼻子 -->
+  <circle cx="16" cy="19" r="1.1" fill="#C87A45"/>
+</svg>

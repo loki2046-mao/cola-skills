@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>[TITLE]</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@200;300;400;500;600&family=Noto+Sans+SC:wght@100;300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>@import url("https://fontsapi.zeoseven.com/92/main/result.css");</style>
+
+<style>
+/* ══════════════════════════════════════
+   LOKI DESIGN SYSTEM · CONTENT PAGE
+   通用内容页模板（不含品牌标识，用于非 Loki 主题的任意内容）
+   ══════════════════════════════════════ */
+
+:root {
+  --amber:        #C87A45;
+  --amber-light:  #D9A87A;
+  --amber-deep:   #A05E30;
+  --smoke:        #6B8590;
+  --smoke-light:  #A6B8BE;
+  --olive:        #7A8458;
+  --plum:         #7A5A6E;
+  --paper:        #FDFAF5;
+  --warm:         #F5F0E8;
+  --oat:          #EBE4D6;
+  --khaki:        #DDD2BD;
+  --text-muted:   #9A9085;
+  --text-sub:     #6B6157;
+  --text-body:    #3A342D;
+  --text-dark:    #1F1D1A;
+  --dark:         #1A1816;
+  --dark-panel:   #252220;
+  --dark-card:    #2E2A26;
+  --dark-border:  #332F2B;
+  --dark-card2:   #443E38;
+  --font-display: 'Smiley Sans Oblique', 'PingFang SC', sans-serif;
+  --font-label:   'Space Grotesk', sans-serif;
+  --font-body:    'Noto Sans SC', 'PingFang SC', sans-serif;
+  --font-mono:    'JetBrains Mono', monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  background: var(--paper);
+  color: var(--text-body);
+  line-height: 1.8;
+  overflow-x: hidden;
+}
+
+/* ── Typography ── */
+h1 { font-family: var(--font-display); font-size: clamp(32px, 5vw, 56px); color: var(--text-dark); line-height: 1.15; letter-spacing: -0.02em; }
+h2 { font-family: var(--font-display); font-size: clamp(22px, 3vw, 36px); color: var(--text-dark); line-height: 1.2; }
+h3 { font-family: var(--font-display); font-size: 18px; color: var(--text-dark); }
+.font-display { font-family: var(--font-display); }
+.font-mono { font-family: var(--font-mono); }
+
+/* ── Page Layout ── */
+.page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 80px 24px 120px;
+}
+
+/* ── Hero Header ── */
+.hero {
+  margin-bottom: 64px;
+  padding-bottom: 48px;
+  border-bottom: 1px solid var(--oat);
+}
+.hero-eyebrow {
+  font-family: var(--font-label);
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+}
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(36px, 6vw, 72px);
+  line-height: 1.08;
+  color: var(--text-dark);
+  letter-spacing: -0.02em;
+  margin-bottom: 20px;
+}
+.hero-subtitle {
+  font-size: 17px;
+  color: var(--text-sub);
+  max-width: 560px;
+  line-height: 1.7;
+}
+
+/* ── Content Sections ── */
+.content-section {
+  margin-bottom: 56px;
+}
+.content-section:last-child { margin-bottom: 0; }
+.section-label {
+  font-family: var(--font-label);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: 12px;
+}
+.section-title {
+  font-family: var(--font-display);
+  font-size: 24px;
+  color: var(--text-dark);
+  margin-bottom: 16px;
+}
+.section-body {
+  font-size: 15px;
+  line-height: 1.9;
+  color: var(--text-body);
+}
+.section-body p + p { margin-top: 12px; }
+
+/* ── Cards ── */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+  margin-top: 24px;
+}
+.card {
+  background: var(--warm);
+  border: 1px solid var(--oat);
+  padding: 28px 24px;
+  border-radius: 4px;
+}
+.card-number {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+}
+.card-title {
+  font-family: var(--font-display);
+  font-size: 18px;
+  color: var(--text-dark);
+  margin-bottom: 8px;
+}
+.card-desc {
+  font-size: 13px;
+  color: var(--text-sub);
+  line-height: 1.6;
+}
+
+/* ── Highlight Box ── */
+.highlight-box {
+  background: var(--warm);
+  border-left: 3px solid var(--amber);
+  padding: 24px 28px;
+  margin: 32px 0;
+  border-radius: 0 4px 4px 0;
+}
+.highlight-box h3 { margin-bottom: 8px; }
+.highlight-box p { font-size: 14px; color: var(--text-sub); }
+
+/* ── Footer ── */
+.content-footer {
+  margin-top: 80px;
+  padding-top: 32px;
+  border-top: 1px solid var(--oat);
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+/* ── Animations ── */
+@keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+  .page { padding: 48px 16px 80px; }
+  .card-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Hero -->
+  <header class="hero reveal">
+    <div class="hero-eyebrand">[SUBJECT_EYEBROW]</div>
+    <h1 class="hero-title">[SUBJECT_TITLE]</h1>
+    <p class="hero-subtitle">[SUBJECT_SUBTITLE]</p>
+  </header>
+
+  <!-- Content sections go here -->
+
+  <!-- Footer -->
+  <footer class="content-footer">
+    <p>Built with Loki Design System</p>
+  </footer>
+
+</div>
+
+<script>
+// scroll-driven reveal
+const observer = new IntersectionObserver(
+  (entries) => entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add('visible'); }),
+  { threshold: 0.15 }
+);
+document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+</script>
+</body>
+</html>

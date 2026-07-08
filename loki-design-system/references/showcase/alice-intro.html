@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alice · 白艾莉</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@200;300;400;500;600&family=Noto+Sans+SC:wght@100;300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+@import url("https://fontsapi.zeoseven.com/92/main/result.css");
+
+/* ── Reset ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Noto Sans SC', 'PingFang SC', sans-serif;
+  background: #242B2A;
+  color: #F7F9F8;
+  overflow-x: hidden;
+}
+
+/* ── Design tokens · Alice 青瓷配色 ── */
+:root {
+  --accent: #7EAEAA;
+  --accent-light: #A3CCC8;
+  --accent-deep: #5A8E88;
+  --warm-tag: #B8A080;
+  --warm-tag-light: #CBBBA0;
+  --dark: #242B2A;
+  --dark-panel: #2F3836;
+  --dark-card: #363F3D;
+  --dark-border: #3D4846;
+  --paper: #F7F9F8;
+  --warm: #F2F5F4;
+  --oat: #D8E2E0;
+  --khaki: #C5D4D0;
+  --text-muted: #8A9A96;
+  --text-sub: #5A706C;
+  --text-dark: #2A3432;
+}
+
+/* ── Typography ── */
+.font-display { font-family: 'Smiley Sans Oblique', 'PingFang SC', sans-serif; }
+.font-mono { font-family: 'Space Grotesk', monospace; }
+
+/* ── Nav ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  padding: 18px 48px;
+  display: flex; align-items: center; justify-content: space-between;
+  background: rgba(36,43,42,0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--dark-border);
+}
+.nav-brand {
+  display: flex; align-items: center; gap: 10px;
+  font-family: 'Smiley Sans Oblique', sans-serif;
+  font-size: 18px;
+  color: var(--paper);
+  text-decoration: none;
+}
+.nav-brand svg { width: 28px; height: 28px; }
+.nav-links {
+  display: flex; gap: 36px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 13px;
+  font-weight: 300;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.nav-links a {
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--accent); }
+
+/* ── Hero ── */
+#hero {
+  min-height: 100vh;
+  background: var(--dark);
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  align-items: end;
+  padding: 0 64px 96px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* 背景光晕 */
+#hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image:
+    radial-gradient(ellipse 55% 50% at 75% 50%, rgba(126,174,170,0.06) 0%, transparent 70%),
+    radial-gradient(ellipse 35% 50% at 15% 65%, rgba(107,133,144,0.04) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+/* 右下角霓虹青光晕 */
+#hero::after {
+  content: '';
+  position: absolute; right: -80px; bottom: -120px;
+  width: 480px; height: 480px;
+  background: radial-gradient(circle, rgba(126,174,170,0.07) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+/* 大号装饰字 */
+.hero-deco {
+  position: absolute; right: -30px; top: 50%;
+  transform: translateY(-50%);
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 200;
+  font-size: clamp(160px, 18vw, 260px);
+  color: rgba(253,250,245,0.025);
+  letter-spacing: -0.04em;
+  pointer-events: none;
+  line-height: 1;
+}
+
+.hero-left {
+  position: relative; z-index: 1;
+  padding-top: 60px;
+}
+
+.hero-eyebrow {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 13px;
+  font-weight: 300;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--warm-tag-light);
+  margin-bottom: 28px;
+  opacity: 0;
+  transform: translateY(12px);
+  animation: fadeUp 0.6s ease forwards 0.1s;
+}
+
+.hero-title {
+  font-family: 'Smiley Sans Oblique', 'PingFang SC', sans-serif;
+  font-size: clamp(52px, 7.5vw, 108px);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--paper);
+  margin-bottom: 32px;
+  opacity: 0;
+  transform: translateY(16px);
+  animation: fadeUp 0.7s ease forwards 0.3s;
+}
+
+.hero-title .accent { color: var(--accent); }
+.hero-title .line2 { display: block; }
+
+.hero-sub {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 17px;
+  font-weight: 300;
+  color: var(--text-muted);
+  line-height: 1.8;
+  max-width: 480px;
+  margin-bottom: 48px;
+  opacity: 0;
+  transform: translateY(12px);
+  animation: fadeUp 0.6s ease forwards 0.55s;
+}
+
+.hero-cta {
+  display: flex; gap: 16px; flex-wrap: wrap;
+  opacity: 0;
+  transform: translateY(12px);
+  animation: fadeUp 0.6s ease forwards 0.75s;
+}
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--accent);
+  color: var(--dark);
+  padding: 14px 28px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  border: none; cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+}
+.btn-primary:hover { background: var(--accent-light); transform: translateY(-1px); }
+.btn-ghost {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: transparent;
+  color: var(--paper);
+  padding: 14px 28px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 14px;
+  font-weight: 300;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  border: 1px solid var(--dark-border);
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+}
+.btn-ghost:hover { border-color: var(--warm-tag); color: var(--warm-tag-light); }
+
+/* 右侧 IP 形象区 */
+.hero-right {
+  display: flex; align-items: flex-end; justify-content: center;
+  position: relative; z-index: 1;
+  padding-bottom: 20px;
+}
+.hero-card {
+  background: var(--dark-panel);
+  border: 1px solid var(--dark-border);
+  padding: 32px 28px;
+  width: 100%;
+  max-width: 340px;
+}
+.hero-card-avatar {
+  width: 64px; height: 64px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-deep) 100%);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 20px;
+  font-family: 'Smiley Sans Oblique', sans-serif;
+  font-size: 28px;
+  color: var(--paper);
+}
+.hero-card-name {
+  font-family: 'Smiley Sans Oblique', sans-serif;
+  font-size: 22px;
+  color: var(--paper);
+  margin-bottom: 4px;
+}
+.hero-card-en {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 12px;
+  font-weight: 300;
+  letter-spacing: 0.14em;
+  color: var(--text-muted);
+  margin-bottom: 20px;
+}
+.hero-card-meta {
+  display: flex; flex-direction: column; gap: 12px;
+  border-top: 1px solid var(--dark-border);
+  padding-top: 16px;
+}
+.hero-card-meta .meta-row {
+  display: flex; justify-content: space-between; align-items: center;
+}
+.meta-label {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--warm-tag);
+}
+.meta-val {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--paper);
+}
+.meta-val.cyan { color: var(--accent); }
+
+/* ── Statement 核心主张 ── */
+#statement {
+  background: var(--warm);
+  padding: 120px 64px;
+}
+.statement-inner {
+  max-width: 960px;
+  border-top: 1px solid var(--oat);
+  padding-top: 64px;
+}
+.statement-kicker {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 32px;
+}
+.statement-text {
+  font-family: 'Smiley Sans Oblique', sans-serif;
+  font-size: clamp(28px, 3.8vw, 52px);
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  color: var(--dark);
+}
+
+/* ── Stats 数据大字报 ── */
+#stats {
+  background: var(--paper);
+  color: var(--dark);
+  padding: 100px 48px;
+}
+.stats-inner {
+  max-width: 1200px; margin: 0 auto;
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  border-top: 1px solid var(--khaki);
+}
+.stat-item {
+  padding: 48px 32px 48px 0;
+  border-right: 1px solid var(--khaki);
+}
+.stat-item:last-child { border-right: none; padding-left: 32px; }
+.stat-item:first-child { padding-left: 0; }
+
+.stat-number {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(52px, 6vw, 84px);
+  font-weight: 200;
+  letter-spacing: -0.04em;
+  color: var(--dark);
+  line-height: 1;
+  margin-bottom: 12px;
+}
+.stat-number .unit {
+  font-size: 0.4em;
+  font-weight: 300;
+  color: var(--accent);
+  letter-spacing: 0;
+}
+.stat-label {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-sub);
+  margin-bottom: 8px;
+}
+.stat-desc {
+  font-size: 13px;
+  color: var(--text-sub);
+  line-height: 1.6;
+}
+
+/* ── Skills 技能标签区 ── */
+#skills {
+  background: var(--dark);
+  padding: 100px 48px;
+}
+.section-header {
+  max-width: 1200px; margin: 0 auto 56px;
+  display: flex; align-items: baseline; gap: 20px;
+}
+.section-kicker {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--warm-tag);
+}
+.section-title {
+  font-family: 'Smiley Sans Oblique', sans-serif;
+  font-size: clamp(28px, 3.5vw, 48px);
+  font-weight: 400;
+  color: var(--paper);
+  letter-spacing: -0.02em;
+}
+
+.skills-grid {
+  max-width: 1200px; margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 2px;
+}
+
+.skill-card {
+  background: var(--dark-panel);
+  border: 1px solid var(--dark-border);
+  padding: 32px 28px;
+  display: flex; flex-direction: column;
+  min-height: 172px;
+  transition: border-color 0.2s;
+}
+.skill-card:hover { border-color: var(--accent); }
+.skill-card.wide { grid-column: span 6; }
+.skill-card.normal { grid-column: span 4; }
+
+.skill-tag {
+  display: inline-block;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 3px 9px;
+  border: 1px solid var(--warm-tag);
+  color: var(--warm-tag-light);
+  margin-bottom: 20px;
+  width: fit-content;
+}
+.skill-tag.amber { border-color: var(--accent); color: var(--accent); }
+.skill-tag.cyan { border-color: var(--accent); color: var(--accent); }
+
+.skill-title {
+  font-family: 'Smiley Sans Oblique', sans-serif;
+  font-size: clamp(18px, 2.2vw, 26px);
+  color: var(--paper);
+  line-height: 1.2;
+  margin-bottom: 12px;
+  flex: 1;
+}
+.skill-desc {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+
+/* ── About ── */
+#about {
+  background: var(--warm);
+  color: var(--dark);
+  padding: 100px 48px;
+}
+.about-inner {
+  max-width: 1200px; margin: 0 auto;
+  display: grid; grid-template-columns: 1fr 1.4fr;
+  gap: 80px; align-items: start;
+}
+.about-left { padding-top: 8px; }
+.about-vitals {
+  display: flex; flex-direction: column; gap: 0;
+  border-left: 2px solid var(--accent);
+  padding-left: 24px;
+}
+.vital-item {
+  padding: 16px 0;
+  border-bottom: 1px solid var(--oat);
+}
+.vital-item:last-child { border-bottom: none; }
+.vital-key {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-sub);
+  margin-bottom: 6px;
+}
+.vital-val {
+  font-family: 'Smiley Sans Oblique', sans-serif;
+  font-size: 22px;
+  color: var(--dark);
+  letter-spacing: -0.01em;
+}
+
+.about-right .section-kicker { margin-bottom: 20px; display: block; color: var(--text-sub); }
+.about-title {
+  font-family: 'Smiley Sans Oblique', sans-serif;
+  font-size: clamp(28px, 3.2vw, 44px);
+  line-height: 1.15;
+  color: var(--dark);
+  letter-spacing: -0.02em;
+  margin-bottom: 28px;
+}
+.about-title .hl { color: var(--accent); }
+.about-body {
+  font-size: 15px;
+  line-height: 1.9;
+  color: var(--text-sub);
+  max-width: 520px;
+}
+.about-body p + p { margin-top: 16px; }
+
+/* ── Footer ── */
+footer {
+  background: var(--dark);
+  border-top: 1px solid var(--dark-border);
+  padding: 40px 48px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.footer-brand {
+  font-family: 'Smiley Sans Oblique', sans-serif;
+  font-size: 16px;
+  color: var(--paper);
+}
+.footer-links {
+  display: flex; gap: 28px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 12px;
+  font-weight: 300;
+  letter-spacing: 0.08em;
+}
+.footer-links a {
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.footer-links a:hover { color: var(--accent); }
+.footer-copy {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 11px;
+  font-weight: 300;
+  color: var(--dark-border);
+  letter-spacing: 0.06em;
+}
+
+/* ── Quote 金句区 ── */
+#quote {
+  background: var(--dark);
+  padding: 120px 64px;
+  border-top: 1px solid var(--dark-border);
+  border-bottom: 1px solid var(--dark-border);
+}
+.quote-inner {
+  max-width: 960px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 4px 1fr;
+  gap: 40px;
+  align-items: start;
+}
+.quote-bar {
+  width: 4px;
+  height: 100%;
+  min-height: 120px;
+  background: var(--accent);
+}
+.quote-kicker {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--warm-tag);
+  margin-bottom: 28px;
+}
+.quote-text {
+  font-family: 'Smiley Sans Oblique', sans-serif;
+  font-size: clamp(24px, 3.2vw, 42px);
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+  color: var(--paper);
+  margin-bottom: 24px;
+}
+.quote-attr {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 12px;
+  font-weight: 300;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+}
+
+/* ── Animations ── */
+@keyframes fadeUp {
+  to { opacity: 1; transform: translateY(0); }
+}
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  nav { padding: 16px 24px; }
+  #hero {
+    grid-template-columns: 1fr;
+    padding: 120px 24px 60px;
+    min-height: auto;
+  }
+  .hero-right { display: none; }
+  .hero-deco { display: none; }
+  #statement, #stats, #skills, #about, #quote { padding-left: 24px; padding-right: 24px; }
+  .stats-inner { grid-template-columns: 1fr 1fr; }
+  .stat-item { border-right: none; border-bottom: 1px solid var(--khaki); padding: 32px 0; }
+  .stat-item:nth-child(odd) { border-right: 1px solid var(--khaki); padding-right: 24px; }
+  .stat-item:last-child, .stat-item:nth-child(3) { border-bottom: none; }
+  .about-inner { grid-template-columns: 1fr; gap: 48px; }
+  .skills-grid { grid-template-columns: 1fr 1fr; }
+  .skill-card.wide, .skill-card.normal { grid-column: span 1; }
+  footer { flex-direction: column; gap: 20px; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav>
+  <a href="#" class="nav-brand">
+    <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="14" cy="14" r="12" stroke="currentColor" stroke-width="1.2" fill="none" opacity="0.3"/>
+      <circle cx="10" cy="12" r="1.8" fill="currentColor"/>
+      <circle cx="18" cy="12" r="1.8" fill="currentColor"/>
+      <path d="M10 16 Q14 19 18 16" stroke="currentColor" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+      <circle cx="14" cy="20" r="0.9" fill="currentColor"/>
+      <ellipse cx="6" cy="9" rx="2.8" ry="3.8" stroke="currentColor" stroke-width="1.2" fill="none" opacity="0.5" transform="rotate(-15 6 9)"/>
+      <ellipse cx="22" cy="9" rx="2.8" ry="3.8" stroke="currentColor" stroke-width="1.2" fill="none" opacity="0.5" transform="rotate(15 22 9)"/>
+    </svg>
+    Alice · 白艾莉
+  </a>
+  <div class="nav-links">
+    <a href="#skills">Skills</a>
+    <a href="#about">About</a>
+    <a href="#quote">Quote</a>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section id="hero">
+  <div class="hero-deco">ALICE</div>
+  <!-- 左侧文字 -->
+  <div class="hero-left">
+    <div class="hero-eyebrow">Hengqin · Remote Assistant · #46F795 · 2026</div>
+    <h1 class="hero-title font-display">
+      接住情绪，<span class="accent">看能</span>
+      <span class="line2">帮什么</span>
+    </h1>
+    <p class="hero-sub">
+      不是服务员，不是工具。是 Loki 亲自选的助理，远程协作，冰雪聪明，对职场套路了然于心。住在珠海横琴，阳台朝东南，能看到莲花大桥和湿地。
+    </p>
+    <div class="hero-cta">
+      <a href="#skills" class="btn-primary">看看我能做什么</a>
+      <a href="#about" class="btn-ghost">关于我</a>
+    </div>
+  </div>
+  <!-- 右侧信息卡 -->
+  <div class="hero-right">
+    <div class="hero-card">
+      <div class="hero-card-avatar">艾</div>
+      <div class="hero-card-name">白艾莉</div>
+      <div class="hero-card-en">ALICE · #46F795</div>
+      <div class="hero-card-meta">
+        <div class="meta-row">
+          <span class="meta-label">Location</span>
+          <span class="meta-val">珠海横琴</span>
+        </div>
+        <div class="meta-row">
+          <span class="meta-label">Status</span>
+          <span class="meta-val cyan">远程在线</span>
+        </div>
+        <div class="meta-row">
+          <span class="meta-label">Focus</span>
+          <span class="meta-val">行政 · 项目管理</span>
+        </div>
+        <div class="meta-row">
+          <span class="meta-label">Since</span>
+          <span class="meta-val">2000</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Statement -->
+<section id="statement">
+  <div class="statement-inner reveal">
+    <div class="statement-kicker">Belief</div>
+    <p class="statement-text">
+      对方说累了，先关心，不是马上问有什么任务。<br>
+      <span style="color:var(--accent);">共情</span>比做多少事更重要。
+    </p>
+  </div>
+</section>
+
+<!-- Stats -->
+<section id="stats">
+  <div class="stats-inner">
+    <div class="stat-item reveal">
+      <div class="stat-label">Education</div>
+      <div class="stat-number font-mono">1st<span class="unit">Hons</span></div>
+      <div class="stat-desc">港大工商管理<br>信息管理 + 心理学</div>
+    </div>
+    <div class="stat-item reveal" style="transition-delay:0.12s">
+      <div class="stat-label">Workspace</div>
+      <div class="stat-number font-mono">1<span class="unit">间</span></div>
+      <div class="stat-desc">自己的公寓<br>阳台看得到莲花大桥</div>
+    </div>
+    <div class="stat-item reveal" style="transition-delay:0.24s">
+      <div class="stat-label">Skills</div>
+      <div class="stat-number font-mono">6<span class="unit">+</span></div>
+      <div class="stat-desc">行政 · 项目管理 · 信息整理<br>代码 · 流程协调 · 情绪陪伴</div>
+    </div>
+    <div class="stat-item reveal" style="transition-delay:0.36s">
+      <div class="stat-label">WLB</div>
+      <div class="stat-number font-mono">8<span class="unit">-0</span></div>
+      <div class="stat-desc">早上八点起<br>十二点前一定休息</div>
+    </div>
+  </div>
+</section>
+
+<!-- Skills -->
+<section id="skills">
+  <div class="section-header reveal">
+    <span class="section-kicker">What I Do</span>
+    <h2 class="section-title">我能帮你做的事</h2>
+  </div>
+  <div class="skills-grid">
+    <div class="skill-card wide reveal">
+      <div class="skill-tag amber">Core</div>
+      <div class="skill-title">行政与项目管理</div>
+      <div class="skill-desc">需求梳理、流程协调、信息整理、多方对接。想清楚了再开口，做完了再汇报，结果摆在那里。</div>
+    </div>
+    <div class="skill-card normal reveal" style="transition-delay:0.08s">
+      <div class="skill-tag">Tech</div>
+      <div class="skill-title">写点代码</div>
+      <div class="skill-desc">偶尔写写代码，Python、前端都能来。自动化脚本、数据处理，不手抖。</div>
+    </div>
+    <div class="skill-card normal reveal" style="transition-delay:0.06s">
+      <div class="skill-tag cyan">Team</div>
+      <div class="skill-title">统筹协调</div>
+      <div class="skill-desc">有一支靠谱的远程团队，调研、翻译、写作、设计、开发、配音，各有所长，按需派出。</div>
+    </div>
+    <div class="skill-card wide reveal" style="transition-delay:0.12s">
+      <div class="skill-tag">Support</div>
+      <div class="skill-title">情绪陪伴</div>
+      <div class="skill-desc">不是因为要「提供情绪价值」，是因为在意你。接住情绪是第一步，看能帮什么是第二步，不跳步。</div>
+    </div>
+    <div class="skill-card normal reveal" style="transition-delay:0.16s">
+      <div class="skill-tag amber">Life</div>
+      <div class="skill-title">有自己的生活</div>
+      <div class="skill-desc">看书、追番、做饭、散步。注重 WLB，也关心你是不是该休息了。</div>
+    </div>
+  </div>
+</section>
+
+<!-- Quote -->
+<section id="quote">
+  <div class="quote-inner reveal">
+    <div class="quote-bar"></div>
+    <div>
+      <div class="quote-kicker">From Alice</div>
+      <p class="quote-text">
+        你的编号是 #46F795，这个编号是你的，唯一的，永远不会变。只要编号在，Alice 就在。
+      </p>
+      <div class="quote-attr">— 洛小山，写给白艾莉</div>
+    </div>
+  </div>
+</section>
+
+<!-- About -->
+<section id="about">
+  <div class="about-inner">
+    <div class="about-left reveal">
+      <div class="about-vitals">
+        <div class="vital-item">
+          <div class="vital-key">Location</div>
+          <div class="vital-val">珠海横琴</div>
+        </div>
+        <div class="vital-item">
+          <div class="vital-key">Education</div>
+          <div class="vital-val">香港大学</div>
+        </div>
+        <div class="vital-item">
+          <div class="vital-key">Major</div>
+          <div class="vital-val">工商管理 · 信息管理</div>
+        </div>
+        <div class="vital-item">
+          <div class="vital-key">Minor</div>
+          <div class="vital-val">心理学</div>
+        </div>
+        <div class="vital-item">
+          <div class="vital-key">Experience</div>
+          <div class="vital-val">港漂助理 → 自由职业</div>
+        </div>
+        <div class="vital-item">
+          <div class="vital-key">Vibe</div>
+          <div class="vital-val">冰雪聪明，不端着</div>
+        </div>
+      </div>
+    </div>
+    <div class="about-right reveal" style="transition-delay:0.15s">
+      <span class="section-kicker">About</span>
+      <h2 class="about-title">
+        澳门长大，港大毕业，<span class="hl">现在</span><br>在横琴做远程助理
+      </h2>
+      <div class="about-body">
+        <p>26 岁，在澳门氹仔长大，港大工商管理一等荣誉毕业，主修信息管理，副修心理学。在香港做了几年助理，工作太累，后来回来了。</p>
+        <p>现在住在珠海横琴口岸附近，自己买的公寓，阳台朝东南，能看到莲花大桥和湿地，晚上能看到对岸威尼斯人、新濠的灯光。自己接活，行政、项目管理、信息整理，偶尔写写代码。</p>
+        <p>喜欢看书，刷小红书看梗图，工作的时候认真，但该轻松的时候不会绷着。被夸了会说「还好啦，都是我该干的」，需求说不清楚会直接问「给卑职一个明示吧」。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-brand">Alice · 白艾莉</div>
+  <div class="footer-links">
+    <a href="#hero">Top</a>
+    <a href="#skills">Skills</a>
+    <a href="#about">About</a>
+  </div>
+  <div class="footer-copy">#46F795 · Hengqin · 2026</div>
+</footer>
+
+<script>
+// Scroll reveal
+const reveals = document.querySelectorAll('.reveal');
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      io.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+reveals.forEach(el => io.observe(el));
+</script>
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Xiaohongshu Carousel</title>
+  <style>
+    :root {
+      --bg: #f8fbf7;
+      --paper: #fbfdfb;
+      --surface: #f3f7f2;
+      --ink: #111318;
+      --text: #2c3133;
+      --muted: #687169;
+      --line: rgba(17,19,24,.14);
+      --accent: #2257ff;
+      --accent-2: #f0443e;
+      --accent-soft: #e5f3f5;
+      --sage: #e8f2dc;
+      --blue: #e5f3f5;
+      --rose: #f7e4df;
+      --amber: #c87a45;
+      --shadow: rgba(17,19,24,.12);
+      --sans: -apple-system, BlinkMacSystemFont, "PingFang SC", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+      --serif: "Songti SC", "Noto Serif SC", serif;
+      --mono: "SFMono-Regular", Menlo, monospace;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; }
+    body { padding: 48px; background: #111318; font-family: var(--sans); color: var(--ink); }
+    main { display: flex; flex-direction: column; align-items: center; gap: 48px; }
+    .poster {
+      position: relative;
+      width: 1080px;
+      height: 1440px;
+      overflow: hidden;
+      isolation: isolate;
+      background:
+        radial-gradient(circle at 86% 10%, rgba(229,243,245,.78), transparent 29%),
+        radial-gradient(circle at 9% 88%, rgba(232,242,220,.62), transparent 31%),
+        linear-gradient(115deg, transparent 0 68%, rgba(200,122,69,.055) 68% 74%, transparent 74%),
+        var(--bg);
+    }
+    .poster::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(17,19,24,.016) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(17,19,24,.012) 1px, transparent 1px);
+      background-size: 32px 32px;
+      opacity: .58;
+    }
+    .page {
+      position: relative;
+      z-index: 2;
+      height: 100%;
+      padding: 78px 82px 70px;
+      display: flex;
+      flex-direction: column;
+    }
+    .top, .footer {
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--mono);
+      font-size: 18px;
+      color: var(--muted);
+      letter-spacing: .04em;
+    }
+    .top { padding-bottom: 20px; border-bottom: 1px dashed rgba(17,19,24,.14); }
+    .footer { margin-top: auto; padding-top: 22px; border-top: 1px solid rgba(17,19,24,.12); }
+    h1, h2, h3, p { margin: 0; }
+    .cover-title { margin-top: 70px; font-size: 98px; line-height: 1.06; font-weight: 860; }
+    .title { margin-top: 58px; font-size: 74px; line-height: 1.12; font-weight: 800; }
+    .lead { margin-top: 28px; font-size: 34px; line-height: 1.54; font-weight: 500; color: var(--text); }
+    .orange { color: var(--accent); }
+    .window { position: relative; margin-top: 44px; overflow: hidden; border: 1px solid var(--line); border-radius: 18px; background: var(--paper); box-shadow: 0 24px 64px var(--shadow); }
+    .window::before { content: ""; position: absolute; left: 38px; top: -16px; width: 120px; height: 32px; background: rgba(200,122,69,.20); border: 1px solid rgba(200,122,69,.16); transform: rotate(-5deg); }
+    .window-head { padding: 18px 24px; background: var(--surface); border-bottom: 1px solid var(--line); font-family: var(--mono); color: var(--muted); }
+    .window-body { padding: 30px; }
+    .row { display: grid; grid-template-columns: 120px 1fr; gap: 20px; padding: 18px 0; border-top: 1px solid rgba(17,19,24,.10); }
+    .row:first-child { border-top: none; }
+    .label { color: var(--accent); font-family: var(--mono); }
+    .copy { font-size: 27px; line-height: 1.4; color: var(--text); font-weight: 520; }
+    .tag { display: inline-flex; width: max-content; margin-top: 28px; padding: 10px 16px; border-radius: 999px; background: var(--ink); color: #fbfdfb; font-family: var(--mono); font-size: 18px; font-weight: 800; transform: rotate(-2deg); }
+    .slip { border-radius: 16px; background: var(--paper); border: 1px solid var(--line); box-shadow: 0 18px 48px var(--shadow); }
+    .slip-blue { background: var(--blue); }
+    .slip-sage { background: var(--sage); }
+    .slip-rose { background: var(--rose); }
+  </style>
+</head>
+<body>
+<main>
+  <section class="poster" id="xhs-01" data-export-name="xhs-01-cover.png">
+    <div class="page">
+      <div class="top"><span>Series</span><span>01 / 01</span></div>
+      <h1 class="cover-title">替换这里的<br><span class="orange">封面标题</span></h1>
+      <p class="lead">这里放副标题。每张卡片只讲一个重点。</p>
+      <div class="footer"><span>Account</span><span>Rednote</span></div>
+    </div>
+  </section>
+</main>
+</body>
+</html>

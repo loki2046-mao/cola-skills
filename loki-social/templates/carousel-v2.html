@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>奥德赛时期×AI · 小红书图文 V2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@200;300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700;900&family=Noto+Serif+SC:wght@200;300;400;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>@import url("https://fontsapi.zeoseven.com/92/main/result.css");</style>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
+:root{
+  /* 默认值=焦糖深蓝主题，.theme-xxx 类可覆盖 */
+  --bg:#1A1420;--bg2:#2A2030;--accent:#D4885A;--accent2:#B87040;
+  --text:#F0EAE0;--text-sub:#9A8A80;--text-mute:#6A5A50;--text-ghost:#4A3A40;
+  --border:rgba(212,136,90,0.15);--glow:rgba(212,136,90,0.12);--neon:#7DA0C4;
+  --on-accent:#1A1420;
+}
+
+/* ================================================================
+   配色主题切换类（从 V1 carousel.html 复制，变量名体系一致）
+   用法: <body class="theme-mint"> 或 <div class="theme-mint">
+   ================================================================ */
+/* 主题1: 焦糖深蓝 — 秋日黄昏/电影感（V2 默认） */
+.theme-caramel{
+  --bg:#1A1420;--bg2:#2A2030;--accent:#D4885A;--accent2:#B87040;
+  --text:#F0EAE0;--text-sub:#9A8A80;--text-mute:#6A5A50;--text-ghost:#4A3A40;
+  --border:rgba(212,136,90,0.1);--glow:rgba(212,136,90,0.1);--neon:#7DA0C4;
+  --on-accent:#1A1420;
+}
+/* 主题2: 氧气青绿 — 清新/生活/慢节奏 */
+.theme-mint{
+  --bg:#F0F7F4;--bg2:#E0EFE8;--accent:#00A878;--accent2:#008A5B;
+  --text:#0A1F1A;--text-sub:#4A6B62;--text-mute:#7A9B92;--text-ghost:#A0C0B8;
+  --border:rgba(0,168,120,0.12);--glow:rgba(0,168,120,0.12);--neon:#00D9FF;
+  --on-accent:#F0F7F4;
+}
+/* 主题3: 鼠尾草灰绿 — 莫兰迪/家居/心理 */
+.theme-sage{
+  --bg:#E8EDE6;--bg2:#DDE5DB;--accent:#7A8B6F;--accent2:#6A7B5F;
+  --text:#1A2A1A;--text-sub:#4A5B4A;--text-mute:#7A8B7A;--text-ghost:#A0B0A0;
+  --border:rgba(122,139,111,0.12);--glow:rgba(122,139,111,0.08);--neon:#C44536;
+  --on-accent:#E8EDE6;
+}
+/* 主题4: 墨黑信号 — 科技/正式/测评 */
+.theme-ink{
+  --bg:#0A0A0A;--bg2:#141414;--accent:#FF5E1A;--accent2:#E84A0F;
+  --text:#FAFAF8;--text-sub:#8A8A85;--text-mute:#5A5A55;--text-ghost:#3A3A38;
+  --border:rgba(255,255,255,0.08);--glow:rgba(255,94,26,0.18);--neon:#00D9FF;
+  --on-accent:#0A0A0A;
+}
+/* 主题5: 暖米咖啡 — 暖调/生活/文化 */
+.theme-cream{
+  --bg:#F5EFE6;--bg2:#EDE5D8;--accent:#C44536;--accent2:#A03020;
+  --text:#2A1F1A;--text-sub:#6B5A50;--text-mute:#9A8A80;--text-ghost:#C0B0A4;
+  --border:rgba(196,69,54,0.1);--glow:rgba(196,69,54,0.08);--neon:#E8A040;
+  --on-accent:#F5EFE6;
+}
+
+body{
+  background:#050505;
+  font-family:"Noto Sans SC",sans-serif;
+  display:flex;flex-direction:column;align-items:center;
+  gap:32px;padding:40px 20px 80px;
+}
+
+/* ============ 通用组件 ============ */
+.noise{
+  position:absolute;inset:0;pointer-events:none;opacity:0.05;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/></filter><rect width='200' height='200' filter='url(%23n)' opacity='0.8'/></svg>");
+  z-index:1;
+}
+
+.page-header{width:540px;text-align:center;padding:24px 0;}
+.page-header h1{font-family:"Noto Sans SC",sans-serif;font-weight:900;font-size:32px;color:#FAFAF8;margin-bottom:8px;letter-spacing:-0.03em;}
+.page-header h1 .hl{color:var(--accent);}
+.page-header p{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:0.18em;color:#5A5A55;text-transform:uppercase;}
+
+.card-wrap{display:flex;flex-direction:column;gap:6px;}
+.card-label{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;text-align:center;color:var(--text-mute);}
+
+.card{
+  width:540px;height:720px;position:relative;overflow:hidden;
+  font-family:"Noto Sans SC",sans-serif;
+  background:var(--bg);color:var(--text);
+}
+
+.brand-mark{position:absolute;bottom:12px;right:12px;display:flex;align-items:center;gap:4px;z-index:5;}
+.brand-mark .brand-text{font-family:"Space Grotesk",sans-serif;font-size:9px;font-weight:500;letter-spacing:0.04em;color:rgba(240,234,224,0.3);}
+.brand-mark svg{width:12px;height:12px;color:rgba(240,234,224,0.3);}
+
+.progress-bar{position:absolute;top:0;left:0;right:0;height:3px;z-index:6;background:var(--bg2);}
+.progress-bar .bar{height:100%;background:var(--accent);}
+
+/* IP 圆形大图组件 —— 视觉主体 30-40% */
+.ip-hero{
+  position:absolute;
+  z-index:3;
+  pointer-events:none;
+  object-fit:cover;
+  border-radius:50%;
+  overflow:hidden;
+  border:3px solid var(--accent);
+  box-shadow:0 0 32px var(--glow),0 0 12px var(--glow),inset 0 0 0 2px rgba(26,20,32,0.4);
+}
+
+/* 背景大字水印（得意黑装饰体） */
+.watermark{
+  position:absolute;
+  font-family:"Smiley Sans Oblique","Noto Sans SC",sans-serif;
+  font-weight:900;
+  pointer-events:none;
+  z-index:1;
+  white-space:nowrap;
+  color:rgba(212,136,90,0.1);
+  letter-spacing:-0.04em;
+  user-select:none;
+  overflow:hidden;
+}
+
+/* 装饰几何元素 */
+.deco-dot{position:absolute;border-radius:50%;pointer-events:none;z-index:2;}
+.deco-ring{position:absolute;border-radius:50%;border:1px solid rgba(212,136,90,0.25);pointer-events:none;z-index:2;}
+.deco-ring.bold{border:2px solid rgba(212,136,90,0.35);}
+.deco-line{position:absolute;background:rgba(212,136,90,0.15);pointer-events:none;z-index:2;}
+.deco-square{position:absolute;pointer-events:none;z-index:2;border:1px solid rgba(212,136,90,0.25);}
+.deco-bar{position:absolute;pointer-events:none;z-index:2;background:rgba(212,136,90,0.12);border-radius:1px;}
+.deco-cross{position:absolute;pointer-events:none;z-index:2;}
+.deco-cross::before,.deco-cross::after{content:"";position:absolute;background:rgba(212,136,90,0.3);}
+.deco-cross::before{width:12px;height:2px;top:5px;left:0;}
+.deco-cross::after{width:2px;height:12px;top:0;left:5px;}
+
+/* 边缘重复文字边框 */
+.edge-text{
+  position:absolute;
+  font-family:"JetBrains Mono",monospace;
+  font-size:8px;
+  font-weight:500;
+  letter-spacing:0.3em;
+  color:rgba(212,136,90,0.3);
+  white-space:nowrap;
+  pointer-events:none;
+  z-index:2;
+  text-transform:uppercase;
+}
+
+/* ================================================================
+   Card 01 · 封面 —— 三段式：eyebrow顶 / title+IP中 / sub+meta底
+   ================================================================ */
+.cover{display:flex;flex-direction:column;align-items:center;padding:0;background:var(--bg);}
+.cover .noise{opacity:0.06;}
+.cover .glow{position:absolute;top:52%;left:50%;transform:translate(-50%,-50%);width:520px;height:520px;pointer-events:none;background:radial-gradient(circle,var(--glow) 0%,transparent 65%);z-index:1;}
+/* 顶部色带区 25% */
+.cover .cv-top{
+  width:100%;height:180px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;
+  padding-bottom:14px;position:relative;z-index:2;
+  background:linear-gradient(180deg,var(--bg2) 0%,var(--bg) 100%);
+}
+.cover .cv-eyebrow{font-family:"JetBrains Mono",monospace;font-size:11px;font-weight:500;letter-spacing:0.22em;text-transform:uppercase;color:var(--accent);margin-bottom:10px;}
+.cover .cv-title{font-family:"Noto Sans SC",sans-serif;font-weight:900;font-size:46px;line-height:1.1;letter-spacing:-0.02em;color:var(--text);text-align:center;}
+.cover .cv-title .hl{color:var(--accent);}
+/* 中部 50% —— IP圆形大图占主体 */
+.cover .cv-mid{
+  flex:1;position:relative;z-index:2;display:flex;align-items:center;justify-content:center;
+  background:radial-gradient(circle,rgba(212,136,90,0.05) 1px,transparent 1px) 0 0/20px 20px;
+}
+.cover .cv-ip{
+  width:240px;height:240px;
+}
+/* 底部 25% */
+.cover .cv-bot{
+  width:100%;height:180px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;
+  position:relative;z-index:2;padding:0 30px 16px;
+  background:
+    radial-gradient(circle,rgba(212,136,90,0.15) 1px,transparent 1px) 0 0/14px 14px,
+    linear-gradient(0deg,var(--bg2) 0%,transparent 100%);
+  border-top:1px solid var(--border);
+}
+.cover .cv-bot-deco-top{display:flex;align-items:center;gap:8px;margin-bottom:2px;}
+.cover .cv-bot-deco-line{width:24px;height:1px;background:var(--accent);opacity:0.5;}
+.cover .cv-bot-deco-dot{width:5px;height:5px;border-radius:50%;background:var(--accent);}
+.cover .cv-bot-deco-label{font-family:"JetBrains Mono",monospace;font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent);opacity:0.7;}
+.cover .cv-sub{font-family:"Noto Serif SC",serif;font-size:16px;font-weight:300;line-height:1.6;font-style:italic;color:var(--text-sub);text-align:center;}
+.cover .cv-meta{display:flex;gap:0;justify-content:center;width:100%;border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:10px 0;}
+.cover .cv-meta-item{display:flex;flex-direction:column;align-items:center;gap:2px;flex:1;position:relative;}
+.cover .cv-meta-item:not(:last-child)::after{content:"";position:absolute;right:0;top:20%;height:60%;width:1px;background:var(--border);}
+.cover .cv-meta-num{font-family:"Space Grotesk",sans-serif;font-size:18px;font-weight:700;line-height:1;color:var(--accent);}
+.cover .cv-meta-label{font-family:"JetBrains Mono",monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-mute);}
+
+/* ================================================================
+   Card 02 · 要点列表 —— 标题顶 / 3卡片space-evenly中 / 装饰线底
+   ================================================================ */
+.keylist{display:flex;flex-direction:column;padding:0;background:var(--bg);}
+.keylist .noise{opacity:0.05;}
+/* 顶部 25% */
+.keylist .kl-top{
+  width:100%;height:180px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  position:relative;z-index:2;background:var(--bg2);
+  border-bottom:1px solid var(--border);
+}
+.keylist .kl-eyebrow{font-family:"JetBrains Mono",monospace;font-size:10px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);margin-bottom:8px;}
+.keylist .kl-title{font-family:"Noto Sans SC",sans-serif;font-weight:900;font-size:28px;line-height:1.15;letter-spacing:-0.02em;color:var(--text);}
+.keylist .kl-title .hl{color:var(--accent);}
+/* 中部 50% */
+.keylist .kl-mid{
+  flex:1;display:flex;flex-direction:column;gap:12px;position:relative;z-index:2;
+  justify-content:space-evenly;padding:18px 26px;
+}
+.keylist .kl-item{
+  display:flex;gap:14px;align-items:center;padding:14px 16px;
+  background:var(--bg2);border-left:4px solid var(--accent);
+  position:relative;
+}
+.keylist .kl-item-num{
+  font-family:"Space Grotesk",sans-serif;font-size:32px;font-weight:700;line-height:1;
+  flex-shrink:0;min-width:40px;color:var(--accent);
+}
+.keylist .kl-item-content{flex:1;}
+.keylist .kl-item-title{font-family:"Noto Sans SC",sans-serif;font-weight:700;font-size:16px;line-height:1.25;margin-bottom:3px;color:var(--text);}
+.keylist .kl-item-desc{font-size:12px;font-weight:400;line-height:1.5;color:var(--text-sub);}
+/* 底部 25% */
+.keylist .kl-bot{
+  width:100%;height:150px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;
+  position:relative;z-index:2;padding:14px 26px;
+  background:linear-gradient(0deg,var(--bg2) 0%,transparent 100%);
+}
+.keylist .kl-divider{width:80%;height:1px;background:var(--border);position:relative;}
+.keylist .kl-divider::before,.keylist .kl-divider::after{content:"";position:absolute;top:50%;width:6px;height:6px;border-radius:50%;background:var(--accent);transform:translateY(-50%);}
+.keylist .kl-divider::before{left:-3px;}
+.keylist .kl-divider::after{right:-3px;}
+.keylist .kl-footnote{font-family:"JetBrains Mono",monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--text-mute);}
+.keylist .kl-footnote .hl{color:var(--accent);}
+
+/* ================================================================
+   Card 03 / 07 · 金句 —— 引号顶 / 金句中 / 出处+四角底
+   ================================================================ */
+.quote{display:flex;flex-direction:column;align-items:center;justify-content:space-between;text-align:center;padding:0;background:var(--bg);}
+.quote .noise{opacity:0.07;}
+.quote .qt-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:440px;height:440px;pointer-events:none;background:radial-gradient(circle,var(--glow) 0%,transparent 70%);z-index:1;}
+/* 顶部 25% */
+.quote .qt-top{
+  width:100%;height:170px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;
+  padding-bottom:8px;position:relative;z-index:2;
+}
+.quote .qt-mark{font-family:"Noto Serif SC",serif;font-size:90px;font-weight:900;line-height:0.6;color:var(--accent);opacity:0.3;}
+/* 中部 50% */
+.quote .qt-mid{
+  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  position:relative;z-index:2;padding:0 28px;
+  background:radial-gradient(circle,rgba(212,136,90,0.06) 1px,transparent 1px) 0 0/22px 22px;
+}
+.quote .qt-text{font-family:"Noto Sans SC",sans-serif;font-weight:900;font-size:38px;line-height:1.3;letter-spacing:-0.02em;color:var(--text);position:relative;z-index:3;}
+.quote .qt-text .hl{color:var(--accent);}
+/* 底部 25% */
+.quote .qt-bot{
+  width:100%;height:170px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;
+  position:relative;z-index:2;padding:0 30px 18px;
+  background:
+    radial-gradient(circle,rgba(212,136,90,0.12) 1px,transparent 1px) 0 0/16px 16px,
+    linear-gradient(0deg,var(--bg2) 0%,transparent 100%);
+  border-top:1px solid var(--border);
+}
+.quote .qt-bot-deco{display:flex;align-items:center;gap:8px;}
+.quote .qt-bot-deco-line{width:40px;height:1px;background:var(--accent);opacity:0.4;}
+.quote .qt-bot-deco-dot{width:4px;height:4px;border-radius:50%;background:var(--accent);opacity:0.6;}
+.quote .qt-cite{display:flex;align-items:center;gap:10px;}
+.quote .qt-cite-line{width:32px;height:2px;background:var(--accent);}
+.quote .qt-cite-text{font-family:"Space Grotesk",sans-serif;font-size:13px;font-weight:600;letter-spacing:0.06em;color:var(--text-sub);}
+.quote .qt-bot-label{font-family:"JetBrains Mono",monospace;font-size:8px;letter-spacing:0.2em;text-transform:uppercase;color:var(--text-mute);}
+.quote .qt-bot-label .hl{color:var(--accent);}
+.quote .qt-corners{position:absolute;inset:0;pointer-events:none;z-index:1;}
+.quote .qt-corner{position:absolute;width:24px;height:24px;border:1px solid var(--accent);opacity:0.4;}
+.quote .qt-corner.tl{top:16px;left:16px;border-right:none;border-bottom:none;}
+.quote .qt-corner.tr{top:16px;right:16px;border-left:none;border-bottom:none;}
+.quote .qt-corner.bl{bottom:16px;left:16px;border-right:none;border-top:none;}
+.quote .qt-corner.br{bottom:16px;right:60px;border-left:none;border-top:none;}
+
+/* ================================================================
+   Card 04 · 杂志导读 —— 标题顶 / 双栏中 / 总结框底
+   ================================================================ */
+.magazine{display:flex;flex-direction:column;padding:0;background:var(--bg);}
+.magazine .noise{opacity:0.05;}
+/* 顶部 25% */
+.magazine .mg-top{
+  width:100%;height:170px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  position:relative;z-index:2;background:var(--bg2);
+  border-bottom:2px solid var(--accent);
+  padding:0 26px;
+}
+.magazine .mg-eyebrow{font-family:"JetBrains Mono",monospace;font-size:10px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);margin-bottom:6px;}
+.magazine .mg-title{font-family:"Noto Sans SC",sans-serif;font-weight:900;font-size:24px;line-height:1.2;letter-spacing:-0.02em;color:var(--text);text-align:center;}
+.magazine .mg-title .hl{color:var(--accent);}
+/* 中部 50% */
+.magazine .mg-mid{
+  flex:1;display:grid;grid-template-columns:1fr 1px 1fr;gap:0;position:relative;z-index:2;
+  padding:18px 22px;align-content:center;
+}
+.magazine .mg-col{display:flex;flex-direction:column;gap:8px;padding:0 12px;}
+.magazine .mg-divider{background:var(--border);}
+.magazine .mg-subhead{
+  font-family:"Noto Sans SC",sans-serif;font-weight:900;font-size:14px;
+  padding-bottom:4px;border-bottom:1px solid var(--border);color:var(--accent);
+  letter-spacing:0.02em;
+}
+.magazine .mg-para{font-size:12.5px;font-weight:400;line-height:1.85;color:var(--text);}
+.magazine .mg-para .hl{font-weight:700;color:var(--accent);}
+/* 底部 25% */
+.magazine .mg-bot{
+  width:100%;height:160px;display:flex;align-items:center;justify-content:center;
+  position:relative;z-index:2;padding:14px 26px;
+  background:var(--bg2);border-top:1px solid var(--border);
+}
+.magazine .mg-summary{padding:14px 18px;background:var(--bg);border-left:4px solid var(--accent);width:100%;position:relative;}
+.magazine .mg-summary::before{content:"";position:absolute;top:8px;right:10px;width:8px;height:8px;background:var(--accent);border-radius:50%;opacity:0.6;}
+.magazine .mg-summary-label{font-family:"JetBrains Mono",monospace;font-size:9px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;margin-bottom:6px;color:var(--accent);}
+.magazine .mg-summary-text{font-size:13px;font-weight:400;line-height:1.5;color:var(--text);}
+.magazine .mg-summary-text .hl{font-weight:700;color:var(--accent);}
+
+/* ================================================================
+   Card 05 · 引用插入 —— 标题顶 / 正文+pullquote中 / 末段到底
+   ================================================================ */
+.pullquote{display:flex;flex-direction:column;padding:0;background:var(--bg);}
+.pullquote .noise{opacity:0.06;}
+.pullquote .pq-texture{
+  position:absolute;inset:0;pointer-events:none;z-index:1;
+  background-image:repeating-linear-gradient(45deg,transparent 0,transparent 20px,rgba(212,136,90,0.015) 20px,rgba(212,136,90,0.015) 21px);
+}
+/* 顶部 25% */
+.pullquote .pq-top{
+  width:100%;height:160px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  position:relative;z-index:2;background:var(--bg2);
+  border-bottom:1px solid var(--border);
+}
+.pullquote .pq-eyebrow{font-family:"JetBrains Mono",monospace;font-size:10px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);margin-bottom:6px;}
+.pullquote .pq-title{font-family:"Noto Sans SC",sans-serif;font-weight:900;font-size:22px;line-height:1.2;letter-spacing:-0.02em;color:var(--text);text-align:center;}
+.pullquote .pq-title .hl{color:var(--accent);}
+/* 中部 50% */
+.pullquote .pq-mid{
+  flex:1;display:flex;flex-direction:column;gap:12px;position:relative;z-index:2;
+  justify-content:center;padding:16px 26px;
+}
+.pullquote .pq-para{font-size:13px;font-weight:400;line-height:1.85;color:var(--text);}
+.pullquote .pq-para .hl{font-weight:700;color:var(--accent);}
+.pullquote .pq-pullquote{
+  padding:14px 16px;margin:4px 0;
+  border-left:4px solid var(--accent);background:var(--bg2);
+  position:relative;
+}
+.pullquote .pq-pullquote::before{
+  content:"";position:absolute;top:0;right:0;width:0;height:0;
+  border-style:solid;border-width:0 12px 12px 0;border-color:transparent var(--accent) transparent transparent;opacity:0.5;
+}
+.pullquote .pq-pullquote-text{font-family:"Noto Serif SC",serif;font-size:15px;font-weight:400;font-style:italic;line-height:1.6;margin-bottom:6px;color:var(--text);}
+.pullquote .pq-pullquote-cite{font-family:"JetBrains Mono",monospace;font-size:9px;letter-spacing:0.1em;color:var(--text-mute);}
+/* 底部 25% */
+.pullquote .pq-bot{
+  width:100%;height:150px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
+  position:relative;z-index:2;padding:14px 26px;
+  background:var(--bg2);border-top:1px solid var(--border);
+}
+.pullquote .pq-bot-text{font-size:12.5px;font-weight:400;line-height:1.7;color:var(--text);text-align:center;max-width:400px;}
+.pullquote .pq-bot-text .hl{font-weight:700;color:var(--accent);}
+.pullquote .pq-tag{font-family:"JetBrains Mono",monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--text-mute);}
+
+/* ================================================================
+   Card 06 · 卡片拼接 —— 标题色块顶 / 3满版色块中下部
+   ================================================================ */
+.cardstack{display:flex;flex-direction:column;padding:0;background:var(--bg);}
+.cardstack .noise{opacity:0.05;}
+/* 顶部色块 25% */
+.cardstack .cs-top{
+  width:100%;height:170px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  position:relative;z-index:2;background:var(--bg2);
+  border-bottom:2px solid var(--accent);
+}
+.cardstack .cs-eyebrow{font-family:"JetBrains Mono",monospace;font-size:10px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);margin-bottom:6px;}
+.cardstack .cs-title{font-family:"Noto Sans SC",sans-serif;font-weight:900;font-size:24px;line-height:1.2;letter-spacing:-0.02em;color:var(--text);}
+.cardstack .cs-title .hl{color:var(--accent);}
+/* 3横条 75% —— 满版色块交替 */
+.cardstack .cs-body{flex:1;display:flex;flex-direction:column;position:relative;z-index:2;}
+.cardstack .cs-block{
+  flex:1;padding:16px 24px;display:flex;flex-direction:column;gap:6px;justify-content:center;
+  position:relative;
+}
+.cardstack .cs-block.b1{background:var(--bg);}
+.cardstack .cs-block.b2{background:var(--bg2);}
+.cardstack .cs-block.b3{background:var(--bg);}
+.cardstack .cs-block-header{display:flex;align-items:baseline;gap:10px;margin-bottom:4px;}
+.cardstack .cs-block-num{
+  font-family:"Space Grotesk",sans-serif;font-size:36px;font-weight:700;line-height:1;color:var(--accent);
+  flex-shrink:0;
+}
+.cardstack .cs-block-title{font-family:"Noto Sans SC",sans-serif;font-weight:900;font-size:16px;color:var(--text);}
+.cardstack .cs-block-text{font-size:12.5px;font-weight:400;line-height:1.7;color:var(--text-sub);padding-left:46px;}
+.cardstack .cs-block-text .hl{font-weight:700;color:var(--accent);}
+/* 横条间装饰线 */
+.cardstack .cs-block.b1::after,.cardstack .cs-block.b2::after{
+  content:"";position:absolute;bottom:0;left:24px;right:24px;height:1px;background:var(--border);
+}
+/* 右侧装饰点 */
+.cardstack .cs-block .cs-deco{
+  position:absolute;right:20px;top:50%;transform:translateY(-50%);
+  display:flex;flex-direction:column;gap:4px;
+}
+.cardstack .cs-block .cs-deco-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);opacity:0.3;}
+.cardstack .cs-block .cs-deco-dot:nth-child(2){opacity:0.5;}
+.cardstack .cs-block .cs-deco-dot:nth-child(3){opacity:0.7;}
+
+/* ================================================================
+   Card 08 · 结尾 CTA —— eyebrow顶 / CTA+IP中 / 联系方式底
+   ================================================================ */
+.endcard{display:flex;flex-direction:column;align-items:center;padding:0;background:var(--bg);}
+.endcard .noise{opacity:0.06;}
+.endcard .ec-glow{position:absolute;top:48%;left:50%;transform:translate(-50%,-50%);width:480px;height:480px;pointer-events:none;background:radial-gradient(circle,var(--glow) 0%,transparent 70%);z-index:1;}
+/* 顶部 25% */
+.endcard .ec-top{
+  width:100%;height:160px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;
+  padding-bottom:14px;position:relative;z-index:2;
+  background:linear-gradient(180deg,var(--bg2) 0%,var(--bg) 100%);
+}
+.endcard .ec-eyebrow{font-family:"JetBrains Mono",monospace;font-size:11px;font-weight:500;letter-spacing:0.22em;text-transform:uppercase;color:var(--accent);}
+/* 中部 50% —— CTA + IP圆形大图 */
+.endcard .ec-mid{
+  flex:1;position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;
+}
+.endcard .ec-cta{font-family:"Noto Sans SC",sans-serif;font-weight:900;font-size:38px;line-height:1.1;letter-spacing:-0.03em;color:var(--text);text-align:center;}
+.endcard .ec-cta .hl{color:var(--accent);}
+.endcard .ec-ip{width:200px;height:200px;}
+/* 底部 25% */
+.endcard .ec-bot{
+  width:100%;height:170px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;
+  position:relative;z-index:2;padding:0 30px 16px;
+  background:
+    radial-gradient(circle,rgba(212,136,90,0.13) 1px,transparent 1px) 0 0/14px 14px,
+    linear-gradient(0deg,var(--bg2) 0%,transparent 100%);
+  border-top:1px solid var(--border);
+}
+.endcard .ec-bot-deco{display:flex;align-items:center;gap:8px;margin-bottom:2px;}
+.endcard .ec-bot-deco-line{width:30px;height:1px;background:var(--accent);opacity:0.5;}
+.endcard .ec-bot-deco-dot{width:5px;height:5px;border-radius:50%;background:var(--accent);}
+.endcard .ec-sub{font-family:"Noto Serif SC",serif;font-size:14px;font-weight:300;line-height:1.6;font-style:italic;color:var(--text-sub);text-align:center;}
+.endcard .ec-contacts{display:flex;gap:0;align-items:center;border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:8px 0;width:100%;justify-content:center;}
+.endcard .ec-contact{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:0.06em;color:var(--text-sub);padding:0 14px;position:relative;}
+.endcard .ec-contact:not(:last-child)::after{content:"";position:absolute;right:0;top:20%;height:60%;width:1px;background:var(--border);}
+.endcard .ec-contact .hl{font-weight:700;color:var(--accent);}
+</style>
+</head>
+<body>
+
+<svg style="display:none"><symbol id="panda" viewBox="0 0 32 32" fill="none"><path d="M6 14C6 9 10 6 16 6C22 6 26 9 26 14L26 19C26 24 22 27 16 27C10 27 6 24 6 19Z" stroke="currentColor" stroke-width="1.8" fill="none"/><circle cx="8" cy="9" r="2.4" stroke="currentColor" stroke-width="1.8" fill="none"/><circle cx="24" cy="9" r="2.4" stroke="currentColor" stroke-width="1.8" fill="none"/><circle cx="16" cy="19" r="1.1" fill="currentColor"/></symbol></svg>
+
+<div class="page-header">
+  <h1>奥德赛时期 × <span class="hl">AI</span></h1>
+  <p>焦糖深蓝 · 8 CARDS · 小红书图文 V2</p>
+</div>
+
+<!-- ============ Card 01 · 封面 ============ -->
+<div class="card-wrap">
+  <div class="card-label">01 · 封面 COVER</div>
+  <div class="card cover">
+    <div class="noise"></div>
+    <div class="progress-bar"><div class="bar" style="width:10%"></div></div>
+    <!-- 背景装饰 -->
+    <div class="glow"></div>
+    <div class="watermark" style="top:-20px;left:-30px;font-size:120px;">ODYSSEY</div>
+    <div class="watermark" style="bottom:-30px;right:-20px;font-size:100px;">AI×ODYSSEY</div>
+    <div class="deco-ring" style="top:30px;right:30px;width:60px;height:60px;"></div>
+    <div class="deco-dot" style="top:50px;left:40px;width:8px;height:8px;background:var(--accent);opacity:0.4;"></div>
+    <div class="deco-dot" style="bottom:200px;left:30px;width:5px;height:5px;background:var(--neon);opacity:0.3;"></div>
+    <div class="deco-dot" style="top:200px;right:40px;width:6px;height:6px;background:var(--accent);opacity:0.3;"></div>
+    <div class="deco-square" style="bottom:190px;right:30px;width:14px;height:14px;transform:rotate(45deg);"></div>
+    <div class="edge-text" style="bottom:6px;left:50%;transform:translateX(-50%);">ODYSSEY × AI · 2025 · LOKI · ODYSSEY × AI · 2025 · LOKI</div>
+
+    <!-- 顶部 25% -->
+    <div class="cv-top">
+      <div class="cv-eyebrow">ODYSSEY × AI</div>
+      <h2 class="cv-title">AI到底在<br><span class="hl">缩短</span>还是<span class="hl">拉长</span><br>你的迷茫</h2>
+    </div>
+    <!-- 中部 50% —— IP视觉主体 -->
+    <div class="cv-mid">
+      <img class="ip-hero cv-ip" src="ip-library/loki-thinking.png" alt="Loki">
+    </div>
+    <!-- 底部 25% -->
+    <div class="cv-bot">
+      <div class="cv-bot-deco-top">
+        <div class="cv-bot-deco-line"></div>
+        <div class="cv-bot-deco-dot"></div>
+        <div class="cv-bot-deco-label">两面观察</div>
+        <div class="cv-bot-deco-dot"></div>
+        <div class="cv-bot-deco-line"></div>
+      </div>
+      <p class="cv-sub">一个文科生的两面观察</p>
+      <div class="cv-meta">
+        <div class="cv-meta-item"><span class="cv-meta-num">20-35</span><span class="cv-meta-label">岁</span></div>
+        <div class="cv-meta-item"><span class="cv-meta-num">试错</span><span class="cv-meta-label">成本</span></div>
+        <div class="cv-meta-item"><span class="cv-meta-num">两面性</span><span class="cv-meta-label">观察</span></div>
+      </div>
+    </div>
+    <div class="brand-mark"><svg><use href="#panda"/></svg><span class="brand-text">赛博小熊猫Loki</span></div>
+  </div>
+</div>
+
+<!-- ============ Card 02 · 要点列表 ============ -->
+<div class="card-wrap">
+  <div class="card-label">02 · 要点列表 KEYLIST</div>
+  <div class="card keylist">
+    <div class="noise"></div>
+    <div class="progress-bar"><div class="bar" style="width:25%"></div></div>
+    <!-- 背景装饰 -->
+    <div class="watermark" style="top:60px;right:-40px;font-size:110px;">ODYSSEY</div>
+    <div class="deco-dot" style="top:140px;left:30px;width:6px;height:6px;background:var(--accent);opacity:0.4;"></div>
+    <div class="deco-dot" style="bottom:120px;right:30px;width:5px;height:5px;background:var(--neon);opacity:0.3;"></div>
+    <div class="deco-ring" style="bottom:50px;left:30px;width:40px;height:40px;"></div>
+    <div class="edge-text" style="top:6px;left:50%;transform:translateX(-50%);">FEATURE · 3 · ODYSSEY PERIOD · FEATURE · 3 · ODYSSEY PERIOD</div>
+
+    <!-- 顶部 25% -->
+    <div class="kl-top">
+      <div class="kl-eyebrow">什么是奥德赛时期</div>
+      <h2 class="kl-title"><span class="hl">3个</span>特征</h2>
+    </div>
+    <!-- 中部 50% —— space-evenly撑满 -->
+    <div class="kl-mid">
+      <div class="kl-item">
+        <span class="kl-item-num">01</span>
+        <div class="kl-item-content">
+          <h4 class="kl-item-title">20-35岁</h4>
+          <p class="kl-item-desc">没钱没经验，但有抱负，飘着的日子</p>
+        </div>
+      </div>
+      <div class="kl-item">
+        <span class="kl-item-num">02</span>
+        <div class="kl-item-content">
+          <h4 class="kl-item-title">标准路径失效</h4>
+          <p class="kl-item-desc">读书→工作→结婚→买房，前人攻略过期了</p>
+        </div>
+      </div>
+      <div class="kl-item">
+        <span class="kl-item-num">03</span>
+        <div class="kl-item-content">
+          <h4 class="kl-item-title">只能不停试</h4>
+          <p class="kl-item-desc">转行、考证、副业，但试错需要成本</p>
+        </div>
+      </div>
+    </div>
+    <!-- 底部 25% -->
+    <div class="kl-bot">
+      <div class="kl-divider"></div>
+      <div class="kl-footnote">不是bug · 是<span class="hl">必经路段</span></div>
+      <div class="kl-divider"></div>
+    </div>
+    <div class="brand-mark"><svg><use href="#panda"/></svg><span class="brand-text">赛博小熊猫Loki</span></div>
+  </div>
+</div>
+
+<!-- ============ Card 03 · 金句 ============ -->
+<div class="card-wrap">
+  <div class="card-label">03 · 金句 QUOTE</div>
+  <div class="card quote">
+    <div class="noise"></div>
+    <div class="progress-bar"><div class="bar" style="width:40%"></div></div>
+    <div class="qt-glow"></div>
+    <!-- 背景大字水印 -->
+    <div class="watermark" style="top:50%;left:50%;transform:translate(-50%,-50%) rotate(-8deg);font-size:140px;">ODYSSEY</div>
+    <div class="watermark" style="bottom:20px;left:-20px;font-size:80px;">MAP EXPIRED</div>
+    <!-- 四角装饰 -->
+    <div class="qt-corners">
+      <div class="qt-corner tl"></div>
+      <div class="qt-corner tr"></div>
+      <div class="qt-corner bl"></div>
+      <div class="qt-corner br"></div>
+    </div>
+    <!-- 散布装饰点 -->
+    <div class="deco-dot" style="top:180px;left:50px;width:7px;height:7px;background:var(--accent);opacity:0.4;"></div>
+    <div class="deco-dot" style="top:200px;right:50px;width:5px;height:5px;background:var(--neon);opacity:0.3;"></div>
+    <div class="deco-dot" style="bottom:200px;left:60px;width:6px;height:6px;background:var(--accent);opacity:0.3;"></div>
+    <div class="deco-square" style="bottom:190px;right:50px;width:12px;height:12px;transform:rotate(45deg);"></div>
+    <div class="edge-text" style="bottom:6px;left:50%;transform:translateX(-50%);">QUOTE · 03 · LOKI · QUOTE · 03 · LOKI · QUOTE · 03 · LOKI</div>
+
+    <!-- 顶部 25% -->
+    <div class="qt-top">
+      <div class="qt-mark">"</div>
+    </div>
+    <!-- 中部 50% -->
+    <div class="qt-mid">
+      <div class="qt-text">前人的攻略<br>已经<span class="hl">过期</span>了<br>他们摸索的地图<br>对现在来说<br>已经<span class="hl">旧了</span></div>
+    </div>
+    <!-- 底部 25% -->
+    <div class="qt-bot">
+      <div class="qt-bot-deco">
+        <div class="qt-bot-deco-line"></div>
+        <div class="qt-bot-deco-dot"></div>
+        <div class="qt-bot-label">地图<span class="hl">已过期</span></div>
+        <div class="qt-bot-deco-dot"></div>
+        <div class="qt-bot-deco-line"></div>
+      </div>
+      <div class="qt-cite">
+        <div class="qt-cite-line"></div>
+        <span class="qt-cite-text">赛博小熊猫Loki</span>
+        <div class="qt-cite-line"></div>
+      </div>
+      <div class="qt-bot-label">CARD 03 · QUOTE</div>
+    </div>
+    <div class="brand-mark"><svg><use href="#panda"/></svg><span class="brand-text">赛博小熊猫Loki</span></div>
+  </div>
+</div>
+
+<!-- ============ Card 04 · 杂志导读 ============ -->
+<div class="card-wrap">
+  <div class="card-label">04 · 杂志导读 MAGAZINE</div>
+  <div class="card magazine">
+    <div class="noise"></div>
+    <div class="progress-bar"><div class="bar" style="width:55%"></div></div>
+    <!-- 背景装饰 -->
+    <div class="watermark" style="top:140px;right:-30px;font-size:90px;">DEEP DIVE</div>
+    <div class="deco-dot" style="top:30px;left:30px;width:6px;height:6px;background:var(--accent);opacity:0.4;"></div>
+    <div class="deco-dot" style="bottom:30px;right:30px;width:5px;height:5px;background:var(--neon);opacity:0.3;"></div>
+    <div class="edge-text" style="top:6px;left:50%;transform:translateX(-50%);">MAGAZINE · 04 · BEFORE vs NOW · MAGAZINE · 04 · BEFORE vs NOW</div>
+
+    <!-- 顶部 25% -->
+    <div class="mg-top">
+      <div class="mg-eyebrow">AI怎么降低试错成本</div>
+      <h2 class="mg-title">文科生做了<span class="hl">编程</span>的事</h2>
+    </div>
+    <!-- 中部 50% —— 双栏撑满 -->
+    <div class="mg-mid">
+      <div class="mg-col">
+        <h3 class="mg-subhead">以前</h3>
+        <p class="mg-para">想学编程，先选Python还是C++？学UI要先了解PS、Figma。光是决定学什么，一个星期过去了，脑子已经累半死。</p>
+      </div>
+      <div class="mg-divider"></div>
+      <div class="mg-col">
+        <h3 class="mg-subhead">现在</h3>
+        <p class="mg-para">跟AI说「我需要一个页面，左边预览右边参数」，它就给你弄。一两天就能发现：我到底喜不喜欢？适不适合？<span class="hl">犹豫期被压缩了。</span></p>
+      </div>
+    </div>
+    <!-- 底部 25% -->
+    <div class="mg-bot">
+      <div class="mg-summary">
+        <div class="mg-summary-label">TAKEAWAY</div>
+        <p class="mg-summary-text">以前纠结几周的事，现在<span class="hl">一个周末</span>就能试</p>
+      </div>
+    </div>
+    <div class="brand-mark"><svg><use href="#panda"/></svg><span class="brand-text">赛博小熊猫Loki</span></div>
+  </div>
+</div>
+
+<!-- ============ Card 05 · 引用插入 ============ -->
+<div class="card-wrap">
+  <div class="card-label">05 · 引用插入 PULL QUOTE</div>
+  <div class="card pullquote">
+    <div class="noise"></div>
+    <div class="pq-texture"></div>
+    <div class="progress-bar"><div class="bar" style="width:70%"></div></div>
+    <!-- 背景装饰 -->
+    <div class="watermark" style="top:150px;left:-30px;font-size:100px;">DEEP NIGHT</div>
+    <div class="deco-dot" style="top:30px;right:30px;width:6px;height:6px;background:var(--accent);opacity:0.4;"></div>
+    <div class="deco-ring" style="bottom:50px;right:30px;width:36px;height:36px;"></div>
+    <div class="edge-text" style="top:6px;left:50%;transform:translateX(-50%);">NARRATIVE · 05 · 2AM TALK · NARRATIVE · 05 · 2AM TALK</div>
+
+    <!-- 顶部 25% -->
+    <div class="pq-top">
+      <div class="pq-eyebrow">深夜倾诉</div>
+      <h2 class="pq-title">半夜打开AI<br>聊我的<span class="hl">困惑</span></h2>
+    </div>
+    <!-- 中部 50% -->
+    <div class="pq-mid">
+      <p class="pq-para">焦虑的时候，你需要倾诉的人。但你不太可能半夜打电话给朋友，更不会打给父母——无非增加他们的担忧。</p>
+      <div class="pq-pullquote">
+        <p class="pq-pullquote-text">你不想一个人面对，但也没严重到需要找心理医生。AI及时填补了那个空缺。</p>
+        <span class="pq-pullquote-cite">— 深夜倾诉</span>
+      </div>
+    </div>
+    <!-- 底部 25% -->
+    <div class="pq-bot">
+      <p class="pq-bot-text">它不会告诉你辞职还是不辞。它会反问你：<span class="hl">你害怕的到底是失败，还是让别人失望？</span>有时候我们不需要别人告诉怎么做，需要的是帮我们厘清思路。</p>
+      <div class="pq-tag">厘清思路 · 而非替你决定</div>
+    </div>
+    <div class="brand-mark"><svg><use href="#panda"/></svg><span class="brand-text">赛博小熊猫Loki</span></div>
+  </div>
+</div>
+
+<!-- ============ Card 06 · 卡片拼接 ============ -->
+<div class="card-wrap">
+  <div class="card-label">06 · 卡片拼接 STACK</div>
+  <div class="card cardstack">
+    <div class="noise"></div>
+    <div class="progress-bar"><div class="bar" style="width:85%"></div></div>
+    <!-- 背景装饰 -->
+    <div class="edge-text" style="top:6px;left:50%;transform:translateX(-50%);">3 TRAPS · 06 · AI PITFALLS · 3 TRAPS · 06 · AI PITFALLS</div>
+
+    <!-- 顶部色块 25% -->
+    <div class="cs-top">
+      <div class="cs-eyebrow">但事情没那么简单</div>
+      <h2 class="cs-title">AI的<span class="hl">3个陷阱</span></h2>
+    </div>
+    <!-- 3横条 75% —— 满版色块交替 -->
+    <div class="cs-body">
+      <div class="cs-block b1">
+        <div class="cs-block-header"><span class="cs-block-num">01</span><span class="cs-block-title">选项爆炸</span></div>
+        <p class="cs-block-text">AI给你50个方向，每条都说能赚钱。以前不知道往哪走，现在<span class="hl">每条都想走</span></p>
+        <div class="cs-deco"><div class="cs-deco-dot"></div><div class="cs-deco-dot"></div><div class="cs-deco-dot"></div></div>
+      </div>
+      <div class="cs-block b2">
+        <div class="cs-block-header"><span class="cs-block-num">02</span><span class="cs-block-title">努力的幻觉</span></div>
+        <p class="cs-block-text">跟AI聊一下午职业规划，觉得收获满满。但你做了什么？<span class="hl">聊天记录长不叫努力</span></p>
+        <div class="cs-deco"><div class="cs-deco-dot"></div><div class="cs-deco-dot"></div><div class="cs-deco-dot"></div></div>
+      </div>
+      <div class="cs-block b3">
+        <div class="cs-block-header"><span class="cs-block-num">03</span><span class="cs-block-title">该迷茫的迷茫</span></div>
+        <p class="cs-block-text">奥德赛时期不是bug，是必经路段。AI能帮你跑更快，但<span class="hl">不等于更知道去哪</span></p>
+        <div class="cs-deco"><div class="cs-deco-dot"></div><div class="cs-deco-dot"></div><div class="cs-deco-dot"></div></div>
+      </div>
+    </div>
+    <div class="brand-mark"><svg><use href="#panda"/></svg><span class="brand-text">赛博小熊猫Loki</span></div>
+  </div>
+</div>
+
+<!-- ============ Card 07 · 金句 ============ -->
+<div class="card-wrap">
+  <div class="card-label">07 · 金句 QUOTE</div>
+  <div class="card quote">
+    <div class="noise"></div>
+    <div class="progress-bar"><div class="bar" style="width:95%"></div></div>
+    <div class="qt-glow"></div>
+    <!-- 背景大字水印 -->
+    <div class="watermark" style="top:50%;left:50%;transform:translate(-50%,-50%) rotate(6deg);font-size:130px;">SAME PATH</div>
+    <div class="watermark" style="bottom:20px;right:-20px;font-size:80px;">LESS TIRED</div>
+    <!-- 四角装饰 -->
+    <div class="qt-corners">
+      <div class="qt-corner tl"></div>
+      <div class="qt-corner tr"></div>
+      <div class="qt-corner bl"></div>
+      <div class="qt-corner br"></div>
+    </div>
+    <!-- 散布装饰点 -->
+    <div class="deco-dot" style="top:190px;right:50px;width:7px;height:7px;background:var(--accent);opacity:0.4;"></div>
+    <div class="deco-dot" style="top:210px;left:50px;width:5px;height:5px;background:var(--neon);opacity:0.3;"></div>
+    <div class="deco-dot" style="bottom:200px;right:60px;width:6px;height:6px;background:var(--accent);opacity:0.3;"></div>
+    <div class="deco-square" style="bottom:190px;left:50px;width:12px;height:12px;transform:rotate(45deg);"></div>
+    <div class="deco-ring" style="top:180px;left:40px;width:30px;height:30px;"></div>
+    <div class="edge-text" style="bottom:6px;left:50%;transform:translateX(-50%);">QUOTE · 07 · LOKI · QUOTE · 07 · LOKI · QUOTE · 07 · LOKI</div>
+
+    <!-- 顶部 25% -->
+    <div class="qt-top">
+      <div class="qt-mark">"</div>
+    </div>
+    <!-- 中部 50% -->
+    <div class="qt-mid">
+      <div class="qt-text">路<span class="hl">没变</span><br>但没那么<br><span class="hl">累了</span></div>
+    </div>
+    <!-- 底部 25% -->
+    <div class="qt-bot">
+      <div class="qt-bot-deco">
+        <div class="qt-bot-deco-line"></div>
+        <div class="qt-bot-deco-dot"></div>
+        <div class="qt-bot-label">同行<span class="hl">更轻松</span></div>
+        <div class="qt-bot-deco-dot"></div>
+        <div class="qt-bot-deco-line"></div>
+      </div>
+      <div class="qt-cite">
+        <div class="qt-cite-line"></div>
+        <span class="qt-cite-text">赛博小熊猫Loki</span>
+        <div class="qt-cite-line"></div>
+      </div>
+      <div class="qt-bot-label">CARD 07 · QUOTE</div>
+    </div>
+    <div class="brand-mark"><svg><use href="#panda"/></svg><span class="brand-text">赛博小熊猫Loki</span></div>
+  </div>
+</div>
+
+<!-- ============ Card 08 · 结尾 CTA ============ -->
+<div class="card-wrap">
+  <div class="card-label">08 · 结尾 END</div>
+  <div class="card endcard">
+    <div class="noise"></div>
+    <div class="progress-bar"><div class="bar" style="width:100%"></div></div>
+    <!-- 背景装饰 -->
+    <div class="ec-glow"></div>
+    <div class="watermark" style="top:-20px;right:-30px;font-size:110px;">FOLLOW</div>
+    <div class="watermark" style="bottom:-20px;left:-20px;font-size:90px;">HILOKI.AI</div>
+    <div class="deco-ring" style="top:40px;left:30px;width:50px;height:50px;"></div>
+    <div class="deco-dot" style="top:60px;right:40px;width:8px;height:8px;background:var(--accent);opacity:0.4;"></div>
+    <div class="deco-dot" style="bottom:180px;left:40px;width:5px;height:5px;background:var(--neon);opacity:0.3;"></div>
+    <div class="deco-square" style="bottom:190px;right:40px;width:14px;height:14px;transform:rotate(45deg);"></div>
+    <div class="edge-text" style="bottom:6px;left:50%;transform:translateX(-50%);">END · 08 · FOLLOW LOKI · END · 08 · FOLLOW LOKI · END · 08</div>
+
+    <!-- 顶部 25% -->
+    <div class="ec-top">
+      <div class="ec-eyebrow">END · 关注</div>
+    </div>
+    <!-- 中部 50% —— CTA + IP视觉主体 -->
+    <div class="ec-mid">
+      <h2 class="ec-cta"><span class="hl">关注我</span><br>每周AI实测</h2>
+      <img class="ip-hero ec-ip" src="ip-library/loki-hero-pose.png" alt="Loki">
+    </div>
+    <!-- 底部 25% -->
+    <div class="ec-bot">
+      <div class="ec-bot-deco">
+        <div class="ec-bot-deco-line"></div>
+        <div class="ec-bot-deco-dot"></div>
+        <div class="ec-bot-deco-label" style="font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);opacity:0.7;">每周更新</div>
+        <div class="ec-bot-deco-dot"></div>
+        <div class="ec-bot-deco-line"></div>
+      </div>
+      <p class="ec-sub">不水字数，只测真正有用的<br>一个文科生的AI工具箱</p>
+      <div class="ec-contacts">
+        <p class="ec-contact">公众号 · <span class="hl">赛博小熊猫Loki</span></p>
+        <p class="ec-contact">网站 · <span class="hl">hiloki.ai</span></p>
+      </div>
+    </div>
+    <div class="brand-mark"><svg><use href="#panda"/></svg><span class="brand-text">赛博小熊猫Loki</span></div>
+  </div>
+</div>
+
+</body>
+</html>

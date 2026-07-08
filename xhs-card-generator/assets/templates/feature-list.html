@@ -1,0 +1,37 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: {{bg}}; --text: {{text}}; --mid: {{mid}}; --dim: {{dim}};
+    --accent: {{accent}}; --rule: {{rule}};
+    --font-serif: 'Noto Serif SC', serif;
+    --font-sans: 'PingFang SC', 'Noto Sans SC', system-ui, sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #1a1a1a; }
+  .page { width: 1080px; height: 1440px; margin-bottom: 40px; page-break-after: always; }
+  .card { width: 1080px; height: 1440px; background: var(--bg); display: flex; flex-direction: column; padding: 90px 72px 52px; }
+  .running { font: 400 22px/1.5 var(--font-sans); color: var(--dim); letter-spacing: 0.08em; margin-bottom: 44px; }
+  h2 { font: 600 44px/1.25 var(--font-serif); color: var(--text); letter-spacing: -0.02em; margin-bottom: 48px; }
+  .item { margin-bottom: 40px; padding-left: 22px; border-left: 2px solid var(--accent); }
+  .item .lbl { font: 500 36px/1.4 var(--font-sans); color: var(--text); }
+  .item .desc { font: 400 28px/1.6 var(--font-sans); color: var(--mid); margin-top: 4px; }
+  .note { font: 500 32px/1.6 var(--font-serif); color: var(--text); margin-top: 20px; }
+  .ft { margin-top: auto; padding-top: 22px; border-top: 1px solid var(--rule); display: flex; justify-content: flex-end; }
+  .pg { font: 400 20px/1.5 var(--font-sans); color: var(--dim); letter-spacing: 0.03em; }
+</style>
+
+<div class="page">
+  <div class="card">
+    <div class="running">{{running_title}}</div>
+    <h2>{{heading}}</h2>
+    {{#items}}
+    <div class="item">
+      <div class="lbl">{{label}}</div>
+      {{#desc}}<div class="desc">{{desc}}</div>{{/desc}}
+    </div>
+    {{/items}}
+    {{#note}}<div class="note">{{note}}</div>{{/note}}
+    <div class="ft"><span class="pg">{{page_num}} / {{total_pages}}</span></div>
+  </div>
+</div>

@@ -1,0 +1,44 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: {{bg}}; --text: {{text}}; --mid: {{mid}}; --dim: {{dim}};
+    --accent: {{accent}}; --rule: {{rule}};
+    --font-serif: 'Noto Serif SC', serif;
+    --font-sans: 'PingFang SC', 'Noto Sans SC', system-ui, sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #1a1a1a; }
+  .page { width: 1080px; height: 1440px; margin-bottom: 40px; page-break-after: always; }
+  .card { width: 1080px; height: 1440px; background: var(--bg); display: flex; flex-direction: row; }
+  .left { flex: 1; background: #DED6CA; display: flex; flex-direction: column; justify-content: center; padding: 100px 55px; }
+  .right { flex: 1; background: var(--bg); display: flex; flex-direction: column; justify-content: center; padding: 100px 55px; }
+  .tag { display: inline-block; font: 600 28px/1 var(--font-sans); padding: 10px 20px; border-radius: 4px; margin-bottom: 36px; letter-spacing: 0.05em; }
+  .left .tag { background: #C8BBA8; color: #6B5D4D; }
+  .right .tag { background: var(--accent); color: #FAF8F4; }
+  .left .txt { font: 400 30px/1.5 var(--font-sans); color: #8B7B6B; margin-bottom: 8px; }
+  .right .txt { font: 500 40px/1.4 var(--font-sans); color: var(--text); margin-bottom: 10px; }
+  .big-num { font: 700 90px/1 var(--font-serif); color: #C2442A; margin-top: 28px; letter-spacing: -0.03em; }
+  .left .fade { font: 400 22px/1.6 var(--font-sans); color: #A89885; margin-top: 44px; }
+  .divider { width: 2px; background: #D5CEC3; }
+</style>
+
+<div class="page">
+  <div class="card">
+    <div class="left">
+      <div class="tag">❌ {{bad_label}}</div>
+      {{#bad_lines}}
+      <div class="txt">{{.}}</div>
+      {{/bad_lines}}
+      {{#bad_note}}<div class="fade">{{bad_note}}</div>{{/bad_note}}
+    </div>
+    <div class="divider"></div>
+    <div class="right">
+      <div class="tag">✅ {{good_label}}</div>
+      {{#good_lines}}
+      <div class="txt">{{.}}</div>
+      {{/good_lines}}
+      {{#big_number}}<div class="big-num">{{big_number}}</div>{{/big_number}}
+    </div>
+  </div>
+</div>

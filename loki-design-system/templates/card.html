@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<!--
+  LOKI DESIGN SYSTEM · 单页卡片/封面模板
+  ─────────────────────────────────────
+  用途：公众号封面（900×383px）、小红书封面（3:4比例）、单页分享图
+  使用方法：
+  1. 选择下方三种风格之一，删掉其他两个
+  2. 搜索 [REPLACE:xxx] 替换内容
+  3. 截图或用浏览器打印成图片
+-->
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>[REPLACE:文章标题]</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@200;300;400;500;600&family=Noto+Sans+SC:wght@100;300;400;500&display=swap" rel="stylesheet">
+<style>@import url("https://fontsapi.zeoseven.com/92/main/result.css");</style>
+<style>
+:root {
+  --amber:       #C87A45;
+  --amber-light: #D9A87A;
+  --dark:        #1A1816;
+  --dark-panel:  #252220;
+  --paper:       #FDFAF5;
+  --warm:        #F5F0E8;
+  --oat:         #EBE4D6;
+  --text-muted:  #9A9085;
+  --text-sub:    #6B6157;
+  --smoke:       #6B8590;
+
+  --font-display: 'Smiley Sans Oblique', 'PingFang SC', sans-serif;
+  --font-label:   'Space Grotesk', sans-serif;
+  --font-body:    'Noto Sans SC', 'PingFang SC', sans-serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font-body); }
+
+/* ══ 封面 A：通用暖米底 + 右侧橙竖条（推荐，教程/工具类）══ */
+.cover-a {
+  width: 900px;
+  height: 383px;
+  background: var(--warm);
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 40px 120px 40px 48px;
+  overflow: hidden;
+}
+/* 右侧橙色竖条 */
+.cover-a::after {
+  content: '';
+  position: absolute;
+  right: 0; top: 0; bottom: 0;
+  width: 80px;
+  background: var(--amber);
+}
+/* 右侧竖排品牌名 */
+.cover-a-brand {
+  position: absolute;
+  right: 0;
+  top: 0; bottom: 0;
+  width: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  writing-mode: vertical-rl;
+  font-family: var(--font-display);
+  font-size: 14px;
+  letter-spacing: 0.12em;
+  color: var(--paper);
+}
+.cover-a-content { flex: 1; }
+.cover-a-eyebrow {
+  font-family: var(--font-label);
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-sub);
+  margin-bottom: 16px;
+}
+.cover-a-title {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 4.2vw, 48px);
+  line-height: 1.15;
+  color: var(--dark);
+  letter-spacing: -0.02em;
+  margin-bottom: 16px;
+}
+.cover-a-title .hl { color: var(--amber); }
+.cover-a-sub {
+  font-size: 14px;
+  color: var(--text-sub);
+  line-height: 1.6;
+}
+
+/* ══ 封面 B：全橙底白字（观点类/深度分析）══ */
+.cover-b {
+  width: 900px;
+  height: 383px;
+  background: var(--amber);
+  display: flex;
+  align-items: center;
+  padding: 48px 60px;
+  position: relative;
+  overflow: hidden;
+}
+/* 大号装饰数字 */
+.cover-b::before {
+  content: attr(data-vol);
+  position: absolute;
+  right: -10px; bottom: -20px;
+  font-family: var(--font-label);
+  font-weight: 200;
+  font-size: 200px;
+  color: rgba(26,24,22,0.12);
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+.cover-b-content { position: relative; z-index: 1; }
+.cover-b-eyebrow {
+  font-family: var(--font-label);
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(26,24,22,0.6);
+  margin-bottom: 20px;
+}
+.cover-b-title {
+  font-family: var(--font-display);
+  font-size: clamp(30px, 4.8vw, 52px);
+  line-height: 1.1;
+  color: var(--dark);
+  letter-spacing: -0.02em;
+  max-width: 600px;
+}
+
+/* ══ 封面 C：暗墨底 + 网格 + 竖排品牌名（科技/产品类）══ */
+.cover-c {
+  width: 900px;
+  height: 383px;
+  background: var(--dark);
+  display: flex;
+  align-items: center;
+  padding: 48px 56px;
+  position: relative;
+  overflow: hidden;
+}
+/* 网格底纹 */
+.cover-c::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(200,122,69,0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(200,122,69,0.06) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+}
+/* 左侧橙竖线 */
+.cover-c::after {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 4px;
+  background: var(--amber);
+}
+.cover-c-content { position: relative; z-index: 1; flex: 1; }
+.cover-c-eyebrow {
+  font-family: var(--font-label);
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--smoke);
+  margin-bottom: 20px;
+  padding-left: 20px;
+}
+.cover-c-title {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 4vw, 46px);
+  line-height: 1.15;
+  color: var(--paper);
+  letter-spacing: -0.02em;
+  padding-left: 20px;
+  max-width: 620px;
+}
+.cover-c-title .hl { color: var(--amber); }
+.cover-c-brand {
+  position: absolute;
+  right: 56px;
+  top: 50%;
+  transform: translateY(-50%);
+  writing-mode: vertical-rl;
+  font-family: var(--font-display);
+  font-size: 13px;
+  letter-spacing: 0.15em;
+  color: rgba(200,122,69,0.4);
+}
+
+/* ══ 小红书封面（3:4，横评卡片风）══ */
+.cover-xhs {
+  width: 600px;
+  height: 800px;
+  background: var(--warm);
+  display: flex;
+  flex-direction: column;
+  padding: 48px 40px;
+  position: relative;
+  overflow: hidden;
+}
+.cover-xhs-tag {
+  display: inline-block;
+  font-family: var(--font-label);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border: 1px solid var(--amber);
+  color: var(--amber);
+  margin-bottom: 28px;
+  width: fit-content;
+}
+.cover-xhs-title {
+  font-family: var(--font-display);
+  font-size: 42px;
+  line-height: 1.15;
+  color: var(--dark);
+  letter-spacing: -0.02em;
+  margin-bottom: 24px;
+  flex: 1;
+}
+.cover-xhs-title .hl { color: var(--amber); }
+.cover-xhs-footer {
+  border-top: 1px solid var(--oat);
+  padding-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.cover-xhs-brand {
+  font-family: var(--font-display);
+  font-size: 14px;
+  color: var(--text-sub);
+}
+.cover-xhs-vol {
+  font-family: var(--font-label);
+  font-size: 11px;
+  font-weight: 300;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+}
+</style>
+</head>
+<body style="padding: 40px; background: #e8e0d6; display: flex; flex-wrap: wrap; gap: 32px; align-items: flex-start;">
+
+<!-- ── 选择下面一个，删掉其他 ── -->
+
+<!-- 封面 A（教程/工具类，暖米底） -->
+<div class="cover-a">
+  <div class="cover-a-content">
+    <div class="cover-a-eyebrow">[REPLACE:类型标签，如 AI 工具测评 · 2026.06]</div>
+    <h1 class="cover-a-title">
+      [REPLACE:标题第一行]<br>
+      <span class="hl">[REPLACE:高亮部分]</span>
+    </h1>
+    <p class="cover-a-sub">[REPLACE:副标题或一句话摘要]</p>
+  </div>
+  <div class="cover-a-brand">赛博小熊猫 Loki</div>
+</div>
+
+<!-- 封面 B（观点/深度，全橙底） -->
+<div class="cover-b" data-vol="[REPLACE:期数如03]">
+  <div class="cover-b-content">
+    <div class="cover-b-eyebrow">[REPLACE:类型，如 观点 · 2026.06]</div>
+    <h1 class="cover-b-title">[REPLACE:标题，25字以内]</h1>
+  </div>
+</div>
+
+<!-- 封面 C（科技/产品，暗墨底+网格） -->
+<div class="cover-c">
+  <div class="cover-c-content">
+    <div class="cover-c-eyebrow">[REPLACE:类型]</div>
+    <h1 class="cover-c-title">
+      [REPLACE:标题]<br>
+      <span class="hl">[REPLACE:高亮词]</span>
+    </h1>
+  </div>
+  <div class="cover-c-brand">赛博小熊猫</div>
+</div>
+
+<!-- 小红书封面 -->
+<div class="cover-xhs">
+  <div class="cover-xhs-tag">[REPLACE:类型标签]</div>
+  <h1 class="cover-xhs-title">
+    [REPLACE:小红书标题]<br>
+    <span class="hl">[REPLACE:高亮词]</span>
+  </h1>
+  <div class="cover-xhs-footer">
+    <span class="cover-xhs-brand">赛博小熊猫 Loki</span>
+    <span class="cover-xhs-vol">[REPLACE:期数或日期]</span>
+  </div>
+</div>
+
+</body>
+</html>

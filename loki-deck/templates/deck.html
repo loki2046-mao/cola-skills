@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Loki Deck · 替换为你的PPT标题</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@200;300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700;900&family=Noto+Serif+SC:wght@200;300;400;700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>@import url("https://fontsapi.zeoseven.com/92/main/result.css");</style>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
+/* ================================================================
+   配色系统 — 默认：主题01 墨黑信号
+   切换主题时整体替换 :root 中的变量
+   ================================================================ */
+:root{
+  --bg:#0A0A0A;
+  --bg2:#141414;
+  --accent:#FF5E1A;
+  --accent2:#E84A0F;
+  --text:#FAFAF8;
+  --text-sub:#8A8A85;
+  --text-mute:#5A5A55;
+  --text-ghost:#3A3A38;
+  --border:rgba(255,255,255,0.08);
+  --glow:rgba(255,94,26,0.18);
+  --neon:#00D9FF;
+  --on-accent:#0A0A0A;
+}
+
+/* ================================================================
+   舞台系统 — 1920×1080 固定 + scale 适配
+   ================================================================ */
+html,body{width:100%;height:100%;overflow:hidden;background:#050505;font-family:"Noto Sans SC",sans-serif;}
+
+.viewport{width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;position:relative;}
+
+.stage{
+  width:1920px;
+  height:1080px;
+  position:relative;
+  overflow:hidden;
+  transform-origin:center center;
+  background:var(--bg);
+  color:var(--text);
+}
+
+.slide{
+  position:absolute;
+  inset:0;
+  width:1920px;
+  height:1080px;
+  display:flex;
+  flex-direction:column;
+  visibility:hidden;
+  opacity:0;
+  transition:opacity 0.4s ease;
+  pointer-events:none;
+  overflow:hidden;
+}
+.slide.active{visibility:visible;opacity:1;pointer-events:auto;}
+
+/* ================================================================
+   通用元素
+   ================================================================ */
+.noise{
+  position:absolute;inset:0;pointer-events:none;opacity:0.04;z-index:1;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/></filter><rect width='200' height='200' filter='url(%23n)' opacity='0.8'/></svg>");
+}
+
+.brand-mark{position:absolute;bottom:28px;right:32px;display:flex;align-items:center;gap:10px;z-index:5;}
+.brand-mark .brand-text{font-family:"Space Grotesk",sans-serif;font-size:20px;font-weight:500;letter-spacing:0.04em;}
+.brand-mark svg{width:26px;height:26px;}
+.brand-mark.on-dark .brand-text,.brand-mark.on-dark svg{color:rgba(250,250,248,0.3);}
+.brand-mark.on-light .brand-text,.brand-mark.on-light svg{color:rgba(10,10,10,0.25);}
+
+.slide-page{
+  position:absolute;bottom:28px;left:32px;
+  font-family:"JetBrains Mono",monospace;font-size:20px;
+  letter-spacing:0.1em;z-index:5;color:var(--text-ghost);
+}
+
+.hl{color:var(--accent);}
+.mute{color:var(--text-sub);}
+
+/* 进度条 */
+.progress-bar{
+  position:fixed;top:0;left:0;height:5px;
+  background:var(--accent);z-index:100;
+  transition:width 0.4s ease;
+}
+
+/* 翻页提示 */
+.nav-hint{
+  position:fixed;bottom:16px;left:50%;transform:translateX(-50%);
+  font-family:"JetBrains Mono",monospace;font-size:12px;
+  letter-spacing:0.1em;color:rgba(250,250,248,0.2);
+  z-index:100;user-select:none;
+}
+
+/* ================================================================
+   版式 01 · 封面 · 居中大字
+   ================================================================ */
+.s-cover{align-items:center;justify-content:center;text-align:center;padding:80px 64px;}
+.s-cover .sv-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:1120px;height:1120px;pointer-events:none;background:radial-gradient(circle,var(--glow) 0%,transparent 65%);}
+.s-cover .sv-eyebrow{font-family:"JetBrains Mono",monospace;font-size:26px;font-weight:500;letter-spacing:0.25em;text-transform:uppercase;margin-bottom:56px;position:relative;z-index:2;color:var(--accent);}
+.s-cover .sv-title{font-family:"Noto Sans SC",sans-serif;font-weight:900;font-size:104px;line-height:1.12;letter-spacing:-0.02em;position:relative;z-index:2;margin-bottom:36px;color:var(--text);}
+.s-cover .sv-title .hl{color:var(--accent);}
+.s-cover .sv-sub{font-family:"Noto Serif SC",serif;font-size:32px;font-weight:300;line-height:1.6;font-style:italic;max-width:840px;position:relative;z-index:2;margin-bottom:auto;color:var(--text-sub);}
+.s-cover .sv-meta{display:flex;gap:48px;padding-top:36px;border-top:1px solid var(--border);width:100%;justify-content:center;position:relative;z-index:2;}
+.s-cover .sv-meta-item{display:flex;flex-direction:column;align-items:center;gap:2px;}
+.s-cover .sv-meta-num{font-family:"Space Grotesk",sans-serif;font-size:40px;font-weight:700;line-height:1;color:var(--accent);}
+.s-cover .sv-meta-label{font-size:20px;font-weight:400;color:var(--text-mute);}
+
+/* ================================================================
+   版式 02 · 章节过渡 · 大序号
+   ================================================================ */
+.s-chapter{align-items:center;justify-content:center;text-align:center;padding:80px 64px;}
+.s-chapter .ch-num{font-family:"Space Grotesk",sans-serif;font-size:240px;font-weight:200;line-height:0.8;margin-bottom:20px;position:relative;z-index:2;opacity:0.12;color:var(--accent);}
+.s-chapter .ch-eyebrow{font-family:"JetBrains Mono",monospace;font-size:24px;font-weight:500;letter-spacing:0.22em;text-transform:uppercase;margin-bottom:28px;position:relative;z-index:2;opacity:0.5;color:var(--accent);}
+.s-chapter .ch-title{font-family:"Noto Sans SC",sans-serif;font-weight:900;font-size:88px;line-height:1.1;letter-spacing:-0.02em;position:relative;z-index:2;color:var(--text);}
+
+/* ================================================================
+   版式 03 · 要点列表 · 编号卡片
+   ================================================================ */
+.s-keylist{padding:64px 72px;}
+.s-keylist .kl-header{margin-bottom:40px;position:relative;z-index:2;}
+.s-keylist .kl-eyebrow{font-family:"JetBrains Mono",monospace;font-size:22px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:16px;color:var(--accent);}
+.s-keylist .kl-title{font-family:"Noto Sans SC",sans-serif;font-weight:900;font-size:60px;line-height:1.15;letter-spacing:-0.02em;color:var(--text);}
+.s-keylist .kl-title .hl{color:var(--accent);}
+.s-keylist .kl-items{flex:1;display:flex;flex-direction:column;gap:20px;position:relative;z-index:2;justify-content:center;}
+.s-keylist .kl-item{display:flex;gap:32px;align-items:flex-start;padding:24px 32px;background:var(--bg2);border-left:6px solid var(--accent);}
+.s-keylist .kl-item-num{font-family:"Space Grotesk",sans-serif;font-size:48px;font-weight:700;line-height:1;flex-shrink:0;min-width:64px;color:var(--accent);}
+.s-keylist .kl-item-content{flex:1;display:flex;flex-direction:column;gap:6px;}
+.s-keylist .kl-item-title{font-family:"Noto Sans SC",sans-serif;font-weight:700;font-size:34px;line-height:1.25;color:var(--text);}
+.s-keylist .kl-item-desc{font-size:26px;font-weight:400;line-height:1.5;color:var(--text-sub);}
+
+/* ================================================================
+   版式 04 · 图文混排 · 上图下文
+   ================================================================ */
+.s-imgtext{display:flex;flex-direction:column;}
+.s-imgtext .it-img{height:560px;position:relative;display:flex;align-items:center;justify-content:center;border-bottom:6px solid var(--accent);flex-shrink:0;background:var(--bg2);}
+.s-imgtext .it-img::after{content:"📷 图片位 16:9";font-family:"JetBrains Mono",monospace;font-size:28px;letter-spacing:0.1em;color:var(--text-ghost);}
+.s-imgtext .it-imgtag{position:absolute;top:28px;left:28px;font-family:"Space Grotesk",sans-serif;font-size:22px;font-weight:700;padding:8px 20px;letter-spacing:0.08em;text-transform:uppercase;background:var(--accent);color:var(--on-accent);}
+.s-imgtext .it-content{flex:1;padding:40px 72px 32px;display:flex;flex-direction:column;}
+.s-imgtext .it-eyebrow{font-family:"JetBrains Mono",monospace;font-size:22px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:16px;color:var(--accent);}
+.s-imgtext .it-title{font-family:"Noto Sans SC",sans-serif;font-weight:900;font-size:52px;line-height:1.2;letter-spacing:-0.02em;margin-bottom:20px;color:var(--text);}
+.s-imgtext .it-title .hl{color:var(--accent);}
+.s-imgtext .it-body{font-size:28px;font-weight:400;line-height:1.7;flex:1;color:var(--text);}
+.s-imgtext .it-body .hl{font-weight:700;color:var(--accent);}
+.s-imgtext .it-body .mute{color:var(--text-sub);}
+.s-imgtext .it-meta{display:flex;justify-content:space-between;padding-top:16px;border-top:1px solid var(--border);}
+.s-imgtext .it-source{font-family:"JetBrains Mono",monospace;font-size:20px;color:var(--text-mute);}
+
+/* ================================================================
+   版式 05 · 数据大字 · 满版数字
+   ================================================================ */
+.s-data{padding:64px 72px;}
+.s-data .dt-glow{position:absolute;bottom:-15%;right:-8%;width:840px;height:840px;pointer-events:none;background:radial-gradient(circle,var(--glow) 0%,transparent 65%);}
+.s-data .dt-top{display:flex;justify-content:space-between;align-items:center;position:relative;z-index:2;margin-bottom:auto;}
+.s-data .dt-eyebrow{font-family:"JetBrains Mono",monospace;font-size:22px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);}
+.s-data .dt-neon{width:16px;height:16px;border-radius:50%;background:var(--neon);box-shadow:0 0 24px rgba(0,217,255,0.4);}
+.s-data .dt-main{flex:1;display:flex;flex-direction:column;justify-content:center;position:relative;z-index:2;}
+.s-data .dt-num{font-family:"Space Grotesk",sans-serif;font-size:280px;font-weight:200;letter-spacing:-0.05em;line-height:0.82;margin-left:-16px;color:var(--accent);}
+.s-data .dt-label{font-family:"Noto Sans SC",sans-serif;font-weight:900;font-size:44px;line-height:1.25;margin-top:28px;margin-bottom:12px;letter-spacing:-0.02em;color:var(--text);}
+.s-data .dt-label .hl{color:var(--accent);}
+.s-data .dt-interp{font-family:"Noto Serif SC",serif;font-size:28px;font-weight:300;line-height:1.6;max-width:840px;font-style:italic;color:var(--text-sub);}
+.s-data .dt-aux{display:flex;position:relative;z-index:2;border-top:1px solid var(--border);margin-top:28px;}
+.s-data .dt-aux-item{flex:1;padding:20px 28px;display:flex;flex-direction:column;gap:4px;}
+.s-data .dt-aux-item:not(:last-child){border-right:1px solid var(--border);}
+.s-data .dt-aux-num{font-family:"Space Grotesk",sans-serif;font-size:36px;font-weight:700;line-height:1;color:var(--text);}
+.s-data .dt-aux-label{font-size:20px;font-weight:400;color:var(--text-mute);}
+
+/* ================================================================
+   版式 06 · 金句 · 居中引用
+   ================================================================ */
+.s-quote{align-items:center;justify-content:center;text-align:center;padding:96px 80px;}
+.s-quote .qt-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:840px;height:840px;pointer-events:none;background:radial-gradient(circle,var(--glow) 0%,transparent 70%);}
+.s-quote .qt-mark{font-family:"Noto Serif SC",serif;font-size:160px;font-weight:900;line-height:0.5;margin-bottom:12px;position:relative;z-index:2;opacity:0.2;color:var(--accent);}
+.s-quote .qt-text{font-family:"Noto Sans SC",sans-serif;font-weight:900;font-size:80px;line-height:1.22;letter-spacing:-0.02em;position:relative;z-index:2;margin-bottom:48px;color:var(--text);}
+.s-quote .qt-text .hl{color:var(--accent);}
+.s-quote .qt-cite{display:flex;align-items:center;gap:20px;position:relative;z-index:2;}
+.s-quote .qt-cite-line{width:64px;height:4px;background:var(--accent);}
+.s-quote .qt-cite-text{font-family:"Space Grotesk",sans-serif;font-size:24px;font-weight:500;letter-spacing:0.05em;color:var(--text-sub);}
+
+/* ================================================================
+   版式 07 · 对比 · 左右分栏
+   ================================================================ */
+.s-compare{padding:56px 64px;}
+.s-compare .cp-header{text-align:center;margin-bottom:32px;}
+.s-compare .cp-eyebrow{font-family:"JetBrains Mono",monospace;font-size:22px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:12px;color:var(--accent);}
+.s-compare .cp-title{font-family:"Noto Sans SC",sans-serif;font-weight:900;font-size:52px;line-height:1.15;letter-spacing:-0.02em;color:var(--text);}
+.s-compare .cp-title .hl{color:var(--accent);}
+.s-compare .cp-body{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:0;margin:0 24px;border:1px solid var(--border);}
+.s-compare .cp-col{padding:36px 32px;display:flex;flex-direction:column;align-items:center;text-align:center;}
+.s-compare .cp-col.before{border-right:1px solid var(--border);background:var(--bg2);color:var(--text-sub);}
+.s-compare .cp-col.after{background:var(--bg);}
+.s-compare .cp-badge{font-family:"Space Grotesk",sans-serif;font-size:20px;font-weight:700;padding:6px 16px;letter-spacing:0.08em;margin-bottom:24px;}
+.s-compare .cp-col.before .cp-badge{background:var(--text-mute);color:var(--text);}
+.s-compare .cp-col.after .cp-badge{background:var(--accent);color:var(--on-accent);}
+.s-compare .cp-col-name{font-family:"Noto Sans SC",sans-serif;font-weight:900;font-size:44px;margin-bottom:28px;letter-spacing:-0.02em;}
+.s-compare .cp-col.before .cp-col-name{color:var(--text-mute);}
+.s-compare .cp-col.after .cp-col-name{color:var(--accent);}
+.s-compare .cp-items{display:flex;flex-direction:column;gap:14px;align-items:center;}
+.s-compare .cp-item{font-size:26px;font-weight:400;line-height:1.5;display:flex;gap:12px;align-items:center;}
+.s-compare .cp-check{font-family:"Space Grotesk",sans-serif;font-size:26px;font-weight:700;}
+.s-compare .cp-col.before .cp-check{color:var(--text-mute);}
+.s-compare .cp-col.after .cp-check{color:var(--accent);}
+.s-compare .cp-verdict{margin:24px 24px 0;padding:24px 40px;font-size:28px;font-weight:700;line-height:1.4;text-align:center;background:var(--accent);color:var(--on-accent);}
+
+/* ================================================================
+   版式 08 · 步骤 · 竖向时间线
+   ================================================================ */
+.s-steps{padding:64px 72px;}
+.s-steps .st-header{text-align:center;margin-bottom:40px;position:relative;z-index:2;}
+.s-steps .st-eyebrow{font-family:"JetBrains Mono",monospace;font-size:22px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:16px;color:var(--accent);}
+.s-steps .st-title{font-family:"Noto Sans SC",sans-serif;font-weight:900;font-size:56px;line-height:1.15;letter-spacing:-0.02em;color:var(--text);}
+.s-steps .st-title .hl{color:var(--accent);}
+.s-steps .st-body{flex:1;display:flex;flex-direction:column;gap:0;position:relative;z-index:2;align-items:center;justify-content:center;}
+.s-steps .st-step{display:flex;gap:32px;align-items:flex-start;padding:12px 0;width:100%;max-width:1120px;}
+.s-steps .st-step-left{display:flex;flex-direction:column;align-items:center;flex-shrink:0;gap:6px;}
+.s-steps .st-step-num{width:72px;height:72px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:"Space Grotesk",sans-serif;font-size:30px;font-weight:700;flex-shrink:0;}
+.s-steps .st-step:first-child .st-step-num{background:var(--accent);color:var(--on-accent);}
+.s-steps .st-step:not(:first-child) .st-step-num{border:2px solid var(--accent);background:var(--bg2);color:var(--accent);}
+.s-steps .st-step-conn{width:4px;flex:1;min-height:24px;background:var(--text-ghost);}
+.s-steps .st-step:last-child .st-step-conn{display:none;}
+.s-steps .st-step-content{flex:1;padding-top:8px;}
+.s-steps .st-step-title{font-family:"Noto Sans SC",sans-serif;font-weight:700;font-size:34px;line-height:1.25;margin-bottom:6px;color:var(--text);}
+.s-steps .st-step-desc{font-size:26px;font-weight:400;line-height:1.5;color:var(--text-sub);}
+
+/* ================================================================
+   版式 09 · 网格选择 · 多卡片
+   ================================================================ */
+.s-grid{padding:56px 64px;}
+.s-grid .gr-header{text-align:center;margin-bottom:36px;position:relative;z-index:2;}
+.s-grid .gr-eyebrow{font-family:"JetBrains Mono",monospace;font-size:22px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:16px;color:var(--accent);}
+.s-grid .gr-title{font-family:"Noto Sans SC",sans-serif;font-weight:900;font-size:56px;line-height:1.15;letter-spacing:-0.02em;color:var(--text);}
+.s-grid .gr-title .hl{color:var(--accent);}
+.s-grid .gr-body{flex:1;display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;position:relative;z-index:2;}
+.s-grid .gr-card{padding:32px 28px;display:flex;flex-direction:column;gap:12px;background:var(--bg2);}
+.s-grid .gr-card.featured{background:var(--accent);}
+.s-grid .gr-card-num{font-family:"Space Grotesk",sans-serif;font-size:48px;font-weight:200;line-height:1;color:var(--text-ghost);}
+.s-grid .gr-card.featured .gr-card-num{color:var(--on-accent);opacity:0.4;}
+.s-grid .gr-card-title{font-family:"Noto Sans SC",sans-serif;font-weight:700;font-size:32px;line-height:1.2;color:var(--text);}
+.s-grid .gr-card.featured .gr-card-title{color:var(--on-accent);}
+.s-grid .gr-card-desc{font-size:24px;font-weight:400;line-height:1.45;flex:1;color:var(--text-sub);}
+.s-grid .gr-card.featured .gr-card-desc{color:var(--on-accent);opacity:0.7;}
+.s-grid .gr-card-tag{font-family:"Space Grotesk",sans-serif;font-size:20px;font-weight:500;border:2px solid var(--accent);padding:4px 12px;width:fit-content;color:var(--accent);}
+.s-grid .gr-card.featured .gr-card-tag{color:var(--on-accent);border-color:var(--on-accent);}
+
+/* ================================================================
+   版式 10 · 结尾 · CTA引导
+   ================================================================ */
+.s-end{align-items:center;justify-content:center;text-align:center;padding:96px 80px;}
+.s-end .ec-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:960px;height:960px;pointer-events:none;background:radial-gradient(circle,var(--glow) 0%,transparent 70%);}
+.s-end .ec-eyebrow{font-family:"JetBrains Mono",monospace;font-size:24px;font-weight:500;letter-spacing:0.22em;text-transform:uppercase;margin-bottom:44px;position:relative;z-index:2;color:var(--accent);}
+.s-end .ec-cta{font-family:"Noto Sans SC",sans-serif;font-weight:900;font-size:88px;line-height:1.1;letter-spacing:-0.03em;margin-bottom:32px;position:relative;z-index:2;color:var(--text);}
+.s-end .ec-cta .hl{color:var(--accent);}
+.s-end .ec-sub{font-family:"Noto Serif SC",serif;font-size:30px;font-weight:300;line-height:1.6;font-style:italic;margin-bottom:48px;max-width:720px;position:relative;z-index:2;color:var(--text-sub);}
+.s-end .ec-contacts{display:flex;gap:40px;position:relative;z-index:2;}
+.s-end .ec-contact{font-family:"JetBrains Mono",monospace;font-size:24px;letter-spacing:0.06em;color:var(--text-sub);}
+.s-end .ec-contact .hl{color:var(--accent);}
+
+/* ================================================================
+   版式 11 · 杂志导读 · 双栏正文
+   ================================================================ */
+.s-magazine{padding:64px 72px;}
+.s-magazine .mz-header{margin-bottom:40px;position:relative;z-index:2;}
+.s-magazine .mz-eyebrow{font-family:"JetBrains Mono",monospace;font-size:22px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:16px;color:var(--accent);}
+.s-magazine .mz-title{font-family:"Noto Sans SC",sans-serif;font-weight:900;font-size:56px;line-height:1.15;letter-spacing:-0.02em;color:var(--text);}
+.s-magazine .mz-title .hl{color:var(--accent);}
+.s-magazine .mz-body{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:48px;position:relative;z-index:2;}
+.s-magazine .mz-col{display:flex;flex-direction:column;gap:16px;}
+.s-magazine .mz-col-title{font-family:"Noto Sans SC",sans-serif;font-weight:700;font-size:32px;line-height:1.25;margin-bottom:4px;color:var(--accent);}
+.s-magazine .mz-text{font-size:26px;font-weight:400;line-height:1.75;color:var(--text);}
+.s-magazine .mz-text .hl{font-weight:700;color:var(--accent);}
+.s-magazine .mz-summary{margin-top:32px;padding:24px 40px;border-left:6px solid var(--accent);background:var(--bg2);position:relative;z-index:2;display:flex;align-items:center;gap:24px;}
+.s-magazine .mz-summary-label{font-family:"JetBrains Mono",monospace;font-size:20px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent);flex-shrink:0;}
+.s-magazine .mz-summary-text{font-family:"Noto Sans SC",sans-serif;font-size:28px;font-weight:700;line-height:1.4;color:var(--text);}
+
+/* ================================================================
+   版式 12 · 引用插入 · 长文+Pull Quote
+   ================================================================ */
+.s-pullquote{padding:64px 72px;}
+.s-pullquote .pq-header{margin-bottom:40px;position:relative;z-index:2;}
+.s-pullquote .pq-eyebrow{font-family:"JetBrains Mono",monospace;font-size:22px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:16px;color:var(--accent);}
+.s-pullquote .pq-title{font-family:"Noto Sans SC",sans-serif;font-weight:900;font-size:56px;line-height:1.15;letter-spacing:-0.02em;color:var(--text);}
+.s-pullquote .pq-title .hl{color:var(--accent);}
+.s-pullquote .pq-body{flex:1;display:flex;flex-direction:column;gap:24px;position:relative;z-index:2;justify-content:center;max-width:1400px;margin:0 auto;}
+.s-pullquote .pq-text{font-size:28px;font-weight:400;line-height:1.75;color:var(--text);}
+.s-pullquote .pq-text .hl{font-weight:700;color:var(--accent);}
+.s-pullquote .pq-quote-box{border-left:6px solid var(--accent);padding:28px 40px;background:var(--bg2);margin:8px 0;}
+.s-pullquote .pq-quote-text{font-family:"Noto Serif SC",serif;font-size:36px;font-weight:300;font-style:italic;line-height:1.5;color:var(--text);}
+.s-pullquote .pq-quote-cite{font-family:"Space Grotesk",sans-serif;font-size:22px;font-weight:500;color:var(--text-sub);display:block;margin-top:12px;}
+
+/* ================================================================
+   IP 形象组件 — 可在任何版式中插入
+   使用方式：包裹在 .ip-wrap 里，加修饰类
+   <div class="ip-wrap ip-circle ip-cover">
+     <img src="ip-library/loki-original-3d.png" alt="Loki">
+   </div>
+   ================================================================ */
+.ip-wrap{
+  position:absolute;
+  z-index:3;
+  pointer-events:none;
+}
+.ip-wrap img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+
+/* 圆形头像框 — 发光边框 */
+.ip-circle{
+  border-radius:50%;
+  overflow:hidden;
+  border:3px solid var(--accent);
+  box-shadow:0 0 40px var(--glow), 0 8px 32px rgba(0,0,0,0.4);
+}
+.ip-circle img{
+  object-fit:cover;
+}
+
+/* 柔边融底 — 底部渐变消散 */
+.ip-fade{
+  -webkit-mask-image:linear-gradient(to bottom, #000 60%, transparent 100%);
+  mask-image:linear-gradient(to bottom, #000 60%, transparent 100%);
+}
+.ip-fade img{
+  object-fit:contain;
+}
+
+/* 圆角卡片框 */
+.ip-rounded{
+  border-radius:24px;
+  overflow:hidden;
+  border:2px solid var(--border);
+  box-shadow:0 8px 40px rgba(0,0,0,0.3);
+}
+
+/* 光晕背景圆 — 装饰性发光圆 */
+.ip-glow-bg::before{
+  content:"";
+  position:absolute;
+  inset:-20%;
+  border-radius:50%;
+  background:radial-gradient(circle, var(--glow) 0%, transparent 60%);
+  z-index:-1;
+}
+
+/* 尺寸定位类 */
+.ip-cover{
+  right:100px;
+  bottom:100px;
+  width:320px;
+  height:320px;
+}
+.ip-end-left{
+  left:100px;
+  bottom:80px;
+  width:280px;
+  height:280px;
+}
+.ip-imgtext{
+  top:20px;
+  left:50%;
+  transform:translateX(-50%);
+  width:200px;
+  height:200px;
+}
+.ip-chapter{
+  right:80px;
+  bottom:80px;
+  width:220px;
+  height:220px;
+  opacity:0.9;
+}
+.ip-data{
+  right:80px;
+  bottom:80px;
+  width:180px;
+  height:180px;
+  opacity:0.7;
+}
+.ip-keylist{
+  right:80px;
+  bottom:80px;
+  width:160px;
+  height:160px;
+  opacity:0.5;
+}
+
+</style>
+</head>
+<body>
+
+<svg style="display:none">
+  <symbol id="panda" viewBox="0 0 32 32" fill="none">
+    <path d="M6 14C6 9 10 6 16 6C22 6 26 9 26 14L26 19C26 24 22 27 16 27C10 27 6 24 6 19Z" stroke="currentColor" stroke-width="1.8" fill="none"/>
+    <circle cx="8" cy="9" r="2.4" stroke="currentColor" stroke-width="1.8" fill="none"/>
+    <circle cx="24" cy="9" r="2.4" stroke="currentColor" stroke-width="1.8" fill="none"/>
+    <circle cx="16" cy="19" r="1.1" fill="currentColor"/>
+  </symbol>
+</svg>
+
+<div class="progress-bar" id="progressBar" style="width:10%"></div>
+
+<div class="viewport" id="viewport">
+  <div class="stage" id="stage">
+
+    <!-- ================================================================
+         SLIDES_HERE — 在此粘贴版式代码块
+         ================================================================ -->
+
+    <!-- 版式 01 · 封面 -->
+    <section class="slide s-cover active" data-layout="cover">
+      <div class="noise"></div>
+      <div class="sv-glow"></div>
+      <div class="sv-eyebrow">AI TOOLS · KEYNOTE</div>
+      <h1 class="sv-title">5个AI工具<br>让我<span class="hl">效率</span>翻倍</h1>
+      <p class="sv-sub">一个文科生的亲测报告。不水字数，只测真正有用的。</p>
+      <div class="sv-meta">
+        <div class="sv-meta-item"><span class="sv-meta-num">87</span><span class="sv-meta-label">实测工具</span></div>
+        <div class="sv-meta-item"><span class="sv-meta-num">5k</span><span class="sv-meta-label">读者</span></div>
+        <div class="sv-meta-item"><span class="sv-meta-num">2yr</span><span class="sv-meta-label">更新</span></div>
+      </div>
+      <span class="slide-page">01 / 10</span>
+      <!-- IP形象：封面用圆形发光框 -->
+      <div class="ip-wrap ip-circle ip-glow-bg ip-cover">
+        <img src="ip-library/loki-original-3d.png" alt="Loki">
+      </div>
+      <div class="brand-mark on-dark"><svg><use href="#panda"/></svg><span class="brand-text">赛博小熊猫Loki</span></div>
+    </section>
+    <section class="slide s-chapter" data-layout="chapter">
+      <div class="noise"></div>
+      <div class="ch-num">01</div>
+      <div class="ch-eyebrow">CHAPTER ONE</div>
+      <h1 class="ch-title">为什么<br>文科生更适合用AI</h1>
+      <span class="slide-page">02 / 10</span>
+      <div class="brand-mark on-dark"><svg><use href="#panda"/></svg><span class="brand-text">赛博小熊猫Loki</span></div>
+    </section>
+
+    <!-- 版式 03 · 要点列表 -->
+    <section class="slide s-keylist" data-layout="keylist">
+      <div class="noise"></div>
+      <div class="kl-header">
+        <div class="kl-eyebrow">KEY POINTS · 核心观点</div>
+        <h2 class="kl-title">文科生的<span class="hl">3个优势</span></h2>
+      </div>
+      <div class="kl-items">
+        <div class="kl-item">
+          <span class="kl-item-num">01</span>
+          <div class="kl-item-content">
+            <h4 class="kl-item-title">提问能力</h4>
+            <p class="kl-item-desc">文科训练的就是把模糊感觉变成具体问题的能力</p>
+          </div>
+        </div>
+        <div class="kl-item">
+          <span class="kl-item-num">02</span>
+          <div class="kl-item-content">
+            <h4 class="kl-item-title">表达精准</h4>
+            <p class="kl-item-desc">你问得越精准，AI给得越有用</p>
+          </div>
+        </div>
+        <div class="kl-item">
+          <span class="kl-item-num">03</span>
+          <div class="kl-item-content">
+            <h4 class="kl-item-title">优化表达而非参数</h4>
+            <p class="kl-item-desc">模型帮你跑参数了，你需要跑的是表达</p>
+          </div>
+        </div>
+      </div>
+      <span class="slide-page">03 / 10</span>
+      <div class="brand-mark on-dark"><svg><use href="#panda"/></svg><span class="brand-text">赛博小熊猫Loki</span></div>
+    </section>
+
+    <!-- 版式 04 · 图文混排 -->
+    <section class="slide s-imgtext" data-layout="imgtext">
+      <div class="noise"></div>
+      <div class="it-img">
+        <span class="it-imgtag">DEMO</span>
+        <!-- IP形象：图文混排页用圆形框 -->
+        <div class="ip-wrap ip-circle ip-imgtext">
+          <img src="ip-library/loki-excited-laptop.png" alt="Loki">
+        </div>
+      </div>
+      <div class="it-content">
+        <div class="it-eyebrow">TOOL DEMO · 工具演示</div>
+        <h2 class="it-title">Claude的<span class="hl">长文写作</span>界面</h2>
+        <p class="it-body">实际输出3000字报告。<span class="hl">理解力全场最好</span>，改稿指令精准执行。但免费额度极少。<span class="mute">适合长文写作场景，不适合需要联网搜索的场景。</span></p>
+        <div class="it-meta">
+          <span class="it-source">claude.ai · 2026.05实测</span>
+          <span class="it-source">04 / 10</span>
+        </div>
+      </div>
+      <div class="brand-mark on-dark"><svg><use href="#panda"/></svg><span class="brand-text">赛博小熊猫Loki</span></div>
+    </section>
+
+    <!-- 版式 05 · 数据大字 -->
+    <section class="slide s-data" data-layout="data">
+      <div class="noise"></div>
+      <div class="dt-glow"></div>
+      <div class="dt-top">
+        <span class="dt-eyebrow">DATA · 实测数据</span>
+        <div class="dt-neon"></div>
+      </div>
+      <div class="dt-main">
+        <div class="dt-num">73%</div>
+        <h2 class="dt-label">AI工具下载后30天内<br><span class="hl">彻底弃用</span></h2>
+        <p class="dt-interp">挑工具的成本，其实在使用之后。大部分人下载完连第一遍都没跑完。</p>
+      </div>
+      <div class="dt-aux">
+        <div class="dt-aux-item"><span class="dt-aux-num">87</span><span class="dt-aux-label">实测工具</span></div>
+        <div class="dt-aux-item"><span class="dt-aux-num">5</span><span class="dt-aux-label">活过30天</span></div>
+        <div class="dt-aux-item"><span class="dt-aux-num">2yr</span><span class="dt-aux-label">持续更新</span></div>
+      </div>
+      <span class="slide-page">05 / 10</span>
+      <div class="brand-mark on-dark"><svg><use href="#panda"/></svg><span class="brand-text">赛博小熊猫Loki</span></div>
+    </section>
+
+    <!-- 版式 06 · 金句 -->
+    <section class="slide s-quote" data-layout="quote">
+      <div class="noise"></div>
+      <div class="qt-glow"></div>
+      <div class="qt-mark">"</div>
+      <div class="qt-text">AI的瓶颈<br>不是<span class="hl">技术</span>，<br>是你的<br><span class="hl">问题意识</span></div>
+      <div class="qt-cite">
+        <div class="qt-cite-line"></div>
+        <span class="qt-cite-text">赛博小熊猫Loki · 2026</span>
+      </div>
+      <span class="slide-page">06 / 10</span>
+      <div class="brand-mark on-dark"><svg><use href="#panda"/></svg><span class="brand-text">赛博小熊猫Loki</span></div>
+    </section>
+
+    <!-- 版式 07 · 对比 -->
+    <section class="slide s-compare" data-layout="compare">
+      <div class="noise"></div>
+      <div class="cp-header">
+        <div class="cp-eyebrow">HEAD TO HEAD</div>
+        <h2 class="cp-title">ChatGPT vs <span class="hl">Claude</span></h2>
+      </div>
+      <div class="cp-body">
+        <div class="cp-col before">
+          <span class="cp-badge">OLD</span>
+          <h4 class="cp-col-name">ChatGPT</h4>
+          <div class="cp-items">
+            <div class="cp-item"><span class="cp-check">✗</span>长文跑题</div>
+            <div class="cp-item"><span class="cp-check">✗</span>改稿打折</div>
+            <div class="cp-item"><span class="cp-check">✓</span>可联网</div>
+          </div>
+        </div>
+        <div class="cp-col after">
+          <span class="cp-badge">BEST</span>
+          <h4 class="cp-col-name">Claude</h4>
+          <div class="cp-items">
+            <div class="cp-item"><span class="cp-check">✓</span>理解力最好</div>
+            <div class="cp-item"><span class="cp-check">✓</span>改稿精准</div>
+            <div class="cp-item"><span class="cp-check">✓</span>长文不丢逻辑</div>
+          </div>
+        </div>
+      </div>
+      <div class="cp-verdict">→ 文科写作首选Claude</div>
+      <span class="slide-page">07 / 10</span>
+      <div class="brand-mark on-dark"><svg><use href="#panda"/></svg><span class="brand-text">赛博小熊猫Loki</span></div>
+    </section>
+
+    <!-- 版式 08 · 步骤 -->
+    <section class="slide s-steps" data-layout="steps">
+      <div class="noise"></div>
+      <div class="st-header">
+        <div class="st-eyebrow">WORKFLOW · 3 STEPS</div>
+        <h2 class="st-title">用AI写出<span class="hl">有用</span>文章</h2>
+      </div>
+      <div class="st-body">
+        <div class="st-step">
+          <div class="st-step-left"><div class="st-step-num">1</div><div class="st-step-conn"></div></div>
+          <div class="st-step-content"><h4 class="st-step-title">拆解读者问题</h4><p class="st-step-desc">问AI：目标读者遇到X问题时，会搜索哪5个关键词？</p></div>
+        </div>
+        <div class="st-step">
+          <div class="st-step-left"><div class="st-step-num">2</div><div class="st-step-conn"></div></div>
+          <div class="st-step-content"><h4 class="st-step-title">搭结构，不要直接写</h4><p class="st-step-desc">先出提纲，你改逻辑，再逐段生成</p></div>
+        </div>
+        <div class="st-step">
+          <div class="st-step-left"><div class="st-step-num">3</div></div>
+          <div class="st-step-content"><h4 class="st-step-title">加入亲测细节</h4><p class="st-step-desc">至少1个真实场景。AI写不出的部分是你的护城河</p></div>
+        </div>
+      </div>
+      <span class="slide-page">08 / 10</span>
+      <div class="brand-mark on-dark"><svg><use href="#panda"/></svg><span class="brand-text">赛博小熊猫Loki</span></div>
+    </section>
+
+    <!-- 版式 09 · 网格选择 -->
+    <section class="slide s-grid" data-layout="grid">
+      <div class="noise"></div>
+      <div class="gr-header">
+        <div class="gr-eyebrow">PICK YOUR FIGHT</div>
+        <h2 class="gr-title">4个场景 4个<span class="hl">最佳工具</span></h2>
+      </div>
+      <div class="gr-body">
+        <div class="gr-card">
+          <span class="gr-card-num">01</span>
+          <h4 class="gr-card-title">长文写作</h4>
+          <p class="gr-card-desc">理解力最好，改稿精准</p>
+          <span class="gr-card-tag">Claude</span>
+        </div>
+        <div class="gr-card featured">
+          <span class="gr-card-num">02</span>
+          <h4 class="gr-card-title">搜索研究</h4>
+          <p class="gr-card-desc">信息可溯源，替代百度</p>
+          <span class="gr-card-tag">Perplexity</span>
+        </div>
+        <div class="gr-card">
+          <span class="gr-card-num">03</span>
+          <h4 class="gr-card-title">做网页工具</h4>
+          <p class="gr-card-desc">自然语言编程，零门槛</p>
+          <span class="gr-card-tag">Cursor</span>
+        </div>
+        <div class="gr-card">
+          <span class="gr-card-num">04</span>
+          <h4 class="gr-card-title">语音克隆</h4>
+          <p class="gr-card-desc">做播客省2小时录制</p>
+          <span class="gr-card-tag">ElevenLabs</span>
+        </div>
+        <div class="gr-card">
+          <span class="gr-card-num">05</span>
+          <h4 class="gr-card-title">配图生成</h4>
+          <p class="gr-card-desc">中文理解力最好的图模型</p>
+          <span class="gr-card-tag">Nano Banana</span>
+        </div>
+        <div class="gr-card">
+          <span class="gr-card-num">06</span>
+          <h4 class="gr-card-title">视频生成</h4>
+          <p class="gr-card-desc">5秒视频，运动控制好</p>
+          <span class="gr-card-tag">Seedance</span>
+        </div>
+      </div>
+      <span class="slide-page">09 / 10</span>
+      <div class="brand-mark on-dark"><svg><use href="#panda"/></svg><span class="brand-text">赛博小熊猫Loki</span></div>
+    </section>
+
+    <!-- 版式 10 · 结尾 -->
+    <section class="slide s-end" data-layout="end">
+      <div class="noise"></div>
+      <div class="ec-glow"></div>
+      <div class="ec-eyebrow">END · 关注引导</div>
+      <h1 class="ec-cta"><span class="hl">关注我</span><br>每周AI实测</h1>
+      <p class="ec-sub">不水字数，只测真正有用的。<br>一个文科生的AI工具箱。</p>
+      <div class="ec-contacts">
+        <span class="ec-contact">公众号 · <span class="hl">赛博小熊猫Loki</span></span>
+        <span class="ec-contact">网站 · <span class="hl">hiloki.ai</span></span>
+      </div>
+      <span class="slide-page">10 / 10</span>
+      <!-- IP形象：结尾页用圆形发光框 -->
+      <div class="ip-wrap ip-circle ip-glow-bg ip-end-left">
+        <img src="ip-library/loki-celebrating.png" alt="Loki">
+      </div>
+      <div class="brand-mark on-dark"><svg><use href="#panda"/></svg><span class="brand-text">赛博小熊猫Loki</span></div>
+    </section>
+
+  </div>
+</div>
+
+<div class="nav-hint">← → 翻页 · Space 下一页 · ESC 索引</div>
+
+<script>
+// === Scale 适配 ===
+function fitStage(){
+  const stage=document.getElementById('stage');
+  const vw=window.innerWidth,vh=window.innerHeight;
+  const scale=Math.min(vw/1920,vh/1080);
+  stage.style.transform=`scale(${scale})`;
+}
+fitStage();
+window.addEventListener('resize',fitStage);
+
+// === 翻页系统 ===
+const slides=document.querySelectorAll('.slide');
+let current=0;
+const total=slides.length;
+const progressBar=document.getElementById('progressBar');
+
+function goTo(index){
+  if(index<0||index>=total)return;
+  slides[current].classList.remove('active');
+  current=index;
+  slides[current].classList.add('active');
+  progressBar.style.width=((current+1)/total*100)+'%';
+}
+
+function next(){goTo(current+1);}
+function prev(){goTo(current-1);}
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){e.preventDefault();next();}
+  else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();prev();}
+  else if(e.key==='Escape'){/* TODO: 索引页 */}
+  else if(e.key==='Home'){goTo(0);}
+  else if(e.key==='End'){goTo(total-1);}
+});
+
+// 滚轮翻页
+let scrollTimeout;
+document.addEventListener('wheel',e=>{
+  clearTimeout(scrollTimeout);
+  scrollTimeout=setTimeout(()=>{
+    if(e.deltaY>30)next();
+    else if(e.deltaY<-30)prev();
+  },100);
+},{passive:true});
+
+// 触屏翻页
+let touchStartX=0;
+document.addEventListener('touchstart',e=>{touchStartX=e.touches[0].clientX;});
+document.addEventListener('touchend',e=>{
+  const dx=e.changedTouches[0].clientX-touchStartX;
+  if(Math.abs(dx)>50){dx<0?next():prev();}
+});
+
+progressBar.style.width=(1/total*100)+'%';
+</script>
+
+</body>
+</html>

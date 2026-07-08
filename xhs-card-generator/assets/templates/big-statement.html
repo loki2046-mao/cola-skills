@@ -1,0 +1,31 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: {{bg}};
+    --text: {{text}};
+    --mid: {{mid}};
+    --dim: {{dim}};
+    --accent: {{accent}};
+    --rule: {{rule}};
+    --font-serif: 'Noto Serif SC', 'Songti SC', serif;
+    --font-sans: 'PingFang SC', 'Noto Sans SC', 'Microsoft YaHei', system-ui, sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #1a1a1a; }
+  .page { width: 1080px; height: 1440px; margin-bottom: 40px; page-break-after: always; }
+  .card { width: 1080px; height: 1440px; background: var(--bg); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 120px 90px; }
+  .mega { font: 700 64px/1.2 var(--font-serif); color: var(--text); letter-spacing: -0.02em; max-width: 700px; text-align: center; }
+  .mega-a { font: 700 64px/1.2 var(--font-serif); color: var(--accent); letter-spacing: -0.02em; margin-bottom: 40px; text-align: center; }
+  .sub { font: 400 32px/1.7 var(--font-sans); color: var(--mid); text-align: center; max-width: 640px; }
+</style>
+
+<div class="page">
+  <div class="card">
+    <div class="mega">{{line_1}}</div>
+    <div class="mega-a">{{line_2}}</div>
+    <div class="sub">{{sub_1}}</div>
+    <div class="sub">{{sub_2}}</div>
+    {{#sub_3}}<div class="sub">{{sub_3}}</div>{{/sub_3}}
+  </div>
+</div>

@@ -1,0 +1,3 @@
+display_name: "NB Image Prompt"
+short_description: "生成高审美图像/UI提示词并自动归档到Obsidian"
+default_prompt: "给我生成一套牛逼的图像提示词，主题是：___，模型是 nano-banana-pro，输出 safe/bold/extreme 三版并自动保存"

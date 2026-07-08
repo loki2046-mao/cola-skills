@@ -1,0 +1,38 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: {{bg}};
+    --text: {{text}};
+    --mid: {{mid}};
+    --dim: {{dim}};
+    --accent: {{accent}};
+    --rule: {{rule}};
+    --highlight-bg: {{highlight-bg}};
+    --font-serif: 'Noto Serif SC', 'Songti SC', 'STSong', serif;
+    --font-sans: 'PingFang SC', 'Noto Sans SC', 'Microsoft YaHei', system-ui, sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #1a1a1a; }
+  .page { width: 1080px; height: 1440px; margin-bottom: 40px; page-break-after: always; }
+  .card { width: 1080px; height: 1440px; background: var(--bg); display: flex; flex-direction: column; }
+  .card.cover { padding: 90px 72px 52px; }
+  h1 { font: 700 80px/1.14 var(--font-serif); color: var(--text); letter-spacing: -0.03em; margin-bottom: 28px; }
+  .title-line { width: 52px; height: 3px; background: var(--accent); margin-bottom: 50px; }
+  .sub { font: 400 36px/1.6 var(--font-sans); color: var(--mid); margin-bottom: 10px; }
+  .hl { font: 500 42px/1.5 var(--font-serif); color: var(--text); padding-left: 22px; border-left: 3px solid var(--accent); margin: 42px 0 20px; }
+  .ft { margin-top: auto; padding-top: 22px; border-top: 1px solid var(--rule); display: flex; justify-content: flex-end; }
+  .pg { font: 400 20px/1.5 var(--font-sans); color: var(--dim); letter-spacing: 0.03em; }
+</style>
+
+<div class="page">
+  <div class="card cover">
+    <h1>{{title_line_1}}</h1>
+    <h1>{{title_line_2}}</h1>
+    <div class="title-line"></div>
+    <div class="hl">{{hook_line}}</div>
+    <div class="sub">{{sub_1}}</div>
+    <div class="sub" style="color: var(--accent); font-weight: 500;">{{sub_2}}</div>
+    <div class="ft"><span class="pg">1 / {{total_pages}}</span></div>
+  </div>
+</div>

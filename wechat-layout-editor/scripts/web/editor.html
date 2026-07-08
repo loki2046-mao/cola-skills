@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>自研公众号排版编辑器</title>
+  <link rel="stylesheet" href="/assets/editor.css" />
+</head>
+<body>
+  <div class="shell">
+    <header class="hero">
+      <div>
+        <p class="eyebrow">SVG WeChat Layout Editor</p>
+        <h1>自研公众号排版编辑器</h1>
+        <p class="hero-copy">左边直接改块，右边实时看版式。导入飞书、手工修标题、调图片顺序、最后一键导出复制页。</p>
+      </div>
+      <div class="hero-actions">
+        <button id="undo-btn" class="ghost">撤销上一步</button>
+        <button id="auto-layout-btn" class="ghost">智能初稿</button>
+        <button id="copy-preview-btn" class="secondary">直接复制当前预览</button>
+        <button id="save-btn" class="primary">保存导出</button>
+        <a id="copy-link" class="ghost disabled" href="#" target="_blank" rel="noreferrer">打开复制页</a>
+      </div>
+    </header>
+
+    <main class="workspace">
+      <section class="panel controls">
+        <div class="section">
+          <div class="section-head">
+            <h2>导入</h2>
+            <span id="status-pill" class="pill">待命</span>
+          </div>
+          <label class="field">
+            <span>飞书公开文档链接</span>
+            <input id="source-url" type="text" placeholder="https://www.feishu.cn/docx/..." />
+          </label>
+          <div class="row">
+            <label class="field grow">
+              <span>现有 article.json</span>
+              <input id="article-path" type="text" placeholder="/Users/.../article.json" />
+            </label>
+          </div>
+          <div class="row">
+            <button id="import-btn" class="secondary">从飞书导入</button>
+            <button id="load-btn" class="secondary">加载现有结果</button>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-head">
+            <h2>文档</h2>
+            <div id="stats" class="stats"></div>
+          </div>
+          <label class="field">
+            <span>标题</span>
+            <input id="title-input" type="text" placeholder="文章标题" />
+          </label>
+          <label class="field">
+            <span>输出目录</span>
+            <input id="output-dir" type="text" placeholder="/Users/.../自研公众号排版/..." />
+          </label>
+          <p id="save-meta" class="meta-text">保存后会生成 `article.json`、`preview.html`、`copy.html`。</p>
+        </div>
+
+        <div class="controls-dock">
+          <div class="section dock-section">
+            <div class="section-head">
+              <h2>插入模块</h2>
+              <span class="hint">滚动时会固定在左上角</span>
+            </div>
+            <div class="block-toolbar">
+              <button data-add="hero" class="chip">导读头图</button>
+              <button data-add="text" class="chip">正文</button>
+              <button data-add="heading" class="chip">小标题</button>
+              <button data-add="subheading" class="chip">二级标题</button>
+              <button data-add="quote" class="chip">引言</button>
+              <button data-add="highlight" class="chip">金句</button>
+              <button data-add="prompt" class="chip">提示词块</button>
+              <button data-add="list" class="chip">分点块</button>
+              <button data-add="group" class="chip">卡片组</button>
+              <button data-add="video" class="chip">视频块</button>
+              <button data-add="image" class="chip">图片</button>
+              <button data-add="meta" class="chip">信息行</button>
+            </div>
+          </div>
+
+          <div class="section dock-section">
+            <div class="section-head">
+              <h2>合成所选</h2>
+              <span id="selection-meta" class="hint">还没选中块</span>
+            </div>
+            <div class="selection-toolbar">
+              <label class="field selection-field grow">
+                <span>合并成什么</span>
+                <select id="merge-kind-select">
+                  <option value="hero">导读头图块</option>
+                  <option value="video">视频块</option>
+                  <option value="text">正文块</option>
+                  <option value="quote">引言块</option>
+                  <option value="highlight">金句块</option>
+                  <option value="prompt">提示词块</option>
+                  <option value="heading">小标题</option>
+                  <option value="subheading">二级标题</option>
+                  <option value="meta">信息行</option>
+                  <option value="list">分点块</option>
+                  <option value="group-horizontal">横向三栏</option>
+                  <option value="group-vertical">纵向卡片</option>
+                </select>
+              </label>
+              <div class="selection-actions">
+                <button id="merge-selected-btn" class="secondary">合成所选</button>
+                <button id="clear-selection-btn" class="ghost">清空选择</button>
+              </div>
+            </div>
+            <p class="meta-text">右键任意块也能快速加入或取消选择，不用再来回滚动找按钮。</p>
+          </div>
+        </div>
+
+        <div class="section blocks-section">
+          <div class="section-head">
+            <h2>内容块</h2>
+            <span class="hint">支持改类型、上下移动、复制、删除</span>
+          </div>
+          <div id="block-list" class="block-list"></div>
+        </div>
+      </section>
+
+      <section class="panel preview-panel">
+        <div class="preview-head">
+          <div>
+            <p class="eyebrow">Live Preview</p>
+            <h2>实时预览</h2>
+          </div>
+          <p id="render-status" class="hint">修改后会自动刷新预览，点右边任意块会定位左边。</p>
+        </div>
+        <iframe id="preview-frame" title="排版预览"></iframe>
+      </section>
+    </main>
+  </div>
+
+  <template id="empty-blocks-template">
+    <div class="empty-state">
+      <p>还没有内容块。</p>
+      <p>先从飞书导入，或者上面手动插入一个正文块开始。</p>
+    </div>
+  </template>
+
+  <script src="/assets/editor.js"></script>
+</body>
+</html>

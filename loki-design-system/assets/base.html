@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>[TITLE]</title>
+
+<!-- ── 字体加载（必须保留全部，不能删） ── -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@200;300;400;500;600&family=Noto+Sans+SC:wght@100;300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>@import url("https://fontsapi.zeoseven.com/92/main/result.css");</style>
+<!-- 备用：LXGW WenKai（竖排品牌名时用，平时不加载）-->
+<!-- <link href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/style.css" rel="stylesheet"> -->
+
+<style>
+/* ══════════════════════════════════════
+   LOKI DESIGN SYSTEM · BASE STYLES
+   Version: 2026-05-27
+   Fork 这个文件，不要从零写。
+   ══════════════════════════════════════ */
+
+/* ── CSS 变量（所有颜色从这里取，禁止直接写 hex） ── */
+:root {
+  /* 品牌主色 */
+  --amber:        #C87A45;  /* 琥珀橙，品牌主色 */
+  --amber-light:  #D9A87A;  /* 浅琥珀，次级强调 */
+  --amber-deep:   #A05E30;  /* 深琥珀，深色场景强调 */
+
+  /* 辅助色（极少量） */
+  --smoke:        #6B8590;  /* 烟青，冷色平衡，信息标签 */
+  --smoke-light:  #A6B8BE;
+  --olive:        #7A8458;  /* 苔绿，My Take / 观点色 */
+  --plum:         #7A5A6E;  /* 梅子，特殊场景 */
+
+  /* 中性暖灰系统（浅色场景） */
+  --paper:        #FDFAF5;  /* 纸白，文章正文区底 */
+  --warm:         #F5F0E8;  /* 暖米，页面大背景 */
+  --oat:          #EBE4D6;  /* 燕麦，卡片边框/分割线 */
+  --khaki:        #DDD2BD;  /* 卡其，次级边框 */
+  --text-muted:   #9A9085;  /* 元信息、日期 */
+  --text-sub:     #6B6157;  /* 副标题、描述 */
+  --text-body:    #3A342D;  /* 正文文字 */
+  --text-dark:    #1F1D1A;  /* 标题、深色文字 */
+
+  /* 深色系统 */
+  --dark:         #1A1816;  /* 暗底（深色背景） */
+  --dark-panel:   #252220;  /* 深面板 */
+  --dark-card:    #2E2A26;  /* 深卡片 */
+  --dark-border:  #332F2B;  /* 深分割线 */
+  --dark-card2:   #443E38;  /* 更浅的深卡片 */
+
+  /* 字体族 */
+  --font-display: 'Smiley Sans Oblique', 'PingFang SC', sans-serif;
+  --font-label:   'Space Grotesk', sans-serif;
+  --font-body:    'Noto Sans SC', 'PingFang SC', sans-serif;
+  --font-mono:    'JetBrains Mono', monospace;
+  --font-wenkai:  'LXGW WenKai', serif;  /* 竖排品牌名用 */
+}
+
+/* ── Reset ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+img, svg { display: block; max-width: 100%; }
+a { color: inherit; }
+
+/* ── 字体工具类 ── */
+.font-display { font-family: var(--font-display); }
+.font-label   { font-family: var(--font-label); }
+.font-mono    { font-family: var(--font-mono); }
+.font-wenkai  { font-family: var(--font-wenkai); }
+
+/* ── 颜色工具类 ── */
+.text-amber   { color: var(--amber); }
+.text-smoke   { color: var(--smoke-light); }
+.text-muted   { color: var(--text-muted); }
+.text-sub     { color: var(--text-sub); }
+.bg-dark      { background: var(--dark); }
+.bg-paper     { background: var(--paper); }
+.bg-warm      { background: var(--warm); }
+
+/* ── 常用排版 ── */
+
+/* 标题 · 得意黑 · 字号用 clamp */
+.h1 {
+  font-family: var(--font-display);
+  font-size: clamp(48px, 7vw, 108px);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+.h2 {
+  font-family: var(--font-display);
+  font-size: clamp(32px, 4vw, 60px);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+.h3 {
+  font-family: var(--font-display);
+  font-size: clamp(22px, 2.4vw, 36px);
+  line-height: 1.2;
+}
+
+/* 眉头标签 · Space Grotesk · 全大写 */
+.eyebrow {
+  font-family: var(--font-label);
+  font-size: 12px;
+  font-weight: 300;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--smoke-light);
+}
+
+/* 数字大字报 · Space Grotesk 200 · 超细是关键 */
+.stat-number {
+  font-family: var(--font-label);
+  font-size: clamp(56px, 6.5vw, 96px);
+  font-weight: 200;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+.stat-number .unit {
+  font-size: 0.4em;
+  font-weight: 300;
+  color: var(--amber);
+}
+
+/* 标签 pill */
+.tag {
+  display: inline-block;
+  font-family: var(--font-label);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 3px 9px;
+  border: 1px solid currentColor;
+}
+.tag-amber { color: var(--amber); }
+.tag-smoke { color: var(--smoke); }
+.tag-olive { color: var(--olive); }
+
+/* ── 常用布局 ── */
+
+/* 全宽区块 */
+.section { padding: 100px 48px; }
+.section-sm { padding: 64px 48px; }
+.container { max-width: 1200px; margin: 0 auto; }
+
+/* 两栏（黄金比例） */
+.grid-2col {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 80px;
+  align-items: start;
+}
+
+/* 三栏等宽 */
+.grid-3col {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+}
+
+/* 作品网格（12列，非对称） */
+.works-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 2px;
+}
+
+/* ── CTA 按钮 ── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-label);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  padding: 13px 26px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.18s ease;
+}
+.btn-primary {
+  background: var(--amber);
+  color: var(--dark);
+}
+.btn-primary:hover { background: var(--amber-light); transform: translateY(-1px); }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--paper);
+  border: 1px solid var(--dark-border);
+}
+.btn-ghost:hover { border-color: var(--smoke); color: var(--smoke-light); }
+
+/* ── 入场动效（Scroll Reveal） ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.65s ease, transform 0.65s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* Hero 专用动效（CSS animation） */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+/* 使用方法：style="animation: fadeUp 0.6s ease forwards 0.3s; opacity:0" */
+
+/* ── 深色背景上的文字默认白色 ── */
+.bg-dark, .bg-dark * { color: var(--paper); }
+.bg-dark .text-muted { color: var(--text-muted); }
+.bg-dark .text-amber { color: var(--amber); }
+.bg-dark .text-smoke { color: var(--smoke-light); }
+
+/* ── 分割线 ── */
+.divider-dark  { border: none; border-top: 1px solid var(--dark-border); }
+.divider-light { border: none; border-top: 1px solid var(--oat); }
+
+/* ── 响应式 ── */
+@media (max-width: 900px) {
+  .section, .section-sm { padding-left: 24px; padding-right: 24px; }
+  .grid-2col { grid-template-columns: 1fr; gap: 40px; }
+  .grid-3col { grid-template-columns: 1fr; }
+  .works-grid { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body style="background: var(--dark); color: var(--paper); font-family: var(--font-body);">
+
+<!-- ══════════════════════════════════════
+  FORK 这个文件，填入你的内容
+  删掉这段注释，开始写 HTML
+  ══════════════════════════════════════ -->
+
+<script>
+// Scroll Reveal（所有页面通用，保留）
+document.addEventListener('DOMContentLoaded', () => {
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loki Design System · Skill Showcase</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@200;300;400;500;600&family=Noto+Sans+SC:wght@100;300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>@import url("https://fontsapi.zeoseven.com/92/main/result.css");</style>
+  <style>
+    /* ==================== CSS Variables ==================== */
+    :root {
+      /* 品牌主色 */
+      --amber:        #C87A45;
+      --amber-light:  #D9A87A;
+      --amber-deep:   #A05E30;
+
+      /* 辅助色 */
+      --smoke:        #6B8590;
+      --smoke-light:  #A6B8BE;
+      --olive:        #7A8458;
+      --plum:         #7A5A6E;
+
+      /* 浅色系统 */
+      --paper:        #FDFAF5;
+      --warm:         #F5F0E8;
+      --oat:          #EBE4D6;
+      --khaki:        #DDD2BD;
+      --text-muted:   #9A9085;
+      --text-sub:     #6B6157;
+      --text-body:    #3A342D;
+      --text-dark:    #1F1D1A;
+
+      /* 深色系统 */
+      --dark:         #1A1816;
+      --dark-panel:   #252220;
+      --dark-card:    #2E2A26;
+      --dark-border:  #332F2B;
+      --dark-card2:   #443E38;
+
+      /* 字体 */
+      --font-display: 'Smiley Sans Oblique', 'PingFang SC', sans-serif;
+      --font-l: 'Space Grotesk', sans-serif;
+      --font-m: 'JetBrains Mono', monospace;
+      --font-body: 'Noto Sans SC', sans-serif;
+    }
+
+    /* ==================== Reset ==================== */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+    body {
+      font-family: var(--font-body);
+      font-weight: 300;
+      color: var(--text-body);
+      background: var(--dark);
+      line-height: 1.7;
+    }
+    a { text-decoration: none; color: inherit; }
+    img { max-width: 100%; display: block; }
+
+    /* ==================== Reveal Animation ==================== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                  transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
+    /* ==================== Layout ==================== */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 60px;
+    }
+    @media (max-width: 900px) {
+      .container { padding: 0 24px; }
+    }
+
+    /* ==================== Eyebrow ==================== */
+    .eyebrow {
+      font-family: var(--font-l);
+      font-size: 10px;
+      font-weight: 300;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--smoke-light);
+    }
+    .eyebrow--dark { color: var(--text-muted); }
+
+    /* ==================== Section Titles ==================== */
+    .section-title {
+      font-family: var(--font-display);
+      letter-spacing: -0.025em;
+      line-height: 1.05;
+    }
+    .section-desc {
+      font-size: 14px;
+      font-weight: 300;
+      line-height: 1.9;
+      color: var(--text-muted);
+    }
+
+    /* ==================== Utility ==================== */
+    .amber { color: var(--amber); }
+
+    /* ==================== HERO ==================== */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 120px 0 100px;
+      background: var(--dark);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero__glow {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 55% 45% at 70% 40%, rgba(200,122,69,.06) 0%, transparent 70%),
+        radial-gradient(ellipse 35% 35% at 25% 70%, rgba(107,133,144,.03) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .hero__grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+      position: relative;
+      z-index: 2;
+    }
+    .hero__content {
+      max-width: 560px;
+    }
+    .hero__title {
+      font-family: var(--font-display);
+      font-size: clamp(40px, 6vw, 72px);
+      line-height: 1.05;
+      letter-spacing: -0.025em;
+      color: var(--paper);
+      margin-bottom: 28px;
+    }
+    .hero__subtitle {
+      font-size: 15px;
+      font-weight: 300;
+      color: var(--text-muted);
+      line-height: 1.85;
+      max-width: 460px;
+      margin-bottom: 48px;
+    }
+    .hero__actions {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .btn {
+      font-family: var(--font-l);
+      font-size: 12px;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 14px 32px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: none;
+      outline: none;
+    }
+    .btn--primary {
+      background: var(--amber);
+      color: var(--dark);
+    }
+    .btn--primary:hover { background: var(--amber-light); }
+    .btn--ghost {
+      background: transparent;
+      color: var(--text-muted);
+      border: 1px solid var(--dark-border);
+    }
+    .btn--ghost:hover {
+      border-color: var(--amber);
+      color: var(--amber);
+    }
+
+    /* Hero right: color swatch preview */
+    .hero__preview {
+      position: relative;
+    }
+    .swatch-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 4px;
+    }
+    .swatch {
+      aspect-ratio: 1;
+      position: relative;
+      overflow: hidden;
+    }
+    .swatch__label {
+      position: absolute;
+      bottom: 8px;
+      left: 10px;
+      font-family: var(--font-m);
+      font-size: 9px;
+      letter-spacing: 0.08em;
+      color: var(--paper);
+      opacity: 0.7;
+    }
+    .swatch--amber { background: var(--amber); }
+    .swatch--amber-light { background: var(--amber-light); }
+    .swatch--amber-deep { background: var(--amber-deep); }
+    .swatch--smoke { background: var(--smoke); }
+    .swatch--olive { background: var(--olive); }
+    .swatch--plum { background: var(--plum); }
+    .swatch--warm { background: var(--warm); }
+    .swatch--oat { background: var(--oat); }
+    .swatch--dark { background: var(--dark-panel); }
+
+    .font-preview {
+      margin-top: 16px;
+      padding: 24px;
+      border: 1px solid var(--dark-border);
+    }
+    .font-preview__row {
+      display: flex;
+      align-items: baseline;
+      gap: 16px;
+      margin-bottom: 12px;
+    }
+    .font-preview__row:last-child { margin-bottom: 0; }
+    .font-preview__tag {
+      font-family: var(--font-m);
+      font-size: 9px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--dark-card2);
+      min-width: 60px;
+      flex-shrink: 0;
+    }
+    .font-preview__sample {
+      color: var(--paper);
+    }
+    .font-preview__sample--display {
+      font-family: var(--font-display);
+      font-size: 28px;
+      line-height: 1.2;
+    }
+    .font-preview__sample--label {
+      font-family: var(--font-l);
+      font-size: 11px;
+      font-weight: 300;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+    .font-preview__sample--body {
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 300;
+    }
+    .font-preview__sample--mono {
+      font-family: var(--font-m);
+      font-size: 12px;
+      font-weight: 400;
+    }
+
+    @media (max-width: 900px) {
+      .hero__grid {
+        grid-template-columns: 1fr;
+        gap: 48px;
+      }
+      .hero__preview { order: -1; }
+    }
+
+    /* ==================== Problem ==================== */
+    .problem {
+      background: var(--warm);
+      color: var(--text-dark);
+      padding: 120px 0;
+    }
+    .problem__title {
+      font-size: clamp(32px, 4vw, 54px);
+      color: var(--text-dark);
+      margin-bottom: 64px;
+    }
+    .problem__grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border-top: 1px solid var(--oat);
+      border-left: 1px solid var(--oat);
+    }
+    .problem__card {
+      padding: 48px 40px;
+      border-right: 1px solid var(--oat);
+      border-bottom: 1px solid var(--oat);
+    }
+    .problem__num {
+      font-family: var(--font-l);
+      font-size: clamp(52px, 6vw, 80px);
+      font-weight: 200;
+      letter-spacing: -0.05em;
+      line-height: 1;
+      color: var(--oat);
+      margin-bottom: 20px;
+    }
+    .problem__card-title {
+      font-family: var(--font-display);
+      font-size: 22px;
+      color: var(--text-dark);
+      margin-bottom: 12px;
+    }
+    .problem__card-desc {
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--text-sub);
+      line-height: 1.85;
+    }
+
+    @media (max-width: 900px) {
+      .problem__grid { grid-template-columns: 1fr; }
+      .problem__card { border-right: none; }
+    }
+
+    /* ==================== Features ==================== */
+    .features {
+      background: var(--dark);
+      border-top: 1px solid var(--dark-border);
+    }
+    .features__header {
+      padding: 80px 0 56px;
+      border-bottom: 1px solid var(--dark-border);
+    }
+    .features__title {
+      font-size: clamp(24px, 3vw, 40px);
+      letter-spacing: -0.02em;
+      color: var(--paper);
+    }
+    .feature-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 300px;
+      border-bottom: 1px solid var(--dark-border);
+    }
+    .feature-row--reverse { direction: rtl; }
+    .feature-row--reverse > * { direction: ltr; }
+    .feature-row__left {
+      padding: 48px 60px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      border-right: 1px solid var(--dark-border);
+    }
+    .feature-row--reverse .feature-row__left {
+      border-right: none;
+      border-left: 1px solid var(--dark-border);
+    }
+    .feature-row__index {
+      font-family: var(--font-m);
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      color: var(--dark-card2);
+      margin-bottom: 28px;
+    }
+    .feature-row__name {
+      font-family: var(--font-display);
+      font-size: clamp(22px, 2.8vw, 34px);
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      color: var(--paper);
+      margin-bottom: 14px;
+    }
+    .feature-row__desc {
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--text-muted);
+      line-height: 1.9;
+      max-width: 380px;
+    }
+    .feature-row__right {
+      padding: 48px 60px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 12px;
+    }
+    .feature-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-l);
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      border: 1px solid var(--dark-border);
+      padding: 6px 14px;
+      width: fit-content;
+    }
+    .feature-tag__dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--amber);
+      flex-shrink: 0;
+    }
+    .feature-tag--smoke .feature-tag__dot { background: var(--smoke); }
+    .feature-tag--smoke { color: var(--smoke); border-color: rgba(107,133,144,.3); }
+
+    @media (max-width: 900px) {
+      .feature-row, .feature-row--reverse {
+        grid-template-columns: 1fr;
+        direction: ltr;
+      }
+      .feature-row--reverse > * { direction: ltr; }
+      .feature-row__left {
+        border-right: none !important;
+        border-left: none !important;
+        border-bottom: 1px solid var(--dark-border);
+        padding: 40px 24px;
+      }
+      .feature-row__right {
+        padding: 28px 24px 40px;
+      }
+    }
+
+    /* ==================== Stats ==================== */
+    .stats {
+      background: var(--warm);
+      padding: 120px 0;
+    }
+    .stats__grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+    }
+    .stats__item {
+      text-align: left;
+      padding: 40px 0;
+      border-right: 1px solid var(--oat);
+    }
+    .stats__item:last-child { border-right: none; }
+    .stats__number {
+      font-family: var(--font-l);
+      font-size: clamp(48px, 7vw, 76px);
+      font-weight: 200;
+      letter-spacing: -0.06em;
+      line-height: 1;
+      color: var(--text-dark);
+      margin-bottom: 10px;
+    }
+    .stats__unit {
+      font-family: var(--font-display);
+      font-size: 0.35em;
+      letter-spacing: 0;
+      color: var(--amber);
+      vertical-align: baseline;
+    }
+    .stats__label {
+      font-family: var(--font-l);
+      font-size: 11px;
+      font-weight: 300;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    @media (max-width: 900px) {
+      .stats__grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 0;
+      }
+      .stats__item {
+        border-bottom: 1px solid var(--oat);
+        padding: 32px 0;
+      }
+      .stats__item:nth-child(2n) { border-right: none; }
+    }
+
+    /* ==================== For Who ==================== */
+    .for-who {
+      background: var(--dark-panel);
+      border-top: 1px solid var(--dark-border);
+      padding: 120px 0;
+    }
+    .for-who__inner {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 80px;
+      align-items: start;
+    }
+    .for-who__title {
+      font-size: clamp(32px, 4vw, 54px);
+      color: var(--paper);
+      margin-bottom: 16px;
+    }
+    .for-who__desc {
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--text-muted);
+      line-height: 1.9;
+      max-width: 380px;
+    }
+    .for-who__cards {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .who-card {
+      padding: 28px 32px;
+      border: 1px solid var(--dark-border);
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+    .who-card__num {
+      font-family: var(--font-m);
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      color: var(--amber);
+      padding-top: 2px;
+      flex-shrink: 0;
+      min-width: 28px;
+    }
+    .who-card__title {
+      font-family: var(--font-display);
+      font-size: 18px;
+      color: var(--paper);
+      margin-bottom: 6px;
+    }
+    .who-card__desc {
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--text-muted);
+      line-height: 1.8;
+    }
+
+    @media (max-width: 900px) {
+      .for-who__inner {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+    }
+
+    /* ==================== CTA ==================== */
+    .cta {
+      background: var(--dark);
+      padding: 140px 0;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta__glow {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 50% 60% at 50% 50%, rgba(200,122,69,.05) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .cta__content {
+      position: relative;
+      z-index: 2;
+    }
+    .cta__title {
+      font-family: var(--font-display);
+      font-size: clamp(28px, 4.5vw, 52px);
+      letter-spacing: -0.025em;
+      line-height: 1.1;
+      color: var(--paper);
+      margin-bottom: 24px;
+    }
+    .cta__subtitle {
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--text-muted);
+      line-height: 1.85;
+      max-width: 480px;
+      margin: 0 auto 48px;
+    }
+    .cta__footnote {
+      font-family: var(--font-m);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      color: var(--dark-card2);
+      margin-top: 28px;
+    }
+
+    /* ==================== Footer ==================== */
+    .site-footer {
+      background: var(--dark-panel);
+      border-top: 1px solid var(--dark-border);
+      padding: 48px 0;
+    }
+    .footer__inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+    .footer__brand {
+      font-family: var(--font-l);
+      font-size: 11px;
+      font-weight: 300;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--smoke);
+    }
+    .footer__info {
+      font-family: var(--font-m);
+      font-size: 11px;
+      color: var(--dark-card2);
+      letter-spacing: 0.06em;
+    }
+
+    @media (max-width: 900px) {
+      .footer__inner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==================== HERO ==================== -->
+  <section class="hero">
+    <div class="hero__glow"></div>
+    <div class="container">
+      <div class="hero__grid">
+        <div class="hero__content">
+          <div class="eyebrow reveal">LOKI DESIGN SYSTEM &middot; SKILL &middot; V1.0</div>
+          <h1 class="hero__title reveal reveal-delay-1">
+            给 AI 一套<span class="amber">品牌视觉</span>规范
+          </h1>
+          <p class="hero__subtitle reveal reveal-delay-2">
+            不是代码库，不是设计稿。是一套让 AI 理解「你的品牌长什么样」的规范系统。接入你的 AI 工作台，所有视觉产出自动遵循品牌基因。
+          </p>
+          <div class="hero__actions reveal reveal-delay-3">
+            <a href="#features" class="btn btn--primary">核心能力</a>
+            <a href="#for-who" class="btn btn--ghost">适合谁用</a>
+          </div>
+        </div>
+        <div class="hero__preview reveal reveal-delay-2">
+          <div class="swatch-grid">
+            <div class="swatch swatch--amber"><span class="swatch__label">#C87A45</span></div>
+            <div class="swatch swatch--amber-light"><span class="swatch__label">#D9A87A</span></div>
+            <div class="swatch swatch--amber-deep"><span class="swatch__label">#A05E30</span></div>
+            <div class="swatch swatch--smoke"><span class="swatch__label">#6B8590</span></div>
+            <div class="swatch swatch--olive"><span class="swatch__label">#7A8458</span></div>
+            <div class="swatch swatch--plum"><span class="swatch__label">#7A5A6E</span></div>
+            <div class="swatch swatch--warm"><span class="swatch__label">#F5F0E8</span></div>
+            <div class="swatch swatch--oat"><span class="swatch__label">#EBE4D6</span></div>
+            <div class="swatch swatch--dark"><span class="swatch__label">#252220</span></div>
+          </div>
+          <div class="font-preview">
+            <div class="font-preview__row">
+              <span class="font-preview__tag">标题</span>
+              <span class="font-preview__sample font-preview__sample--display">克制有态度</span>
+            </div>
+            <div class="font-preview__row">
+              <span class="font-preview__tag">EYEBROW</span>
+              <span class="font-preview__sample font-preview__sample--label">Space Grotesk Label</span>
+            </div>
+            <div class="font-preview__row">
+              <span class="font-preview__tag">正文</span>
+              <span class="font-preview__sample font-preview__sample--body">Noto Sans SC 正文段落文字</span>
+            </div>
+            <div class="font-preview__row">
+              <span class="font-preview__tag">CODE</span>
+              <span class="font-preview__sample font-preview__sample--mono">JetBrains Mono 0123</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== PROBLEM ==================== -->
+  <section class="problem">
+    <div class="container">
+      <div class="eyebrow eyebrow--dark reveal">WHY THIS MATTERS</div>
+      <h2 class="section-title problem__title reveal">
+        为什么需要<span class="amber">设计系统</span>
+      </h2>
+      <div class="problem__grid">
+        <div class="problem__card reveal reveal-delay-1">
+          <div class="problem__num">01</div>
+          <div class="problem__card-title">AI 生成的设计没有品牌感</div>
+          <p class="problem__card-desc">每次让 AI 做图，配色随机、字体随机、布局随机。千篇一律的科技蓝渐变，看不出是谁做的。</p>
+        </div>
+        <div class="problem__card reveal reveal-delay-2">
+          <div class="problem__num">02</div>
+          <div class="problem__card-title">没有一致性，每次都从零开始</div>
+          <p class="problem__card-desc">没有规范，每次都要重新选颜色、选字体、调间距。花在「看起来对不对」上的时间比内容本身还多。</p>
+        </div>
+        <div class="problem__card reveal reveal-delay-3">
+          <div class="problem__num">03</div>
+          <div class="problem__card-title">写作和视觉是两套体系</div>
+          <p class="problem__card-desc">文字有风格，图片没风格；或者反过来。写作风格和视觉风格割裂，不是一个完整品牌。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FEATURES ==================== -->
+  <section class="features" id="features">
+    <div class="container">
+      <div class="features__header">
+        <div class="eyebrow reveal">WHAT'S INSIDE</div>
+        <h2 class="section-title features__title reveal">
+          六大<span class="amber">核心能力</span>
+        </h2>
+      </div>
+    </div>
+
+    <!-- Feature 01: 色彩系统 -->
+    <div class="feature-row">
+      <div class="feature-row__left container">
+        <div class="feature-row__index">01 / 06</div>
+        <h3 class="feature-row__name">色彩系统</h3>
+        <p class="feature-row__desc">琥珀橙主色 + 暖色底体系（纸白/暖米/燕麦）+ 辅助色（烟青/苔绿/梅子）+ 深色系统 4 级。每个颜色有语义，有禁用色清单兜底。</p>
+      </div>
+      <div class="feature-row__right container">
+        <div class="feature-tag"><span class="feature-tag__dot"></span>琥珀橙 #C87A45 品牌主色</div>
+        <div class="feature-tag"><span class="feature-tag__dot"></span>暖底 3 级 + 深底 4 级</div>
+        <div class="feature-tag"><span class="feature-tag__dot"></span>辅助色 烟青/苔绿/梅子</div>
+        <div class="feature-tag"><span class="feature-tag__dot"></span>文字色 5 级语义</div>
+        <div class="feature-tag feature-tag--smoke"><span class="feature-tag__dot"></span>禁用色清单 8 项</div>
+      </div>
+    </div>
+
+    <!-- Feature 02: 字体系统 -->
+    <div class="feature-row feature-row--reverse">
+      <div class="feature-row__left container">
+        <div class="feature-row__index">02 / 06</div>
+        <h3 class="feature-row__name">字体系统</h3>
+        <p class="feature-row__desc">四族字体各司其职：得意黑做标题（有态度），Space Grotesk 做英文标签和数字大字报（超细 200 是辨识度来源），Noto Sans SC 做正文，JetBrains Mono 做代码。</p>
+      </div>
+      <div class="feature-row__right container">
+        <div class="feature-tag"><span class="feature-tag__dot"></span>得意黑 标题/封面大字</div>
+        <div class="feature-tag"><span class="feature-tag__dot"></span>Space Grotesk 数字/标签</div>
+        <div class="feature-tag"><span class="feature-tag__dot"></span>Noto Sans SC 正文段落</div>
+        <div class="feature-tag"><span class="feature-tag__dot"></span>JetBrains Mono 代码/期号</div>
+        <div class="feature-tag"><span class="feature-tag__dot"></span>字重反差 200~400 规则</div>
+      </div>
+    </div>
+
+    <!-- Feature 03: 场景模板 -->
+    <div class="feature-row">
+      <div class="feature-row__left container">
+        <div class="feature-row__index">03 / 06</div>
+        <h3 class="feature-row__name">7 个场景模板</h3>
+        <p class="feature-row__desc">每种内容类型有专属的布局节奏、底色方案和组件选择。不套模板，按场景路由，每一页都不一样。</p>
+      </div>
+      <div class="feature-row__right container">
+        <div class="feature-tag"><span class="feature-tag__dot"></span>Landing Page 个人主页</div>
+        <div class="feature-tag"><span class="feature-tag__dot"></span>产品介绍页</div>
+        <div class="feature-tag"><span class="feature-tag__dot"></span>演讲 Slides</div>
+        <div class="feature-tag"><span class="feature-tag__dot"></span>公众号封面 3 种模板</div>
+        <div class="feature-tag"><span class="feature-tag__dot"></span>公众号文章排版</div>
+        <div class="feature-tag"><span class="feature-tag__dot"></span>小红书卡片</div>
+        <div class="feature-tag"><span class="feature-tag__dot"></span>数据报告/工具横评</div>
+      </div>
+    </div>
+
+    <!-- Feature 04: 组件库 -->
+    <div class="feature-row feature-row--reverse">
+      <div class="feature-row__left container">
+        <div class="feature-row__index">04 / 06</div>
+        <h3 class="feature-row__name">60+ 可复用组件</h3>
+        <p class="feature-row__desc">Hero、Stats 大数字、Works 作品集、Feature 行、CTA、标签 pill、金句引用、文章组件……每个场景都有可直接复制的 HTML 代码。</p>
+      </div>
+      <div class="feature-row__right container">
+        <div class="feature-tag"><span class="feature-tag__dot"></span>Hero 3 种变体</div>
+        <div class="feature-tag"><span class="feature-tag__dot"></span>Stats 超细大数字报</div>
+        <div class="feature-tag"><span class="feature-tag__dot"></span>Works 杂志式交替</div>
+        <div class="feature-tag"><span class="feature-tag__dot"></span>Feature 行 左右对分</div>
+        <div class="feature-tag"><span class="feature-tag__dot"></span>Quote 金句 + 橙竖线</div>
+        <div class="feature-tag"><span class="feature-tag__dot"></span>文章排版 12 组件</div>
+      </div>
+    </div>
+
+    <!-- Feature 05: 写作规范 -->
+    <div class="feature-row">
+      <div class="feature-row__left container">
+        <div class="feature-row__index">05 / 06</div>
+        <h3 class="feature-row__name">写作规范</h3>
+        <p class="feature-row__desc">24 条终审清单，从内容层、语言层、风格层、沟通层四个维度检查 AI 写作痕迹。反套话、反 AI 腔、反空洞。</p>
+      </div>
+      <div class="feature-row__right container">
+        <div class="feature-tag"><span class="feature-tag__dot"></span>内容层 6 条检查</div>
+        <div class="feature-tag"><span class="feature-tag__dot"></span>语言层 6 条检查</div>
+        <div class="feature-tag"><span class="feature-tag__dot"></span>风格层 6 条检查</div>
+        <div class="feature-tag"><span class="feature-tag__dot"></span>沟通层 4 条检查</div>
+        <div class="feature-tag feature-tag--smoke"><span class="feature-tag__dot"></span>自动扫描脚本</div>
+      </div>
+    </div>
+
+    <!-- Feature 06: 品牌 DNA -->
+    <div class="feature-row feature-row--reverse">
+      <div class="feature-row__left container">
+        <div class="feature-row__index">06 / 06</div>
+        <h3 class="feature-row__name">品牌 DNA</h3>
+        <p class="feature-row__desc">质感偏好、光线语言、构图本能、色彩直觉——不是美学理论，是 Loki 这个人的设计本能。读完就能理解「为什么这样设计」。</p>
+      </div>
+      <div class="feature-row__right container">
+        <div class="feature-tag"><span class="feature-tag__dot"></span>质感偏好定义</div>
+        <div class="feature-tag"><span class="feature-tag__dot"></span>光线语言规范</div>
+        <div class="feature-tag"><span class="feature-tag__dot"></span>构图本能指南</div>
+        <div class="feature-tag"><span class="feature-tag__dot"></span>色彩直觉体系</div>
+        <div class="feature-tag"><span class="feature-tag__dot"></span>品牌 Persona 三问</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== STATS ==================== -->
+  <section class="stats">
+    <div class="container">
+      <div class="stats__grid">
+        <div class="stats__item reveal">
+          <div class="stats__number">7<span class="stats__unit"> 个</span></div>
+          <div class="stats__label">场景模板</div>
+        </div>
+        <div class="stats__item reveal reveal-delay-1">
+          <div class="stats__number">10<span class="stats__unit"> 条</span></div>
+          <div class="stats__label">核心设计规则</div>
+        </div>
+        <div class="stats__item reveal reveal-delay-2">
+          <div class="stats__number">24<span class="stats__unit"> 条</span></div>
+          <div class="stats__label">写作终审检查项</div>
+        </div>
+        <div class="stats__item reveal reveal-delay-3">
+          <div class="stats__number">60+<span class="stats__unit"> 个</span></div>
+          <div class="stats__label">可用组件</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FOR WHO ==================== -->
+  <section class="for-who" id="for-who">
+    <div class="container">
+      <div class="for-who__inner">
+        <div>
+          <div class="eyebrow reveal">WHO IS IT FOR</div>
+          <h2 class="section-title for-who__title reveal">
+            为这些人<span class="amber">造的</span>
+          </h2>
+          <p class="for-who__desc reveal reveal-delay-1">
+            不是给设计师用的设计工具，是给用 AI 做内容的人用的视觉规范。
+          </p>
+        </div>
+        <div class="for-who__cards">
+          <div class="who-card reveal">
+            <div class="who-card__num">01</div>
+            <div>
+              <div class="who-card__title">AI 内容创作者</div>
+              <p class="who-card__desc">用 AI 写文章、做封面、出数据报告，但不想每张图都是科技蓝渐变。需要统一的品牌视觉。</p>
+            </div>
+          </div>
+          <div class="who-card reveal reveal-delay-1">
+            <div class="who-card__num">02</div>
+            <div>
+              <div class="who-card__title">个人品牌运营</div>
+              <p class="who-card__desc">公众号、小红书、社媒内容产出量大，每次做图都从零开始太低效。需要一套「写了就能用」的视觉规范。</p>
+            </div>
+          </div>
+          <div class="who-card reveal reveal-delay-2">
+            <div class="who-card__num">03</div>
+            <div>
+              <div class="who-card__title">AI 工作台用户</div>
+              <p class="who-card__desc">用 AI 做设计但不想千篇一律。需要把品牌基因喂给 AI，让每次生成都是「你的风格」。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== CTA ==================== -->
+  <section class="cta">
+    <div class="cta__glow"></div>
+    <div class="container">
+      <div class="cta__content">
+        <h2 class="section-title cta__title reveal">
+          每次生成，都是<span class="amber">你的风格</span>
+        </h2>
+        <p class="cta__subtitle reveal reveal-delay-1">
+          作为 Skill 接入你的 AI 工作台。写文章、做封面、出数据报告——所有视觉产出自动遵循品牌规范，不再从零开始。
+        </p>
+        <div class="cta__footnote reveal reveal-delay-2">loki-design-system &middot; 接入即用</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer__inner">
+        <div class="footer__brand">LOKI DESIGN SYSTEM</div>
+        <div class="footer__info">赛博小熊猫Loki &middot; hiloki.ai &middot; 2026.05</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==================== Scroll Reveal ==================== -->
+  <script>
+    (function() {
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.12,
+        rootMargin: '0px 0px -40px 0px'
+      });
+
+      document.querySelectorAll('.reveal').forEach(function(el) {
+        observer.observe(el);
+      });
+    })();
+  </script>
+
+</body>
+</html>

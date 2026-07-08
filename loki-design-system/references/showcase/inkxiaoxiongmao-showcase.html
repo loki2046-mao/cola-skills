@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>小熊猫写作 · AI 辅助长篇小说创作平台</title>
+
+<!-- ── 字体加载（必须保留全部，不能删） ── -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@200;300;400;500;600&family=Noto+Sans+SC:wght@100;300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>@import url("https://fontsapi.zeoseven.com/92/main/result.css");</style>
+
+<style>
+/* ══════════════════════════════════════
+   小熊猫写作 · LANDING PAGE
+   Fork from Loki Design System base.html
+   ══════════════════════════════════════ */
+
+/* ── CSS 变量（所有颜色从这里取，禁止直接写 hex） ── */
+:root {
+  /* 品牌主色 */
+  --amber:        #B8623C;  /* 暖琥珀橙，与产品主题色一致 */
+  --amber-light:  #D9A87A;  /* 浅琥珀 */
+  --amber-deep:   #A05E30;  /* 深琥珀 */
+
+  /* 辅助色 */
+  --smoke:        #6B8590;  /* 烟青 */
+  --smoke-light:  #A6B8BE;
+  --olive:        #7A8458;  /* 苔绿 */
+  --plum:         #7A5A6E;  /* 梅子 */
+
+  /* 中性暖灰系统 */
+  --paper:        #FDFAF5;
+  --warm:         #F5F0E8;
+  --oat:          #EBE4D6;
+  --khaki:        #DDD2BD;
+  --text-muted:   #9A9085;
+  --text-sub:     #6B6157;
+  --text-body:    #3A342D;
+  --text-dark:    #1F1D1A;
+
+  /* 深色系统 */
+  --dark:         #1A1816;
+  --dark-panel:   #252220;
+  --dark-card:    #2E2A26;
+  --dark-border:  #332F2B;
+  --dark-card2:   #443E38;
+
+  /* 字体族 */
+  --font-display: 'Smiley Sans Oblique', 'PingFang SC', sans-serif;
+  --font-label:   'Space Grotesk', sans-serif;
+  --font-body:    'Noto Sans SC', 'PingFang SC', sans-serif;
+  --font-mono:    'JetBrains Mono', monospace;
+}
+
+/* ── Reset ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+img, svg { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+
+/* ── 入场动效（Scroll Reveal） ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-d1 { transition-delay: 0.1s; }
+.reveal-d2 { transition-delay: 0.2s; }
+.reveal-d3 { transition-delay: 0.3s; }
+.reveal-d4 { transition-delay: 0.4s; }
+.reveal-d5 { transition-delay: 0.5s; }
+
+/* ── 工具类 ── */
+.container { max-width: 1200px; margin: 0 auto; padding: 0 60px; }
+.eyebrow {
+  font-family: var(--font-label);
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--smoke-light);
+}
+.eyebrow--dark { color: var(--text-muted); }
+.amber { color: var(--amber); }
+
+/* ── 按钮 ── */
+.btn {
+  display: inline-block;
+  font-family: var(--font-label);
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 14px 32px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  border: none;
+  outline: none;
+  text-decoration: none;
+}
+.btn--primary {
+  background: var(--amber);
+  color: var(--paper);
+}
+.btn--primary:hover { background: var(--amber-light); transform: translateY(-1px); }
+.btn--ghost {
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid var(--dark-border);
+}
+.btn--ghost:hover { border-color: var(--amber); color: var(--amber); }
+
+/* ══════════════════════════════════════
+   1. HERO — 深底
+   ══════════════════════════════════════ */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0 0 100px;
+  background: var(--dark);
+  position: relative;
+  overflow: hidden;
+}
+.hero__glow {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 50% 55% at 30% 40%, rgba(184,98,60,.06) 0%, transparent 70%),
+    radial-gradient(ellipse 35% 35% at 70% 65%, rgba(107,133,144,.04) 0%, transparent 60%);
+  pointer-events: none;
+}
+/* 熊猫耳装饰 */
+.hero__panda {
+  position: absolute;
+  top: 60px;
+  right: 80px;
+  opacity: 0.06;
+  pointer-events: none;
+}
+.hero__panda-ear {
+  width: 120px;
+  height: 120px;
+  border-radius: 50% 50% 0 0;
+  background: var(--amber);
+  position: absolute;
+}
+.hero__panda-ear--l { top: 0; left: 0; transform: rotate(-15deg); }
+.hero__panda-ear--r { top: 0; left: 100px; transform: rotate(15deg); }
+.hero__content {
+  position: relative;
+  z-index: 2;
+  max-width: 760px;
+}
+.hero__title {
+  font-family: var(--font-display);
+  font-size: clamp(40px, 6.5vw, 88px);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--paper);
+  margin-bottom: 24px;
+}
+.hero__subtitle {
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 300;
+  color: var(--text-muted);
+  line-height: 1.8;
+  max-width: 520px;
+  margin-bottom: 48px;
+}
+.hero__actions { display: flex; gap: 16px; flex-wrap: wrap; }
+.hero__hint {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--dark-card2);
+  margin-top: 32px;
+}
+.hero__hint span {
+  display: inline-block;
+  animation: blink 1s steps(2, start) infinite;
+}
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+/* ══════════════════════════════════════
+   2. PAIN POINTS — 浅底
+   ══════════════════════════════════════ */
+.pains {
+  background: var(--warm);
+  padding: 120px 0;
+}
+.pains__title {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 3.5vw, 48px);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--text-dark);
+  margin-bottom: 72px;
+}
+.pains__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-top: 1px solid var(--oat);
+  border-left: 1px solid var(--oat);
+}
+.pains__card {
+  padding: 48px 40px;
+  border-right: 1px solid var(--oat);
+  border-bottom: 1px solid var(--oat);
+  position: relative;
+}
+.pains__num {
+  font-family: var(--font-label);
+  font-size: clamp(52px, 6vw, 84px);
+  font-weight: 200;
+  letter-spacing: -0.05em;
+  line-height: 1;
+  color: var(--oat);
+  margin-bottom: 20px;
+}
+.pains__card-title {
+  font-family: var(--font-display);
+  font-size: 22px;
+  color: var(--text-dark);
+  margin-bottom: 14px;
+}
+.pains__card-scene {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--text-sub);
+  line-height: 1.9;
+  margin-bottom: 16px;
+  font-style: italic;
+}
+.pains__card-fix {
+  font-family: var(--font-label);
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--amber);
+  border: 1px solid var(--amber);
+  padding: 4px 10px;
+  display: inline-block;
+}
+
+@media (max-width: 900px) {
+  .pains__grid { grid-template-columns: 1fr; }
+  .pains__card { border-right: none; }
+}
+
+/* ══════════════════════════════════════
+   3. FEATURES — 深底
+   ══════════════════════════════════════ */
+.features {
+  background: var(--dark);
+  border-top: 1px solid var(--dark-border);
+}
+.features__header {
+  padding: 80px 0 56px;
+  border-bottom: 1px solid var(--dark-border);
+}
+.features__title {
+  font-family: var(--font-display);
+  font-size: clamp(24px, 3vw, 40px);
+  letter-spacing: -0.02em;
+  color: var(--paper);
+  line-height: 1.15;
+}
+.feature-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 300px;
+  border-bottom: 1px solid var(--dark-border);
+}
+.feature-row--reverse { direction: rtl; }
+.feature-row--reverse > * { direction: ltr; }
+.feature-row__left {
+  padding: 52px 56px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-right: 1px solid var(--dark-border);
+}
+.feature-row--reverse .feature-row__left {
+  border-right: none;
+  border-left: 1px solid var(--dark-border);
+}
+.feature-row__index {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  color: var(--dark-card2);
+  margin-bottom: 28px;
+}
+.feature-row__name {
+  font-family: var(--font-display);
+  font-size: clamp(22px, 2.8vw, 34px);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--paper);
+  margin-bottom: 14px;
+}
+.feature-row__desc {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--text-muted);
+  line-height: 1.9;
+  max-width: 400px;
+}
+.feature-row__right {
+  padding: 52px 56px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 12px;
+}
+.feature-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-label);
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  border: 1px solid var(--dark-border);
+  padding: 6px 14px;
+  width: fit-content;
+}
+.feature-tag__dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--amber);
+  flex-shrink: 0;
+}
+.feature-tag--smoke .feature-tag__dot { background: var(--smoke); }
+
+@media (max-width: 900px) {
+  .feature-row, .feature-row--reverse {
+    grid-template-columns: 1fr;
+    direction: ltr;
+  }
+  .feature-row--reverse > * { direction: ltr; }
+  .feature-row__left {
+    border-right: none !important;
+    border-left: none !important;
+    border-bottom: 1px solid var(--dark-border);
+    padding: 40px 24px;
+  }
+  .feature-row__right { padding: 28px 24px 40px; }
+}
+
+/* ══════════════════════════════════════
+   4. STATS — 浅底
+   ══════════════════════════════════════ */
+.stats {
+  background: var(--warm);
+  padding: 120px 0;
+}
+.stats__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+}
+.stats__item {
+  text-align: left;
+  padding: 40px 24px 40px 0;
+  border-right: 1px solid var(--oat);
+}
+.stats__item:last-child { border-right: none; padding-right: 0; }
+.stats__number {
+  font-family: var(--font-label);
+  font-size: clamp(52px, 7vw, 88px);
+  font-weight: 200;
+  letter-spacing: -0.06em;
+  line-height: 1;
+  color: var(--text-dark);
+  margin-bottom: 12px;
+}
+.stats__label {
+  font-family: var(--font-label);
+  font-size: 10px;
+  font-weight: 300;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+.stats__sub {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 300;
+  color: var(--text-sub);
+  line-height: 1.6;
+}
+
+@media (max-width: 900px) {
+  .stats__grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+  }
+  .stats__item {
+    border-bottom: 1px solid var(--oat);
+    padding: 28px 16px 28px 0;
+  }
+  .stats__item:nth-child(2n) { border-right: none; padding-right: 0; }
+}
+
+/* ══════════════════════════════════════
+   5. AUDIENCE — 深底
+   ══════════════════════════════════════ */
+.audience {
+  background: var(--dark-panel);
+  padding: 120px 0;
+}
+.audience__inner {
+  display: grid;
+  grid-template-columns: 1fr 1.6fr;
+  gap: 80px;
+  align-items: start;
+}
+.audience__title {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 3.5vw, 48px);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--paper);
+}
+.audience__cards {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.audience__card {
+  padding: 40px 0;
+  border-bottom: 1px solid var(--dark-border);
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 32px;
+  align-items: start;
+}
+.audience__card:last-child { border-bottom: none; }
+.audience__card-num {
+  font-family: var(--font-label);
+  font-size: clamp(36px, 4vw, 52px);
+  font-weight: 200;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  color: var(--dark-card2);
+}
+.audience__card-name {
+  font-family: var(--font-display);
+  font-size: 20px;
+  color: var(--paper);
+  margin-bottom: 8px;
+}
+.audience__card-desc {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--text-muted);
+  line-height: 1.8;
+}
+
+@media (max-width: 900px) {
+  .audience__inner {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+  .audience__card {
+    grid-template-columns: 60px 1fr;
+    gap: 20px;
+  }
+}
+
+/* ══════════════════════════════════════
+   6. CTA — 最深底
+   ══════════════════════════════════════ */
+.cta {
+  background: var(--dark);
+  padding: 140px 0;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.cta__glow {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 50% 60% at 50% 50%, rgba(184,98,60,.05) 0%, transparent 70%);
+  pointer-events: none;
+}
+.cta__content { position: relative; z-index: 2; }
+.cta__title {
+  font-family: var(--font-display);
+  font-size: clamp(30px, 4.5vw, 56px);
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  color: var(--paper);
+  margin-bottom: 20px;
+}
+.cta__subtitle {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--text-muted);
+  line-height: 1.8;
+  margin-bottom: 48px;
+}
+.cta__btn {
+  display: inline-block;
+  font-family: var(--font-label);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  background: var(--amber);
+  color: var(--paper);
+  padding: 16px 48px;
+  transition: all 0.25s ease;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+}
+.cta__btn:hover { background: var(--amber-light); transform: translateY(-1px); }
+
+/* ══════════════════════════════════════
+   7. FOOTER
+   ══════════════════════════════════════ */
+.site-footer {
+  background: var(--dark-panel);
+  border-top: 1px solid var(--dark-border);
+  padding: 48px 0;
+}
+.footer__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+.footer__brand {
+  font-family: var(--font-label);
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.footer__links {
+  display: flex;
+  gap: 32px;
+}
+.footer__link {
+  font-family: var(--font-label);
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  transition: color 0.25s ease;
+  text-decoration: none;
+}
+.footer__link:hover { color: var(--amber); }
+.footer__copy {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--dark-card2);
+  letter-spacing: 0.04em;
+}
+
+@media (max-width: 900px) {
+  .container { padding: 0 24px; }
+  .footer__inner { flex-direction: column; align-items: flex-start; }
+}
+</style>
+</head>
+<body style="background: var(--dark); font-family: var(--font-body); color: var(--paper);">
+
+<!-- ══════════════════════════════════════
+     1. HERO — 深底
+     ══════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero__glow"></div>
+  <!-- 熊猫耳装饰（极淡，不抢主体） -->
+  <div class="hero__panda">
+    <div class="hero__panda-ear hero__panda-ear--l"></div>
+    <div class="hero__panda-ear hero__panda-ear--r"></div>
+  </div>
+  <div class="container">
+    <div class="hero__content">
+      <div class="eyebrow reveal" style="margin-bottom: 20px;">INK XIAOXIONGMAO &middot; AI 长篇小说创作平台</div>
+      <h1 class="hero__title reveal reveal-d1">
+        写了十万字，<br><span class="amber">忘了第三章的伏笔</span>
+      </h1>
+      <p class="hero__subtitle reveal reveal-d2">
+        小熊猫写作是 AI 辅助的长篇小说创作平台。帮你规划大纲、盯住衔接、记住所有细节——<br>
+        从此安心写故事，不用回头翻笔记。
+      </p>
+      <div class="hero__actions reveal reveal-d3">
+        <a href="https://inkxiaoxiongmao.hiloki.ai" class="btn btn--primary" target="_blank" rel="noopener">开始创作</a>
+        <a href="https://inkxiaoxiongmao.hiloki.ai" class="btn btn--ghost" target="_blank" rel="noopener">看看别人在写什么</a>
+      </div>
+      <div class="hero__hint reveal reveal-d4">
+        inkxiaoxiongmao.hiloki.ai<span>&block;</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     2. PAIN POINTS — 浅底
+     ══════════════════════════════════════ -->
+<section class="pains">
+  <div class="container">
+    <div class="eyebrow eyebrow--dark reveal" style="margin-bottom: 16px;">THE WRITER'S BREAKDOWN</div>
+    <h2 class="pains__title reveal">
+      小说家的<span class="amber">真实崩溃瞬间</span>
+    </h2>
+    <div class="pains__grid">
+      <!-- 01 规划 -->
+      <div class="pains__card reveal reveal-d1">
+        <div class="pains__num">01</div>
+        <div class="pains__card-title">规划地狱</div>
+        <p class="pains__card-scene">
+          大纲写了五版，世界观文档比小说还长。<br>
+          人物关系图画满了整面墙，<br>
+          结果第一章还没动笔。
+        </p>
+        <span class="pains__card-fix">AI 帮你理清 →</span>
+      </div>
+      <!-- 02 衔接 -->
+      <div class="pains__card reveal reveal-d2">
+        <div class="pains__num">02</div>
+        <div class="pains__card-title">衔接断裂</div>
+        <p class="pains__card-scene">
+          上一章主角还在医院病床上，<br>
+          下一章突然出现在酒吧。<br>
+          中间发生了什么？读者在问。
+        </p>
+        <span class="pains__card-fix">AI 帮你盯住 →</span>
+      </div>
+      <!-- 03 记忆 -->
+      <div class="pains__card reveal reveal-d3">
+        <div class="pains__num">03</div>
+        <div class="pains__card-title">记忆崩溃</div>
+        <p class="pains__card-scene">
+          写到第 20 章回头翻，<br>
+          第 3 章埋的伏笔忘了收。<br>
+          主角的名字还拼错了两次。
+        </p>
+        <span class="pains__card-fix">AI 替你记着 →</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     3. FEATURES — 深底
+     ══════════════════════════════════════ -->
+<section class="features" id="features">
+  <div class="container">
+    <div class="features__header">
+      <div class="eyebrow reveal" style="margin-bottom: 12px;">WHAT'S INSIDE</div>
+      <h2 class="features__title reveal">
+        用 AI 写小说，<span class="amber">到底能帮你什么</span>
+      </h2>
+    </div>
+  </div>
+
+  <!-- 01 · AI 剧情规划 -->
+  <div class="feature-row">
+    <div class="feature-row__left container">
+      <div class="feature-row__index">01 / 04</div>
+      <h3 class="feature-row__name">AI 剧情规划</h3>
+      <p class="feature-row__desc">
+        从世界观到章节大纲，AI 帮你理清思路。<br>
+        不用再写五版大纲了。
+      </p>
+    </div>
+    <div class="feature-row__right container">
+      <div class="feature-tag"><span class="feature-tag__dot"></span>世界观构建</div>
+      <div class="feature-tag"><span class="feature-tag__dot"></span>角色关系图</div>
+      <div class="feature-tag"><span class="feature-tag__dot"></span>章节大纲</div>
+      <div class="feature-tag"><span class="feature-tag__dot"></span>剧情时间线</div>
+      <div class="feature-tag"><span class="feature-tag__dot"></span>伏笔管理</div>
+    </div>
+  </div>
+
+  <!-- 02 · 章节衔接引擎 -->
+  <div class="feature-row feature-row--reverse">
+    <div class="feature-row__left container">
+      <div class="feature-row__index">02 / 04</div>
+      <h3 class="feature-row__name">章节衔接引擎</h3>
+      <p class="feature-row__desc">
+        每一章的开头和结尾，AI 都帮你检查过渡是否自然。<br>
+        再也不怕跳戏了。
+      </p>
+    </div>
+    <div class="feature-row__right container">
+      <div class="feature-tag"><span class="feature-tag__dot"></span>自动衔接检查</div>
+      <div class="feature-tag"><span class="feature-tag__dot"></span>伏笔回收提醒</div>
+      <div class="feature-tag"><span class="feature-tag__dot"></span>人物状态追踪</div>
+      <div class="feature-tag"><span class="feature-tag__dot"></span>场景连续性</div>
+      <div class="feature-tag"><span class="feature-tag__dot"></span>情绪曲线</div>
+    </div>
+  </div>
+
+  <!-- 03 · 超长记忆 -->
+  <div class="feature-row">
+    <div class="feature-row__left container">
+      <div class="feature-row__index">03 / 04</div>
+      <h3 class="feature-row__name">超长记忆</h3>
+      <p class="feature-row__desc">
+        写了二十万字还记得第一章的细节。<br>
+        AI 的记性比你好，还不用喝咖啡。
+      </p>
+    </div>
+    <div class="feature-row__right container">
+      <div class="feature-tag"><span class="feature-tag__dot"></span>全文索引</div>
+      <div class="feature-tag"><span class="feature-tag__dot"></span>角色档案库</div>
+      <div class="feature-tag"><span class="feature-tag__dot"></span>事件时间轴</div>
+      <div class="feature-tag"><span class="feature-tag__dot"></span>设定一致性检查</div>
+      <div class="feature-tag"><span class="feature-tag__dot"></span>前文引用</div>
+    </div>
+  </div>
+
+  <!-- 04 · 创作工作台 -->
+  <div class="feature-row feature-row--reverse">
+    <div class="feature-row__left container">
+      <div class="feature-row__index">04 / 04</div>
+      <h3 class="feature-row__name">创作工作台</h3>
+      <p class="feature-row__desc">
+        专注写作的界面，不被花哨功能打扰。<br>
+        深色模式护眼，PWA 随时随地写。
+      </p>
+    </div>
+    <div class="feature-row__right container">
+      <div class="feature-tag"><span class="feature-tag__dot"></span>沉浸式编辑</div>
+      <div class="feature-tag"><span class="feature-tag__dot"></span>深浅模式</div>
+      <div class="feature-tag"><span class="feature-tag__dot"></span>PWA 离线</div>
+      <div class="feature-tag"><span class="feature-tag__dot"></span>多设备同步</div>
+      <div class="feature-tag"><span class="feature-tag__dot"></span>卡片式管理</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     4. STATS — 浅底
+     ══════════════════════════════════════ -->
+<section class="stats">
+  <div class="container">
+    <div class="stats__grid">
+      <div class="stats__item reveal">
+        <div class="stats__number">3</div>
+        <div class="stats__label">CORE PAINS</div>
+        <div class="stats__sub">规划 · 衔接 · 记忆<br>小说家的三座大山</div>
+      </div>
+      <div class="stats__item reveal reveal-d1">
+        <div class="stats__number">&infin;</div>
+        <div class="stats__label">CREATIVE LENGTH</div>
+        <div class="stats__sub">从短篇到百万字长篇<br>不限长度，写到哪算哪</div>
+      </div>
+      <div class="stats__item reveal reveal-d2">
+        <div class="stats__number">24h</div>
+        <div class="stats__label">ALWAYS READY</div>
+        <div class="stats__sub">PWA 离线也能写<br>灵感来了就是写作时间</div>
+      </div>
+      <div class="stats__item reveal reveal-d3">
+        <div class="stats__number">1</div>
+        <div class="stats__label">AI ASSISTANT</div>
+        <div class="stats__sub">替你记住所有细节<br>比咖啡还管用</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     5. AUDIENCE — 深底
+     ══════════════════════════════════════ -->
+<section class="audience">
+  <div class="container">
+    <div class="audience__inner">
+      <div>
+        <div class="eyebrow reveal" style="margin-bottom: 16px;">WHO IS THIS FOR</div>
+        <h2 class="audience__title reveal">
+          写小说这件事，<br><span class="amber">适合每一个人</span>
+        </h2>
+      </div>
+      <div class="audience__cards">
+        <div class="audience__card reveal reveal-d1">
+          <div class="audience__card-num">01</div>
+          <div>
+            <div class="audience__card-name">长篇小说作者</div>
+            <p class="audience__card-desc">
+              每天和几十万字搏斗的人，需要一个不健忘的搭档。<br>
+              你负责创意，AI 负责记账。
+            </p>
+          </div>
+        </div>
+        <div class="audience__card reveal reveal-d2">
+          <div class="audience__card-num">02</div>
+          <div>
+            <div class="audience__card-name">写作新手</div>
+            <p class="audience__card-desc">
+              有故事想讲但不知道怎么规划的人。<br>
+              AI 帮你从零搭建，不走弯路。
+            </p>
+          </div>
+        </div>
+        <div class="audience__card reveal reveal-d3">
+          <div class="audience__card-num">03</div>
+          <div>
+            <div class="audience__card-name">连载创作者</div>
+            <p class="audience__card-desc">
+              公众号、网文平台的连载作者，需要保持前后一致。<br>
+              上周写的设定，今天 AI 帮你查。
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     6. CTA — 最深底
+     ══════════════════════════════════════ -->
+<section class="cta">
+  <div class="cta__glow"></div>
+  <div class="container">
+    <div class="cta__content">
+      <h2 class="cta__title reveal">
+        你的下一个故事，<span class="amber">从这里开始</span>
+      </h2>
+      <p class="cta__subtitle reveal reveal-d1">
+        免费使用，支持 PWA 安装，随时随地创作。
+      </p>
+      <a href="https://inkxiaoxiongmao.hiloki.ai" class="cta__btn reveal reveal-d2" target="_blank" rel="noopener">开始写第一行 →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     7. FOOTER
+     ══════════════════════════════════════ -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer__inner">
+      <div class="footer__brand">小熊猫写作 &middot; inkxiaoxiongmao.hiloki.ai</div>
+      <div class="footer__links">
+        <a href="https://inkxiaoxiongmao.hiloki.ai" class="footer__link" target="_blank" rel="noopener">产品官网</a>
+        <a href="https://hiloki.ai" class="footer__link" target="_blank" rel="noopener">Loki 生态</a>
+      </div>
+      <div class="footer__copy">Powered by Loki Design System</div>
+    </div>
+  </div>
+</footer>
+
+<!-- ══════════════════════════════════════
+     Scroll Reveal
+     ══════════════════════════════════════ -->
+<script>
+(function() {
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.12,
+    rootMargin: '0px 0px -40px 0px'
+  });
+  document.querySelectorAll('.reveal').forEach(function(el) {
+    observer.observe(el);
+  });
+})();
+</script>
+
+</body>
+</html>

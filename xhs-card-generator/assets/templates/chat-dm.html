@@ -1,0 +1,33 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: {{bg}}; --text: {{text}}; --mid: {{mid}}; --dim: {{dim}};
+    --accent: {{accent}}; --rule: {{rule}}; --highlight-bg: {{highlight-bg}};
+    --font-serif: 'Noto Serif SC', serif;
+    --font-sans: 'PingFang SC', 'Noto Sans SC', system-ui, sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #1a1a1a; }
+  .page { width: 1080px; height: 1440px; margin-bottom: 40px; page-break-after: always; }
+  .card { width: 1080px; height: 1440px; background: var(--bg); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 100px 80px; }
+  .running { font: 400 22px/1.5 var(--font-sans); color: var(--dim); letter-spacing: 0.08em; margin-bottom: 50px; }
+  .bubble { background: var(--highlight-bg); border-radius: 12px; padding: 44px 48px; max-width: 740px; }
+  .bubble p { font: 400 34px/1.8 var(--font-sans); color: var(--text); }
+  .bubble .hl { color: var(--accent); font-weight: 500; }
+  .tip { font: 400 30px/1.6 var(--font-sans); color: var(--mid); margin-top: 36px; text-align: center; }
+  .tip-dim { font: 400 24px/1.6 var(--font-sans); color: var(--dim); text-align: center; margin-top: 24px; }
+</style>
+
+<div class="page">
+  <div class="card">
+    {{#running_title}}<div class="running">{{running_title}}</div>{{/running_title}}
+    <div class="bubble">
+      {{#bubble_lines}}
+      <p>{{{.}}}</p>
+      {{/bubble_lines}}
+    </div>
+    {{#tip}}<div class="tip">{{tip}}</div>{{/tip}}
+    {{#tip_dim}}<div class="tip-dim">{{tip_dim}}</div>{{/tip_dim}}
+  </div>
+</div>
