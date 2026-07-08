@@ -1,6 +1,6 @@
 # Cola Skills · 赛博小熊猫 Loki 的个人 Skill 集
 
-> 这是 [Loki](https://github.com/loki2046-mao) 为 [Cola](https://docs.colaos.ai/) AI Agent 操作系统自写的 21 个 Skill 合集。涵盖 PPT 生成、社交图文、公众号写作、品牌设计系统、微信排版发布、播客制作、海报生成、人生复盘等场景。
+> 这是 [Loki](https://github.com/loki2046-mao) 为 [Cola](https://docs.colaos.ai/) AI Agent 操作系统自写的 20 个 Skill 合集。涵盖 PPT 生成、社交图文、公众号写作、品牌设计系统、微信排版发布、海报生成、人生复盘等场景。
 
 ## Skills 一览
 
@@ -41,7 +41,6 @@
 |-------|------|
 | [freeview](freeview/) | 口喷 → 作品凝聚引擎（碎片感受 → 完整解读作品） |
 | [ai-career-compass](ai-career-compass/) | AI 职业罗盘 |
-| [ai-news-radar](ai-news-radar/) | AI 新闻雷达 |
 | [daily-collage-poem](daily-collage-poem/) | 每日拼贴诗 |
 | [ie-recall-memory](ie-recall-memory/) | WPS 洞察回忆器 |
 | [qichi-life-os](qichi-life-os/) | 栖迟人生系统（全量复盘 + 四维模式识别 + Obsidian 输出） |
@@ -66,6 +65,7 @@ cp -R cola-skills/loki-deck ~/.cola/skills/
 
 | Skill | 作者 | 原始仓库 | 我的修改 |
 |-------|------|---------|---------|
+| ai-news-radar | LearnPrompt (卡尔) | [github.com/LearnPrompt/ai-news-radar](https://github.com/LearnPrompt/ai-news-radar) | 包装为 Cola Skill 格式，编写运行规则和发送逻辑 |
 | codebase-to-course | zarazhangrui | [github.com/zarazhangrui/codebase-to-course](https://github.com/zarazhangrui/codebase-to-course) | inline handler 矛盾修复 |
 | follow-builders | zarazhangrui | [github.com/zarazhangrui/follow-builders](https://github.com/zarazhangrui/follow-builders) | — |
 | frontend-slides | voltagent/zarazhangrui | [github.com/zarazhangrui/frontend-slides](https://github.com/zarazhangrui/frontend-slides) | 删重复 plugins/、瘦身 28→14KB、export-pdf display 修复 |
