@@ -10,8 +10,8 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parent.parent
-TOOLS = ROOT / "tools" / "wechat-direct-publish"
-RICH_PASTE = ROOT / "tools" / "wechat-rich-paste"
+SCRIPTS = ROOT / "scripts"
+RICH_PASTE = SCRIPTS
 
 
 def run(cmd: list[str]) -> None:
@@ -44,7 +44,7 @@ def parse_printed_kv(output_path: Path) -> dict[str, str]:
 def main() -> None:
     parser = argparse.ArgumentParser(description="从公开飞书文档一键生成微信公众号发布包，并可选直接灌进公众号后台。")
     parser.add_argument("--url", required=True, help="公开飞书文档链接")
-    parser.add_argument("--footer-image", default=str(ROOT / "签名图.png"), help="文末固定关注图，传不存在路径可禁用")
+    parser.add_argument("--footer-image", default=str(ROOT / "assets" / "signature.png"), help="文末固定关注图，传不存在路径可禁用")
     parser.add_argument(
         "--mode",
         choices=["wechat-copy-native", "wechat-copy-page", "high-fidelity", "native-editable"],
@@ -63,7 +63,7 @@ def main() -> None:
 
     with extract_log.open("w", encoding="utf-8") as handle:
         result = subprocess.run(
-            [sys.executable, str(TOOLS / "extract_public_feishu_doc.py"), "--url", args.url],
+            [sys.executable, str(SCRIPTS / "extract_public_feishu_doc.py"), "--url", args.url],
             check=False,
             text=True,
             stdout=handle,
@@ -78,7 +78,7 @@ def main() -> None:
         result = subprocess.run(
             [
                 sys.executable,
-                str(TOOLS / "build_wechat_native_from_feishu.py"),
+                str(SCRIPTS / "build_wechat_native_from_feishu.py"),
                 "--input",
                 str(json_path),
                 "--footer-image",
@@ -100,7 +100,7 @@ def main() -> None:
             result = subprocess.run(
                 [
                     sys.executable,
-                    str(TOOLS / "build_wechat_publish_package.py"),
+                    str(SCRIPTS / "build_wechat_publish_package.py"),
                     "--input",
                     str(preview),
                     "--mode",
@@ -153,7 +153,7 @@ def main() -> None:
     if args.publish or args.save_draft:
         cmd = [
             sys.executable,
-            str(TOOLS / "publish_to_wechat.py"),
+            str(SCRIPTS / "publish_to_wechat.py"),
             "--manifest",
             str(manifest),
         ]

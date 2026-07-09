@@ -16,7 +16,7 @@ from urllib.parse import quote
 
 from playwright.sync_api import sync_playwright
 
-DEFAULT_FOOTER = Path(__file__).resolve().parent.parent / "typesetting-wechat-articles" / "assets" / "signature.png"
+DEFAULT_FOOTER = Path(__file__).resolve().parent.parent / "assets" / "signature.png"
 
 
 class QuietHandler(SimpleHTTPRequestHandler):
