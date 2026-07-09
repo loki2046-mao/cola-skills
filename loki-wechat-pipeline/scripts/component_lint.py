@@ -67,9 +67,9 @@ def lint_file(path):
 
 def main():
     root = sys.argv[1] if len(sys.argv) > 1 else "."
-    refs = sorted(glob.glob(os.path.join(root, "references", "*.md")))
+    refs = sorted(glob.glob(os.path.join(root, "references", "**", "*.md"), recursive=True))
     if not refs:
-        print(f"未找到 {root}/references/*.md")
+        print(f"未找到 {root}/references/**/*.md")
         sys.exit(1)
 
     total_err = total_warn = clean = 0

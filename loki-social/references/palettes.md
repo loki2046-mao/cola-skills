@@ -1,3 +1,7 @@
+> **⚠️ 本文件为 simple 模式（轻量快速版）专用配色系统。** brand 模式请使用 `references/themes.md` 的 9 套配色主题。
+>
+> 两者不要混用：palettes.md 的 5 组配色用于 assets/templates/ 的快速模板；themes.md 的 9 套主题用于 carousel-v2.html 品牌风格模板。
+
 # 配色系统 (Palette System)
 
 ## 全局色彩法则

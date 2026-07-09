@@ -1,10 +1,16 @@
 ---
 name: loki-design-system
-description: Loki 品牌设计系统。当用户需要创建符合 Loki 品牌规范的网页、落地页、卡片、幻灯片等视觉内容时使用。
+description: Loki 品牌设计系统 — 共享基础层。所有视觉 Skill（loki-deck/loki-social/loki-wechat-pipeline）的品牌规范单一来源（SSOT）。当用户明确要求查看品牌规范或做品牌审计时直接调用。
 ---
-# loki-design-system · 赛博小熊猫 Loki 品牌设计系统 Skill
+# loki-design-system · 赛博小熊猫 Loki 品牌设计系统
 
-**触发场景：** 帮 Loki 制作任何视觉内容时必须调用——HTML 页面、Landing Page、PPT/Slides、公众号封面、小红书图文卡、产品 UI。没有读这个 skill 就动手 = 产出不符合品牌规范。
+**定位：** 这是所有视觉 Skill 的共享基础层（Shared Base Layer），不是常规调用型 Skill。loki-deck、loki-social、loki-wechat-pipeline 等视觉 Skill 在生成内容时引用本系统的 brand-dna.md、scene-*.md 等规范文件。
+
+**直接调用场景：**
+- 用户要求查看品牌规范/设计系统
+- 做品牌审计
+- 创建新的视觉场景规范
+- 其他视觉 Skill 未覆盖的场景需要手动调用设计系统
 
 ---
 
@@ -137,9 +143,6 @@ grep -nE "color:\s*#[0-9A-Fa-f]" index.html | grep -v "var(" | head -10
 
 ## 原始设计文件
 
-Claude Design 原始 HTML 文件位置：
-```
-./
-```
+Claude Design 原始 HTML 文件位于品牌资料目录中。
 包含：品牌配色系统.html、字体方案v3.html、产品UI规范.html、封面模板.html 等。
-需要参考设计细节直接读这些文件。
+需要参考设计细节直接读取这些文件。

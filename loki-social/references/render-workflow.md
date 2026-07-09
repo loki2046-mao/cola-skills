@@ -20,7 +20,7 @@ For reliable screenshot export, keep the render page as a single vertical column
 Preferred:
 
 ```bash
-node ./scripts/render.mjs xhs-<slug>
+node /Users/kude/.cola/skills/xiaohongshu-card-designer/scripts/render.mjs xhs-<slug>
 ```
 
 The script screenshots every `.poster` node and writes PNGs into `output/`.
@@ -33,7 +33,7 @@ If `import "playwright"` fails:
 2. If Playwright browser cache is missing, use system Chrome by passing `CHROME_PATH`:
 
 ```bash
-CHROME_PATH="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" node ./scripts/render.mjs xhs-<slug>
+CHROME_PATH="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" node /Users/kude/.cola/skills/xiaohongshu-card-designer/scripts/render.mjs xhs-<slug>
 ```
 
 3. In Codex runtime, use the bundled Node executable if available.
@@ -41,7 +41,7 @@ CHROME_PATH="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" node 
 ```bash
 PLAYWRIGHT_MODULE=/path/to/node_modules/playwright/index.js \
 CHROME_PATH="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
-node ./scripts/render.mjs xhs-<slug>
+node /Users/kude/.cola/skills/xiaohongshu-card-designer/scripts/render.mjs xhs-<slug>
 ```
 
 ## QA

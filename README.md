@@ -1,6 +1,6 @@
 # Cola Skills · 赛博小熊猫 Loki 的个人 Skill 集
 
-> 这是 [Loki](https://github.com/loki2046-mao) 为 [Cola](https://docs.colaos.ai/) AI Agent 操作系统自写的 19 个 Skill 合集。涵盖 PPT 生成、社交图文、公众号写作、品牌设计系统、微信排版发布、海报生成、人生复盘等场景。
+> 这是 [Loki](https://github.com/loki2046-mao) 与 Claude 合作为 [Cola](https://docs.colaos.ai/) AI Agent 操作系统自写的 10 个 Skill 合集。涵盖 PPT 生成、社交图文、公众号全链路、品牌设计系统、视频制作、海报生成、人生复盘等场景。
 
 ## Skills 一览
 
@@ -9,51 +9,58 @@
 | Skill | 说明 |
 |-------|------|
 | [loki-deck](loki-deck/) | 生成 Loki 个人风格的 HTML PPT（12 配色 × 12 版式 + IP 形象库，单文件输出，键盘翻页） |
-| [loki-social](loki-social/) | 生成小红书/小绿书社交图文（9 配色 × 7 版式 + V2 主题切换 + 像素切割截图） |
-| [loki-design-system](loki-design-system/) | Loki 品牌设计系统（色板、字体、IP 形象、组件库） |
-| [cover-design-system](cover-design-system/) | 封面设计系统（多主题封面生成） |
-| [xhs-card-generator](xhs-card-generator/) | 小红书图文卡片生成器（HTML + 像素切割） |
-| [xiaohongshu-card-designer](xiaohongshu-card-designer/) | 小红书卡片设计师（Node.js 渲染引擎） |
+| [loki-social](loki-social/) | 小红书/社交图文统一 Skill（4 种模式：simple 快速模板 / brand 品牌风格+IP / compress 公众号转小红书 / advanced 108组件高级定制） |
+| [loki-design-system](loki-design-system/) | 品牌设计系统 — 共享基础层（SSOT），被所有视觉 Skill 引用的品牌色板、字体、IP 形象、场景规范 |
 
-### ✍️ 写作与内容
+### ✍️ 公众号全链路
 
 | Skill | 说明 |
 |-------|------|
-| [loki-writing-style](loki-writing-style/) | 按 Loki 公众号风格写作/润色文章 |
-| [writing-loki-wechat-articles](writing-loki-wechat-articles/) | 完整的公众号文章写作 Skill（风格库 + 范例库） |
-| [typesetting-wechat-articles](typesetting-wechat-articles/) | 公众号排版 Skill（签名图、配色、组件校验） |
-| [publishing-feishu-wechat-articles](publishing-feishu-wechat-articles/) | 飞书文档 → 微信公众号发布管线 |
-| [wechat-layout-editor](wechat-layout-editor/) | 微信公众号编辑器（SVG 布局 + Web 编辑器） |
-| [cola-case-writer](cola-case-writer/) | 案例写作 Skill |
+| [loki-wechat-pipeline](loki-wechat-pipeline/) | 公众号全链路工作台：写作 → 封面 → 排版 → 可视化编辑器 → 飞书发布，分层调用或全链路运行 |
 
 ### 🛠️ 工具与多媒体
 
 | Skill | 说明 |
 |-------|------|
-| [manim-video-pipeline](manim-video-pipeline/) | Manim 数学动画视频管线 |
-| [nb-image-prompt](nb-image-prompt/) | 提示词管理库 |
-| [personalized-podcast](../../) | 个性化播客（⚠️ fork 自 zarazhangrui，未包含在本仓库） |
+| [manim-video-pipeline](manim-video-pipeline/) | Manim 数学动画视频管线（脚本 → TTS → ASR → Manim → BGM → ffmpeg） |
+| [nb-image-prompt](nb-image-prompt/) | 图像提示词管理库（多模型适配 + Obsidian 同步） |
 
 ### 🧠 知识与洞察
 
 | Skill | 说明 |
 |-------|------|
 | [freeview](freeview/) | 口喷 → 作品凝聚引擎（碎片感受 → 完整解读作品） |
-| [ai-career-compass](ai-career-compass/) | AI 职业罗盘 |
-| [daily-collage-poem](daily-collage-poem/) | 每日拼贴诗 |
-| [ie-recall-memory](ie-recall-memory/) | WPS 洞察回忆器 |
+| [ai-career-compass](ai-career-compass/) | AI 职业罗盘（岗位 AI 暴露度 + 求职行动教练） |
 | [qichi-life-os](qichi-life-os/) | 栖迟人生系统（全量复盘 + 四维模式识别 + Obsidian 输出） |
+| [daily-collage-poem](daily-collage-poem/) | 每日拼贴诗（对话提取词条 + 视觉拼贴诗笺） |
+
+## 架构
+
+```
+┌─────────────────────────────────────────────────────────┐
+│                    Loki 的 Cola Skills                    │
+├──────────────┬──────────────┬──────────────┬──────────────┤
+│   内容生产    │   视觉输出    │   个人系统    │   工具/提示词  │
+├──────────────┼──────────────┼──────────────┼──────────────┤
+│ loki-wechat- │ loki-deck    │ qichi-life-os│ nb-image-    │
+│ pipeline     │              │              │ prompt       │
+│ (写作+排版+  │ loki-social  │              │              │
+│  封面+发布)  │ (小红书统一)  │ daily-       │ ai-career-   │
+│              │              │ collage-poem│ compass      │
+│ freeview     │ manim-video- │              │              │
+│ (口喷→作品)  │ pipeline     │              │              │
+├──────────────┴──────────────┴──────────────┴──────────────┤
+│              loki-design-system（共享基础层）              │
+│         品牌色板 · 字体 · IP 形象 · 场景规范 · 组件库       │
+└─────────────────────────────────────────────────────────┘
+```
 
 ## 使用方式
 
 这些 Skill 是为 [Cola](https://docs.colaos.ai/) 设计的。将 Skill 目录复制到 `~/.cola/skills/` 即可使用：
 
 ```bash
-# 克隆到 Cola 的 skills 目录
 git clone https://github.com/loki2046-mao/cola-skills.git ~/.cola/skills/cola-skills
-
-# 或者复制你需要的 Skill
-cp -R cola-skills/loki-deck ~/.cola/skills/
 ```
 
 每个 Skill 的具体用法请阅读其 `SKILL.md` 文件。
@@ -76,14 +83,6 @@ cp -R cola-skills/loki-deck ~/.cola/skills/
 | retrospective-base | zachbeta | — | 硬编码路径清除 |
 | marswaveai-skills | marswave.ai | — | listenhub 去重、/speech→/tts 修正 |
 | voltagent-awesome-design-md | voltagent | — | 补完整 SKILL.md |
-
-## 技术特点
-
-- **单文件输出**：PPT、社交图文、海报等视觉产物均为单 HTML 文件，浏览器直接打开
-- **品牌一致性**：所有视觉 Skill 共享 `loki-design-system` 的色板、字体、IP 形象规范
-- **主题切换**：loki-social V2 支持 5 套 `.theme-xxx` CSS 主题动态切换
-- **像素级截图**：社交图文使用像素级切割算法，确保小红书 3:4 卡片完美呈现
-- **自包含**：所有脚本（Python/Node.js）都在 Skill 目录内，无外部依赖路径
 
 ## License
 

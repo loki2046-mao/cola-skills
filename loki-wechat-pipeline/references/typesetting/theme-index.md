@@ -1,6 +1,6 @@
 # 主题索引与配色体系
 
-本文件是配色的**单一来源**，与 loki-social / loki-deck 共用同一套配色体系（来源：`../loki-social/references/themes.md`）。
+本文件是配色的**单一来源**，与 loki-social / loki-deck 共用同一套配色体系（来源：`/Users/kude/.cola/skills/loki-social/references/themes.md`）。
 
 ## 设计理念
 

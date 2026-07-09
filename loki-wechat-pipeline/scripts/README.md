@@ -21,7 +21,7 @@ python3 ./tools/svg-wechat-layout/feishu_to_copy_page.py \
 
 默认输出到：
 
-`~/.cola/skills/wechat-layout-editor/自研公众号排版/<标题>/`
+`~/.cola/skills/loki-wechat-pipeline/自研公众号排版/<标题>/`
 
 目录里会有：
 
@@ -57,7 +57,7 @@ python3 ./tools/svg-wechat-layout/editor_server.py --port 8789
 ```bash
 python3 ./tools/svg-wechat-layout/editor_server.py \
   --port 8789 \
-  --article-json "~/.cola/skills/wechat-layout-editor/自研公众号排版/某篇文章/article.json"
+  --article-json "~/.cola/skills/loki-wechat-pipeline/自研公众号排版/某篇文章/article.json"
 ```
 
 ## 说明
