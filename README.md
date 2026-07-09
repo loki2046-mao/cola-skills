@@ -1,6 +1,6 @@
 # Cola Skills · 赛博小熊猫 Loki 的个人 Skill 集
 
-> 这是 [Loki](https://github.com/loki2046-mao) 为 [Cola](https://docs.colaos.ai/) AI Agent 操作系统自写的 20 个 Skill 合集。涵盖 PPT 生成、社交图文、公众号写作、品牌设计系统、微信排版发布、海报生成、人生复盘等场景。
+> 这是 [Loki](https://github.com/loki2046-mao) 为 [Cola](https://docs.colaos.ai/) AI Agent 操作系统自写的 19 个 Skill 合集。涵盖 PPT 生成、社交图文、公众号写作、品牌设计系统、微信排版发布、海报生成、人生复盘等场景。
 
 ## Skills 一览
 
@@ -30,7 +30,6 @@
 
 | Skill | 说明 |
 |-------|------|
-| [image-gen-suite](image-gen-suite/) | AI 图片生成套件（多模型路由 + 批量生成） |
 | [manim-video-pipeline](manim-video-pipeline/) | Manim 数学动画视频管线 |
 | [nb-image-prompt](nb-image-prompt/) | 提示词管理库 |
 | [personalized-podcast](../../) | 个性化播客（⚠️ fork 自 zarazhangrui，未包含在本仓库） |
