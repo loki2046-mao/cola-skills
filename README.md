@@ -1,6 +1,10 @@
 # Cola Skills · 赛博小熊猫 Loki 的个人 Skill 集
 
-> 这是 [Loki](https://github.com/loki2046-mao) 与 Claude 合作为 [Cola](https://docs.colaos.ai/) AI Agent 操作系统自写的 10 个 Skill 合集。涵盖 PPT 生成、社交图文、公众号全链路、品牌设计系统、视频制作、海报生成、人生复盘等场景。
+> 这是 [Loki](https://github.com/loki2046-mao) 与 AI 协作整理、用于 [Cola](https://docs.colaos.ai/) 的个人 Skill 集。当前仓库包含 **12 个 Skill 目录**（2026-11-06 核对，以顶层目录内的 `SKILL.md` 为准）。涵盖 PPT 生成、社交图文、公众号全链路、品牌设计系统、视频制作、海报生成、人生复盘等场景。
+
+创作者主页：[海外访问 hiloki.ai](https://hiloki.ai/about) · [国内访问 hiloki.cn](https://hiloki.cn/about)。两个站点属于同一位创作者。
+
+数量只包含本仓库实际文件；文末第三方推荐不计入。这里的 Skill 目录数不等于 12 款已交付产品，也不代表每项已完成运行验收。
 
 ## Skills 一览
 
@@ -34,26 +38,22 @@
 | [qichi-life-os](qichi-life-os/) | 栖迟人生系统（全量复盘 + 四维模式识别 + Obsidian 输出） |
 | [daily-collage-poem](daily-collage-poem/) | 每日拼贴诗（对话提取词条 + 视觉拼贴诗笺） |
 
+### 📚 教学与内容复盘
+
+| Skill | 说明 |
+|-------|------|
+| [english-courseware-generator](english-courseware-generator/) | 按主题和教学组件组织英语课件图的生成提示词；使用前需核对教学内容与生成结果 |
+| [loki-growth-intelligence](loki-growth-intelligence/) | 根据用户提供的内容与增长数据组织复盘、选题和行动建议；仓库说明不代表已有运营效果 |
+
 ## 架构
 
-```
-┌─────────────────────────────────────────────────────────┐
-│                    Loki 的 Cola Skills                    │
-├──────────────┬──────────────┬──────────────┬──────────────┤
-│   内容生产    │   视觉输出    │   个人系统    │   工具/提示词  │
-├──────────────┼──────────────┼──────────────┼──────────────┤
-│ loki-wechat- │ loki-deck    │ qichi-life-os│ nb-image-    │
-│ pipeline     │              │              │ prompt       │
-│ (写作+排版+  │ loki-social  │              │              │
-│  封面+发布)  │ (小红书统一)  │ daily-       │ ai-career-   │
-│              │              │ collage-poem│ compass      │
-│ freeview     │ manim-video- │              │              │
-│ (口喷→作品)  │ pipeline     │              │              │
-├──────────────┴──────────────┴──────────────┴──────────────┤
-│              loki-design-system（共享基础层）              │
-│         品牌色板 · 字体 · IP 形象 · 场景规范 · 组件库       │
-└─────────────────────────────────────────────────────────┘
-```
+| 层次 | 当前目录 |
+| --- | --- |
+| 共享品牌基础 | loki-design-system |
+| 视觉与表达 | loki-deck、loki-social、nb-image-prompt |
+| 内容与视频 | loki-wechat-pipeline、manim-video-pipeline、freeview |
+| 教学与复盘 | english-courseware-generator、loki-growth-intelligence |
+| 个人系统 | ai-career-compass、qichi-life-os、daily-collage-poem |
 
 ## 使用方式
 
@@ -67,7 +67,7 @@ git clone https://github.com/loki2046-mao/cola-skills.git ~/.cola/skills/cola-sk
 
 ## 第三方推荐 Skill
 
-以下 Skill 不是我写的，但我在使用中做了修改和适配，推荐一起使用：
+以下 **12 项是外部推荐，不在本仓库的 12 个 Skill 目录内**。原作者归属保留；“我的修改”一栏是原 README 记录的适配工作，并非对上游项目的原创声明。未列明修改的项目只作推荐。
 
 | Skill | 作者 | 原始仓库 | 我的修改 |
 |-------|------|---------|---------|
@@ -83,6 +83,10 @@ git clone https://github.com/loki2046-mao/cola-skills.git ~/.cola/skills/cola-sk
 | retrospective-base | zachbeta | — | 硬编码路径清除 |
 | marswaveai-skills | marswave.ai | — | listenhub 去重、/speech→/tts 修正 |
 | voltagent-awesome-design-md | voltagent | — | 补完整 SKILL.md |
+
+## 归属与使用边界
+
+本仓库记录 Loki 的个人工作流、品牌配置及与 AI 协作形成的实现。目录清点用于核实收录范围，不构成逐项原创性或第三方许可审计。所依赖的软件、模型服务与参考素材仍以各自作者和许可为准；第三方项目的适配不改变原作者归属。
 
 ## License
 
